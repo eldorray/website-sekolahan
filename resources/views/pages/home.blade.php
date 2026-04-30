@@ -73,47 +73,46 @@
         </div>
     </section>
 
-    {{-- VISI MISI + PROGRAM --}}
+    {{-- VISI MISI --}}
     <section class="py-14 bg-slate-50/40">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-3 gap-8">
-                <div>
-                    <h2 class="text-3xl font-bold mb-5 text-slate-900">Visi & <span class="text-brand-500">Misi</span></h2>
-                    <div class="grid sm:grid-cols-2 gap-4">
-                        <div class="card">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 text-brand-600 mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-                            </div>
-                            <h3 class="font-bold text-slate-900 mb-2">Visi</h3>
-                            <div class="prose prose-sm max-w-none text-slate-600">{!! Setting::get('visi') !!}</div>
-                        </div>
-                        <div class="card">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 text-brand-600 mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-                            </div>
-                            <h3 class="font-bold text-slate-900 mb-2">Misi</h3>
-                            <div class="prose prose-sm max-w-none text-slate-600">{!! Setting::get('misi') !!}</div>
-                        </div>
+            <h2 class="text-3xl font-bold mb-6 text-slate-900 text-center">Visi & <span class="text-brand-500">Misi</span></h2>
+            <div class="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div class="card">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 text-brand-600 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
                     </div>
+                    <h3 class="font-bold text-slate-900 mb-2">Visi</h3>
+                    <div class="prose prose-sm max-w-none text-slate-600">{!! Setting::get('visi') !!}</div>
                 </div>
+                <div class="card">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 text-brand-600 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-2">Misi</h3>
+                    <div class="prose prose-sm max-w-none text-slate-600">{!! Setting::get('misi') !!}</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="lg:col-span-2">
-                    <div class="flex items-end justify-between mb-5">
-                        <h2 class="text-3xl font-bold text-slate-900">Program <span class="text-brand-500">Sekolah</span></h2>
-                        <a href="{{ route('programs.index') }}" class="btn-ghost">Lihat Semua →</a>
-                    </div>
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        @foreach ($programs->take(4) as $p)
-                            <a href="{{ route('programs.show', $p->slug) }}" class="card group hover:ring-brand-200 transition">
-                                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-600 mb-4 group-hover:bg-brand-500 group-hover:text-white transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
-                                </div>
-                                <h3 class="font-bold text-slate-900 mb-1.5">{{ $p->title }}</h3>
-                                <p class="text-xs text-slate-500 leading-relaxed">{{ $p->short_description }}</p>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
+    {{-- PROGRAM SEKOLAH --}}
+    <section class="py-14">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between mb-6">
+                <h2 class="text-3xl font-bold text-slate-900">Program <span class="text-brand-500">Sekolah</span></h2>
+                <a href="{{ route('programs.index') }}" class="btn-ghost">Lihat Semua →</a>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                @foreach ($programs->take(4) as $p)
+                    <a href="{{ route('programs.show', $p->slug) }}" class="card group hover:ring-brand-200 transition">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-600 mb-4 group-hover:bg-brand-500 group-hover:text-white transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
+                        </div>
+                        <h3 class="font-bold text-slate-900 mb-1.5">{{ $p->title }}</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">{{ $p->short_description }}</p>
+                    </a>
+                @endforeach
             </div>
         </div>
     </section>
