@@ -101,7 +101,7 @@
                         <a href="{{ route('about') }}" class="px-5 py-2 rounded-full hover:bg-white/60 transition">Tentang Kami</a>
                         <a href="{{ route('programs.index') }}" class="px-5 py-2 rounded-full hover:bg-white/60 transition">Program</a>
                         <a href="{{ route('news.index') }}" class="px-5 py-2 rounded-full hover:bg-white/60 transition">Berita</a>
-                        <a href="{{ route('teachers') }}" class="px-5 py-2 rounded-full hover:bg-white/60 transition">Guru</a>
+                        <a href="{{ route('teachers.index') }}" class="px-5 py-2 rounded-full hover:bg-white/60 transition">Guru</a>
                         <a href="{{ route('contact') }}" class="px-5 py-2 rounded-full hover:bg-white/60 transition">Kontak</a>
                     </div>
 
@@ -342,7 +342,10 @@
                         <div class="relative z-10">
                             <h3 class="text-2xl md:text-3xl font-bold mb-4 leading-snug">Ayo Bergabung Bersama Kami!</h3>
                             <p class="text-blue-100 mb-8 text-[14px] md:text-[15px] leading-relaxed max-w-sm">Raih masa depan cerah bersama pendidikan berkualitas di Modern School.</p>
-                            <a href="{{ route('ppdb') }}" class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#4f46e5] px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition shadow-lg w-fit apple-transition hover:scale-105">
+                            <a href="{{ route('ppdb.create') }}" class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#4f46e5] px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition shadow-lg w-fit apple-transition hover:scale-105">
+                                Daftar Sekarang <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                            <a href="{{ route('ppdb.create') }}" class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#4f46e5] px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition shadow-lg w-fit apple-transition hover:scale-105">
                                 Daftar Sekarang <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -362,7 +365,7 @@
                         <div class="absolute -bottom-2 left-0 w-8 h-1 bg-slate-800 rounded-full"></div>
                     </h3>
                     <div class="flex items-center gap-3 self-start sm:self-auto">
-                        <a href="{{ route('teachers') }}" class="inline-flex items-center gap-2 text-[13px] font-semibold text-[#4f46e5] bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-white/80 hover:bg-white transition shadow-sm">
+                        <a href="{{ route('teachers.index') }}" class="inline-flex items-center gap-2 text-[13px] font-semibold text-[#4f46e5] bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-white/80 hover:bg-white transition shadow-sm">
                             Lihat Semua <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
                         <button class="hidden sm:flex w-10 h-10 rounded-full bg-white/60 backdrop-blur-sm border border-white/80 items-center justify-center text-slate-600 hover:bg-white transition shadow-sm">
@@ -463,7 +466,7 @@
                                 <li><a href="{{ route('about') }}" class="hover:text-[#4f46e5] transition">Tentang Kami</a></li>
                                 <li><a href="{{ route('programs.index') }}" class="hover:text-[#4f46e5] transition">Program</a></li>
                                 <li><a href="{{ route('news.index') }}" class="hover:text-[#4f46e5] transition">Berita</a></li>
-                                <li><a href="{{ route('teachers') }}" class="hover:text-[#4f46e5] transition">Guru</a></li>
+                                <li><a href="{{ route('teachers.index') }}" class="hover:text-[#4f46e5] transition">Guru</a></li>
                                 <li><a href="{{ route('contact') }}" class="hover:text-[#4f46e5] transition">Kontak</a></li>
                             </ul>
                         </div>
