@@ -307,9 +307,6 @@
                             <a href="{{ route('ppdb.create') }}" class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#4f46e5] px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition shadow-lg w-fit apple-transition hover:scale-105">
                                 Daftar Sekarang <i data-lucide="arrow-right" class="w-4 h-4"></i>
                             </a>
-                            <a href="{{ route('ppdb.create') }}" class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md text-[#4f46e5] px-6 py-3 rounded-full font-bold text-sm hover:bg-white transition shadow-lg w-fit apple-transition hover:scale-105">
-                                Daftar Sekarang <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </a>
                         </div>
                         <!-- Illustration Placeholder -->
                         <div class="absolute -right-8 -bottom-8 w-48 h-48 md:w-64 md:h-64 opacity-90 pointer-events-none">
@@ -339,7 +336,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     @forelse($teachers as $teacher)
                     <div class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 flex items-center gap-4 hover:shadow-md transition apple-transition hover:-translate-y-1">
-                        <img src="{{ $teacher->avatarUrl() }}" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="{{ $teacher->name }}">
+                        <img src="{{ $teacher->photoUrl() }}" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="{{ $teacher->name }}">
                         <div>
                             <h4 class="font-bold text-[13px] line-clamp-1" title="{{ $teacher->name }}">{{ $teacher->name }}</h4>
                             <p class="text-[11px] text-slate-500 mb-2 font-medium">{{ $teacher->position ?? 'Guru' }}</p>

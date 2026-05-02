@@ -5,20 +5,11 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // Public
-Route::get('/', function () {
-    $programs = \App\Models\Program::where('is_active', true)->take(4)->get();
-    $news = \App\Models\News::where('is_published', true)->latest('published_at')->take(3)->get();
-    $teachers = \App\Models\User::where('role', 'guru')->take(4)->get();
-    $stats = [
-        'students' => 1250, // TODO: Replace with actual query if applicable
-        'teachers' => \App\Models\User::where('role', 'guru')->count(),
-        'programs' => \App\Models\Program::where('is_active', true)->count()
-    ];
-    return view('welcome', compact('programs', 'news', 'teachers', 'stats'));
-})->name('home');
+Route::get('/', HomeController::class)->name('home');
 Route::view('/tentang-kami', 'pages.about')->name('about');
 Route::view('/program', 'pages.programs.index')->name('programs.index');
 Route::get('/program/{slug}', fn ($slug) => view('pages.programs.show', compact('slug')))->name('programs.show');
