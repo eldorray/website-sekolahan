@@ -164,7 +164,7 @@
                                     <i data-lucide="trophy" class="w-7 h-7"></i>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-2xl text-slate-800 drop-shadow-sm">1250+</div>
+                                    <div class="font-bold text-2xl text-slate-800 drop-shadow-sm">{{ $stats['students'] ?? '1250' }}+</div>
                                     <div class="text-[13px] font-semibold text-slate-600">Siswa Aktif</div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                                     <i data-lucide="graduation-cap" class="w-7 h-7"></i>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-2xl text-slate-800 drop-shadow-sm">85+</div>
+                                    <div class="font-bold text-2xl text-slate-800 drop-shadow-sm">{{ $stats['teachers'] ?? '85' }}+</div>
                                     <div class="text-[13px] font-semibold text-slate-600">Guru Profesional</div>
                                 </div>
                             </div>
@@ -186,7 +186,7 @@
                                     <i data-lucide="book-open" class="w-7 h-7"></i>
                                 </div>
                                 <div>
-                                    <div class="font-bold text-2xl text-slate-800 drop-shadow-sm">20+</div>
+                                    <div class="font-bold text-2xl text-slate-800 drop-shadow-sm">{{ $stats['programs'] ?? '20' }}+</div>
                                     <div class="text-[13px] font-semibold text-slate-600">Program Unggulan</div>
                                 </div>
                             </div>
@@ -246,34 +246,17 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-white/50 backdrop-blur-sm p-6 rounded-[1.5rem] text-center border border-white/60 shadow-sm apple-transition hover:-translate-y-1 hover:shadow-md group cursor-pointer">
-                            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition duration-300 shadow-inner">
-                                <i data-lucide="book" class="w-6 h-6"></i>
+                        @forelse($programs as $program)
+                        <a href="{{ route('programs.show', $program->slug) }}" class="block bg-white/50 backdrop-blur-sm p-6 rounded-[1.5rem] text-center border border-white/60 shadow-sm apple-transition hover:-translate-y-1 hover:shadow-md group cursor-pointer">
+                            <div class="w-14 h-14 rounded-2xl bg-{{ $program->color ?? 'blue' }}-50 text-{{ $program->color ?? 'blue' }}-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition duration-300 shadow-inner">
+                                <i data-lucide="{{ $program->icon ?? 'book' }}" class="w-6 h-6"></i>
                             </div>
-                            <h4 class="font-bold text-[14px] mb-2">Akademik Unggul</h4>
-                            <p class="text-[12px] text-slate-500 leading-relaxed font-medium">Kurikulum berbasis nasional dengan pendekatan modern.</p>
-                        </div>
-                        <div class="bg-white/50 backdrop-blur-sm p-6 rounded-[1.5rem] text-center border border-white/60 shadow-sm apple-transition hover:-translate-y-1 hover:shadow-md group cursor-pointer">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition duration-300 shadow-inner">
-                                <i data-lucide="flask-conical" class="w-6 h-6"></i>
-                            </div>
-                            <h4 class="font-bold text-[14px] mb-2">Sains & Teknologi</h4>
-                            <p class="text-[12px] text-slate-500 leading-relaxed font-medium">Mengembangkan minat dan bakat di bidang sains dan teknologi.</p>
-                        </div>
-                        <div class="bg-white/50 backdrop-blur-sm p-6 rounded-[1.5rem] text-center border border-white/60 shadow-sm apple-transition hover:-translate-y-1 hover:shadow-md group cursor-pointer">
-                            <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition duration-300 shadow-inner">
-                                <i data-lucide="palette" class="w-6 h-6"></i>
-                            </div>
-                            <h4 class="font-bold text-[14px] mb-2">Seni & Budaya</h4>
-                            <p class="text-[12px] text-slate-500 leading-relaxed font-medium">Menumbuhkan kreativitas melalui seni dan budaya.</p>
-                        </div>
-                        <div class="bg-white/50 backdrop-blur-sm p-6 rounded-[1.5rem] text-center border border-white/60 shadow-sm apple-transition hover:-translate-y-1 hover:shadow-md group cursor-pointer">
-                            <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition duration-300 shadow-inner">
-                                <i data-lucide="dribbble" class="w-6 h-6"></i>
-                            </div>
-                            <h4 class="font-bold text-[14px] mb-2">Olahraga</h4>
-                            <p class="text-[12px] text-slate-500 leading-relaxed font-medium">Membina kesehatan dan sportivitas siswa.</p>
-                        </div>
+                            <h4 class="font-bold text-[14px] mb-2">{{ $program->title }}</h4>
+                            <p class="text-[12px] text-slate-500 leading-relaxed font-medium line-clamp-2">{{ strip_tags($program->description) }}</p>
+                        </a>
+                        @empty
+                        <div class="col-span-full text-center text-slate-500 text-sm py-4">Belum ada data program</div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -293,42 +276,21 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- News 1 -->
+                        @forelse($news as $item)
                         <div class="bg-white/60 backdrop-blur-sm rounded-[1.5rem] overflow-hidden shadow-sm border border-white/80 group cursor-pointer apple-transition hover:-translate-y-1 hover:shadow-md">
                             <div class="relative h-40 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Berita 1">
-                                <div class="absolute top-3 left-3 bg-[#4f46e5] text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">Kegiatan</div>
+                                <img src="{{ $item->imageUrl() }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $item->title }}">
+                                <div class="absolute top-3 left-3 bg-[#4f46e5] text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{{ $item->category ?? 'Berita' }}</div>
                             </div>
                             <div class="p-5">
-                                <div class="text-[11px] text-slate-500 font-medium mb-2">20 Mei 2024</div>
-                                <h4 class="font-bold text-[14px] mb-4 leading-snug group-hover:text-[#4f46e5] transition">Field Trip Siswa Kelas 8 ke Museum Nasional</h4>
-                                <a href="#" class="text-[#4f46e5] text-[13px] font-semibold flex items-center gap-1 hover:gap-2 transition-all">Baca Selengkapnya <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                                <div class="text-[11px] text-slate-500 font-medium mb-2">{{ $item->published_at ? $item->published_at->format('d M Y') : $item->created_at->format('d M Y') }}</div>
+                                <h4 class="font-bold text-[14px] mb-4 leading-snug group-hover:text-[#4f46e5] transition line-clamp-2">{{ $item->title }}</h4>
+                                <a href="{{ route('news.show', $item->slug) }}" class="text-[#4f46e5] text-[13px] font-semibold flex items-center gap-1 hover:gap-2 transition-all">Baca Selengkapnya <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
                             </div>
                         </div>
-                        <!-- News 2 -->
-                        <div class="bg-white/60 backdrop-blur-sm rounded-[1.5rem] overflow-hidden shadow-sm border border-white/80 group cursor-pointer apple-transition hover:-translate-y-1 hover:shadow-md">
-                            <div class="relative h-40 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Berita 2">
-                                <div class="absolute top-3 left-3 bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">Prestasi</div>
-                            </div>
-                            <div class="p-5">
-                                <div class="text-[11px] text-slate-500 font-medium mb-2">18 Mei 2024</div>
-                                <h4 class="font-bold text-[14px] mb-4 leading-snug group-hover:text-[#4f46e5] transition">Tim Sains Modern School Raih Juara 1 Olimpiade</h4>
-                                <a href="#" class="text-[#4f46e5] text-[13px] font-semibold flex items-center gap-1 hover:gap-2 transition-all">Baca Selengkapnya <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
-                            </div>
-                        </div>
-                        <!-- News 3 -->
-                        <div class="bg-white/60 backdrop-blur-sm rounded-[1.5rem] overflow-hidden shadow-sm border border-white/80 group cursor-pointer apple-transition hover:-translate-y-1 hover:shadow-md">
-                            <div class="relative h-40 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Berita 3">
-                                <div class="absolute top-3 left-3 bg-orange-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">Pengumuman</div>
-                            </div>
-                            <div class="p-5">
-                                <div class="text-[11px] text-slate-500 font-medium mb-2">15 Mei 2024</div>
-                                <h4 class="font-bold text-[14px] mb-4 leading-snug group-hover:text-[#4f46e5] transition">Penerimaan Siswa Baru T.A. 2024/2025 Dibuka</h4>
-                                <a href="#" class="text-[#4f46e5] text-[13px] font-semibold flex items-center gap-1 hover:gap-2 transition-all">Baca Selengkapnya <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
-                            </div>
-                        </div>
+                        @empty
+                        <div class="col-span-full text-center text-slate-500 text-sm py-4">Belum ada data berita</div>
+                        @endforelse
                     </div>
                 </div>
 
@@ -375,58 +337,26 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Teacher 1 -->
+                    @forelse($teachers as $teacher)
                     <div class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 flex items-center gap-4 hover:shadow-md transition apple-transition hover:-translate-y-1">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="Guru 1">
+                        <img src="{{ $teacher->avatarUrl() }}" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="{{ $teacher->name }}">
                         <div>
-                            <h4 class="font-bold text-[13px]">Dian Puspita, M.Pd.</h4>
-                            <p class="text-[11px] text-slate-500 mb-2 font-medium">Guru Matematika</p>
+                            <h4 class="font-bold text-[13px] line-clamp-1" title="{{ $teacher->name }}">{{ $teacher->name }}</h4>
+                            <p class="text-[11px] text-slate-500 mb-2 font-medium">{{ $teacher->position ?? 'Guru' }}</p>
                             <div class="flex items-center gap-1.5">
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="mail" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="linkedin" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-pink-600 shadow-sm transition"><i data-lucide="instagram" class="w-3 h-3"></i></a>
+                                <a href="{{ $teacher->email ? 'mailto:' . $teacher->email : '#' }}" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="mail" class="w-3 h-3"></i></a>
+                                @if($teacher->linkedin)
+                                <a href="{{ $teacher->linkedin }}" target="_blank" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="linkedin" class="w-3 h-3"></i></a>
+                                @endif
+                                @if($teacher->instagram)
+                                <a href="{{ $teacher->instagram }}" target="_blank" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-pink-600 shadow-sm transition"><i data-lucide="instagram" class="w-3 h-3"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>
-                    <!-- Teacher 2 -->
-                    <div class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 flex items-center gap-4 hover:shadow-md transition apple-transition hover:-translate-y-1">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="Guru 2">
-                        <div>
-                            <h4 class="font-bold text-[13px]">Andi Setiawan, M.Pd.</h4>
-                            <p class="text-[11px] text-slate-500 mb-2 font-medium">Guru Fisika</p>
-                            <div class="flex items-center gap-1.5">
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="mail" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="linkedin" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-pink-600 shadow-sm transition"><i data-lucide="instagram" class="w-3 h-3"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Teacher 3 -->
-                    <div class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 flex items-center gap-4 hover:shadow-md transition apple-transition hover:-translate-y-1">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="Guru 3">
-                        <div>
-                            <h4 class="font-bold text-[13px]">Rina Wulandari, M.Pd.</h4>
-                            <p class="text-[11px] text-slate-500 mb-2 font-medium">Guru B. Inggris</p>
-                            <div class="flex items-center gap-1.5">
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="mail" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="linkedin" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-pink-600 shadow-sm transition"><i data-lucide="instagram" class="w-3 h-3"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Teacher 4 -->
-                    <div class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 flex items-center gap-4 hover:shadow-md transition apple-transition hover:-translate-y-1">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg" class="w-16 h-16 rounded-[1rem] object-cover shadow-sm" alt="Guru 4">
-                        <div>
-                            <h4 class="font-bold text-[13px]">Budi Santoso, M.Pd.</h4>
-                            <p class="text-[11px] text-slate-500 mb-2 font-medium">Guru Informatika</p>
-                            <div class="flex items-center gap-1.5">
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="mail" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-[#4f46e5] shadow-sm transition"><i data-lucide="linkedin" class="w-3 h-3"></i></a>
-                                <a href="#" class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center text-slate-400 hover:text-pink-600 shadow-sm transition"><i data-lucide="instagram" class="w-3 h-3"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    @empty
+                    <div class="col-span-full text-center text-slate-500 text-sm py-4">Belum ada data guru</div>
+                    @endforelse
                 </div>
             </div>
 
