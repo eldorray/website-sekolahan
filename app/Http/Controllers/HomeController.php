@@ -20,6 +20,6 @@ class HomeController extends Controller
             'programs' => Program::where('is_active', true)->count(),
         ];
 
-        return view('welcome', compact('programs', 'news', 'teachers', 'stats'));
+        return view('pages.home', compact('programs', 'news', 'teachers', 'stats'));
     }
 }

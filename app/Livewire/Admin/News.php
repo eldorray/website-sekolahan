@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\News as NewsModel;
+use App\Services\AiWriter;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,7 +23,15 @@ class News extends Component
     public string $published_at = '';
     public bool $is_published = true;
     public $image_file;
+    public ?string $existing_image = null;
     public string $search = '';
+
+    // AI Chat
+    public string $aiPrompt = '';
+    public string $aiProvider = '';
+    public bool $aiLoading = false;
+    public string $aiError = '';
+    public array $aiMessages = [];
 
     protected function rules(): array
     {
@@ -48,6 +57,7 @@ class News extends Component
         $this->published_at = $n->published_at?->format('Y-m-d') ?? '';
         $this->is_published = $n->is_published;
         $this->image_file = null;
+        $this->existing_image = $n->image;
     }
 
     public function save(): void
@@ -60,6 +70,9 @@ class News extends Component
 
         if ($this->image_file) {
             $data['image'] = $this->image_file->store('news', 'public');
+        } elseif ($this->editingId && $this->existing_image === null) {
+            // Image was explicitly removed during edit
+            $data['image'] = null;
         }
 
         if ($this->editingId) {
@@ -81,9 +94,68 @@ class News extends Component
 
     public function resetForm(): void
     {
-        $this->reset(['editingId', 'title', 'excerpt', 'content', 'published_at', 'image_file']);
+        $this->reset(['editingId', 'title', 'excerpt', 'content', 'published_at', 'image_file', 'existing_image']);
         $this->category = 'ARTIKEL';
         $this->is_published = true;
+    }
+
+    public function removeImage(): void
+    {
+        $this->image_file = null;
+        $this->existing_image = null;
+    }
+
+    public function generateWithAi(): void
+    {
+        if (empty(trim($this->aiPrompt))) {
+            $this->aiError = 'Tulis instruksi terlebih dahulu.';
+            return;
+        }
+
+        $this->aiLoading = true;
+        $this->aiError = '';
+
+        // Add user message to chat
+        $this->aiMessages[] = ['role' => 'user', 'text' => $this->aiPrompt];
+
+        try {
+            $provider = $this->aiProvider ?: config('ai.default', 'gemini');
+            $result = AiWriter::generateNews($this->aiPrompt, $provider);
+
+            // Set category and date directly (no typewriter for these)
+            $this->category = $result['category'];
+            $this->published_at = now()->toDateString();
+
+            // Add AI response to chat
+            $this->aiMessages[] = [
+                'role' => 'ai',
+                'text' => "Berita berhasil dibuat! Judul: \"{$result['title']}\". Lihat efek pengetikan di form.",
+            ];
+
+            // Trigger typewriter effect via window CustomEvent (more reliable than Livewire event)
+            $payload = json_encode([
+                'title' => $result['title'],
+                'excerpt' => $result['excerpt'],
+                'content' => $result['content'],
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+            $this->js("setTimeout(() => window.dispatchEvent(new CustomEvent('ai-typewriter', { detail: {$payload} })), 100)");
+
+            $this->notifySuccess('Berita berhasil di-generate oleh AI!');
+        } catch (\Throwable $e) {
+            $this->aiError = 'Gagal generate: ' . $e->getMessage();
+            $this->aiMessages[] = ['role' => 'ai', 'text' => '❌ ' . $this->aiError];
+        } finally {
+            $this->aiLoading = false;
+            $this->aiPrompt = '';
+        }
+    }
+
+    public function clearAiChat(): void
+    {
+        $this->aiMessages = [];
+        $this->aiError = '';
+        $this->aiPrompt = '';
     }
 
     public function render()

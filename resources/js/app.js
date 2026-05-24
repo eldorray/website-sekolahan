@@ -100,3 +100,8 @@ document.addEventListener('livewire:initialized', () => {
         el.querySelectorAll?.('[data-tiptap-root]').forEach((r) => window.initTiptap(r));
     });
 });
+
+// Re-init after wire:navigate page transitions
+document.addEventListener('livewire:navigated', () => {
+    document.querySelectorAll('[data-tiptap-root]').forEach((r) => window.initTiptap(r));
+});
