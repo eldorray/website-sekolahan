@@ -16,6 +16,18 @@ class AiWriter
         $provider = $provider ?: config('ai.default', 'gemini');
         $cfg = config("ai.providers.{$provider}");
 
+        if (! $cfg) {
+            throw new \RuntimeException("AI provider '{$provider}' tidak dikonfigurasi.");
+        }
+
+        if (empty($cfg['api_key'])) {
+            throw new \RuntimeException(
+                "API key untuk '{$provider}' kosong. " .
+                "Silakan set " . strtoupper($provider) . "_API_KEY di file .env server, " .
+                "lalu jalankan `php artisan config:clear`."
+            );
+        }
+
         $systemPrompt = <<<'SYSTEM'
 Kamu adalah penulis berita sekolah profesional. Tugasmu adalah membuat artikel berita sekolah berdasarkan instruksi pengguna.
 
