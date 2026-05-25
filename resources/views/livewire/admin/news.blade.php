@@ -7,7 +7,7 @@
                 <input wire:model.live.debounce.300ms="search" placeholder="Cari…" class="input max-w-xs">
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="w-full text-sm responsive-table">
                     <thead class="text-left text-slate-500 border-b">
                         <tr>
                             <th class="py-2">Judul</th>
@@ -20,18 +20,20 @@
                     <tbody class="divide-y">
                         @forelse ($items as $n)
                             <tr>
-                                <td class="py-2.5">
-                                    <div class="font-medium text-slate-900">{{ Str::limit($n->title, 60) }}</div>
-                                    <div class="text-xs text-slate-500">oleh {{ $n->author->name ?? '-' }}</div>
+                                <td data-label="Judul" class="py-2.5">
+                                    <div>
+                                        <div class="font-medium text-slate-900">{{ Str::limit($n->title, 60) }}</div>
+                                        <div class="text-xs text-slate-500">oleh {{ $n->author->name ?? '-' }}</div>
+                                    </div>
                                 </td>
-                                <td><span
+                                <td data-label="Kategori"><span
                                         class="rounded bg-brand-100 text-brand-700 px-2 py-0.5 text-xs">{{ $n->category }}</span>
                                 </td>
-                                <td>{{ $n->published_at?->format('d M Y') }}</td>
-                                <td>{!! $n->is_published
+                                <td data-label="Tanggal">{{ $n->published_at?->format('d M Y') }}</td>
+                                <td data-label="Status">{!! $n->is_published
                                     ? '<span class="rounded-full bg-brand-100 text-brand-700 px-2 py-0.5 text-xs">Terbit</span>'
                                     : '<span class="rounded-full bg-slate-100 text-slate-500 px-2 py-0.5 text-xs">Draft</span>' !!}</td>
-                                <td class="text-right">
+                                <td data-label="Aksi" class="text-right">
                                     <button wire:click="edit({{ $n->id }})"
                                         class="text-brand-600 text-xs hover:underline">Edit</button>
                                     <button
