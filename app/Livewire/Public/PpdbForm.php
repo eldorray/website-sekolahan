@@ -8,16 +8,27 @@ use Livewire\Component;
 class PpdbForm extends Component
 {
     public string $full_name = '';
+
     public string $nickname = '';
+
     public string $gender = 'L';
+
     public string $birthplace = '';
+
     public string $birthdate = '';
+
     public string $previous_school = '';
+
     public string $address = '';
+
     public string $father_name = '';
+
     public string $mother_name = '';
+
     public string $parent_phone = '';
+
     public string $parent_email = '';
+
     public string $grade_target = 'SD Kelas 1';
 
     public ?string $registrationNumber = null;
@@ -39,7 +50,7 @@ class PpdbForm extends Component
             'grade_target' => 'required|string|max:60',
         ]);
 
-        $data['registration_number'] = 'PPDB-' . now()->format('Y') . '-' . str_pad((string) (PpdbRegistration::count() + 1), 4, '0', STR_PAD_LEFT);
+        $data['registration_number'] = 'PPDB-'.now()->format('Y').'-'.str_pad((string) (PpdbRegistration::count() + 1), 4, '0', STR_PAD_LEFT);
         $reg = PpdbRegistration::create($data);
         $this->registrationNumber = $reg->registration_number;
     }
