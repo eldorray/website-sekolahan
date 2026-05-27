@@ -20,7 +20,7 @@
                     class="liquid-glass rounded-[2rem] p-4 border border-white/80 shadow-sm apple-transition hover:-translate-y-2 hover:shadow-xl group relative overflow-hidden flex flex-col h-full">
                     <div
                         class="aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-4 relative shadow-sm border border-white/40">
-                        <img src="{{ $n->imageUrl() }}"
+                        <img src="{{ $n->imageUrl() }}" loading="lazy" decoding="async"
                             class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                             alt="">
                         <div

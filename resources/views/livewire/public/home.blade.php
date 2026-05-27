@@ -233,7 +233,8 @@
                             class="bg-white rounded-[32px] p-6 google-shadow-lg border border-slate-100 transform rotate-1 hover:rotate-0 transition-all duration-500 relative z-20">
                             <div class="relative rounded-2xl overflow-hidden aspect-square shadow-inner">
                                 <img src="{{ Setting::imageUrl('hero_image') ?? 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600' }}"
-                                    alt="{{ $school }}" class="w-full h-full object-cover">
+                                    alt="{{ $school }}" fetchpriority="high" decoding="async"
+                                    class="w-full h-full object-cover">
                                 {{-- Glassmorphism Badge --}}
                                 <div
                                     class="absolute bottom-4 left-4 right-4 bg-white/85 backdrop-blur-md rounded-xl p-4 flex items-center justify-between border border-white/20">
@@ -577,7 +578,8 @@
                             <a href="{{ route('news.show', $item->slug) }}" wire:navigate
                                 class="flex flex-col h-full">
                                 <div class="relative aspect-[4/3] overflow-hidden bg-slate-100 shrink-0">
-                                    <img src="{{ $item->imageUrl() }}" alt="{{ $item->title }}"
+                                    <img src="{{ $item->imageUrl() }}" alt="{{ $item->title }}" loading="lazy"
+                                        decoding="async"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     <span
                                         class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-xs font-bold text-brand-600 px-3 py-1 rounded-full shadow-sm">
@@ -672,8 +674,8 @@
                         class="bg-white/80 backdrop-blur-sm rounded-[28px] p-6 border border-slate-100 hover:shadow-xl apple-transition hover:-translate-y-2 group text-center">
                         <div
                             class="w-20 h-20 rounded-full mx-auto mb-4 overflow-hidden ring-4 ring-brand-100 group-hover:ring-brand-300 transition-all">
-                            <img src="{{ $teacher->photoUrl() }}" alt="{{ $teacher->name }}"
-                                class="w-full h-full object-cover">
+                            <img src="{{ $teacher->photoUrl() }}" alt="{{ $teacher->name }}" loading="lazy"
+                                decoding="async" class="w-full h-full object-cover">
                         </div>
                         <h3 class="font-bold text-slate-900 text-sm">{{ $teacher->name }}</h3>
                         <p class="text-xs text-slate-500 mt-1">{{ $teacher->position }}</p>

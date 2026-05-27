@@ -11,7 +11,8 @@
                 <span>{{ $news->published_at?->translatedFormat('d F Y') }}</span>
             </div>
             <div class="mt-6 aspect-video rounded-2xl overflow-hidden">
-                <img src="{{ $news->imageUrl() }}" class="h-full w-full object-cover" alt="">
+                <img src="{{ $news->imageUrl() }}" fetchpriority="high" decoding="async"
+                    class="h-full w-full object-cover" alt="">
             </div>
             <div class="mt-6 prose prose-slate max-w-none text-justify">{!! $news->content !!}</div>
         </div>
@@ -25,6 +26,7 @@
                     @foreach ($related as $r)
                         <a href="{{ route('news.show', $r->slug) }}" wire:navigate class="group">
                             <div class="aspect-[4/3] rounded-xl overflow-hidden mb-3"><img src="{{ $r->imageUrl() }}"
+                                    loading="lazy" decoding="async"
                                     class="h-full w-full object-cover group-hover:scale-105 transition" alt="">
                             </div>
                             <h3 class="font-bold text-slate-900 group-hover:text-brand-600">{{ $r->title }}</h3>

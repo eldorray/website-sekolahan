@@ -19,6 +19,7 @@
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
             <div class="aspect-[5/4] rounded-[2rem] overflow-hidden shadow-lg border border-white/40">
                 <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&auto=format&fit=crop"
+                    loading="lazy" decoding="async"
                     class="h-full w-full object-cover transition-transform duration-700 hover:scale-105" alt="">
             </div>
             <div class="liquid-glass rounded-[2rem] p-8 border border-white/80">

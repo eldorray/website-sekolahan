@@ -23,7 +23,7 @@
                     </div>
                     <div class="relative z-10">
                         <div class="relative inline-block mb-4">
-                            <img src="{{ $t->photoUrl() }}" alt="{{ $t->name }}"
+                            <img src="{{ $t->photoUrl() }}" alt="{{ $t->name }}" loading="lazy" decoding="async"
                                 class="h-28 w-28 mx-auto rounded-full object-cover border-4 border-white shadow-md transition-transform duration-500 group-hover:scale-105">
                             <div class="absolute inset-0 rounded-full shadow-inner pointer-events-none"></div>
                         </div>
