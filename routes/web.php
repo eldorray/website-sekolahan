@@ -3,21 +3,21 @@
 use App\Livewire\Admin;
 use App\Livewire\Auth\Login;
 use App\Livewire\Guru;
+use App\Livewire\Public;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // Public
-Route::get('/', HomeController::class)->name('home');
-Route::view('/tentang-kami', 'pages.about')->name('about');
-Route::view('/program', 'pages.programs.index')->name('programs.index');
-Route::get('/program/{slug}', fn ($slug) => view('pages.programs.show', compact('slug')))->name('programs.show');
-Route::view('/berita', 'pages.news.index')->name('news.index');
-Route::get('/berita/{slug}', fn ($slug) => view('pages.news.show', compact('slug')))->name('news.show');
-Route::view('/tim-guru', 'pages.teachers')->name('teachers.index');
-Route::view('/kontak', 'pages.contact')->name('contact');
-Route::view('/ppdb', 'pages.ppdb')->name('ppdb.create');
+Route::get('/', Public\Home::class)->name('home');
+Route::get('/tentang-kami', Public\About::class)->name('about');
+Route::get('/program', Public\ProgramsIndex::class)->name('programs.index');
+Route::get('/program/{slug}', Public\ProgramShow::class)->name('programs.show');
+Route::get('/berita', Public\NewsIndex::class)->name('news.index');
+Route::get('/berita/{slug}', Public\NewsShow::class)->name('news.show');
+Route::get('/tim-guru', Public\Teachers::class)->name('teachers.index');
+Route::get('/kontak', Public\Contact::class)->name('contact');
+Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');
 
 // Auth
 Route::middleware('guest')->group(function () {
@@ -28,6 +28,7 @@ Route::post('/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
+
     return redirect()->route('home');
 })->middleware('auth')->name('logout');
 

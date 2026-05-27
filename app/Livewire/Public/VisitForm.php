@@ -8,11 +8,17 @@ use Livewire\Component;
 class VisitForm extends Component
 {
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $visit_date = '';
+
     public int $participants = 1;
+
     public string $purpose = '';
+
     public bool $sent = false;
 
     public function submit(): void

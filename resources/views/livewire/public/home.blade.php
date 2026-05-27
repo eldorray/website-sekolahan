@@ -1,17 +1,5 @@
-@php
-    use App\Models\Setting;
-    use App\Models\Program;
-    use App\Models\News;
-    use App\Models\User;
-
-    $programs = Program::where('is_active', true)->orderBy('order')->take(6)->get();
-    $news = News::where('is_published', true)->orderByDesc('published_at')->take(4)->get();
-    $teachers = User::where('role', 'guru')->where('is_active', true)->take(8)->get();
-    $school = Setting::get('school_name', 'Alifia Modern School');
-    $categories = $news->pluck('category')->unique()->prepend('Semua')->values();
-@endphp
-
-<x-layouts.public>
+@php use App\Models\Setting; @endphp
+<div>
     @push('styles')
         <style>
             @keyframes float-slower {
@@ -177,7 +165,7 @@
                     {{-- CTA Buttons --}}
                     <div data-aos="zoom-out-up" data-aos-delay="300"
                         class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                        <a href="{{ route('ppdb.create') }}"
+                        <a href="{{ route('ppdb.create') }}" wire:navigate
                             class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-semibold px-8 py-4 rounded-full text-base apple-transition hover:shadow-xl hover:shadow-brand-500/20 transform hover:-translate-y-0.5 text-center">
                             Mulai Pendaftaran
                         </a>
@@ -256,7 +244,7 @@
                                             {{ Setting::get('hero_badge_text', 'Siswa Mengembangkan Proyek Inovatif') }}
                                         </h4>
                                     </div>
-                                    <a href="{{ route('programs.index') }}"
+                                    <a href="{{ route('programs.index') }}" wire:navigate
                                         class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white hover:bg-brand-700 transition">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                             stroke-width="2">
@@ -385,7 +373,7 @@
                         <h3 class="text-xl font-bold text-slate-900 mb-3">{{ $program->title }}</h3>
                         <p class="text-sm text-slate-600 leading-relaxed font-light mb-4">
                             {{ $program->short_description }}</p>
-                        <a href="{{ route('programs.show', $program->slug) }}"
+                        <a href="{{ route('programs.show', $program->slug) }}" wire:navigate
                             class="text-xs font-bold {{ $c['link'] }} flex items-center space-x-1 mt-2 group-hover:translate-x-1 transition-transform">
                             <span>Lihat Detail</span>
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -586,7 +574,8 @@
                             x-show="(filter === 'Semua' || '{{ $item->category }}' === filter) && (search === '' || '{{ strtolower($item->title) }}'.includes(search.toLowerCase()) || '{{ strtolower($item->excerpt) }}'.includes(search.toLowerCase()))"
                             x-transition
                             class="bg-white rounded-3xl border border-slate-200/50 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
-                            <a href="{{ route('news.show', $item->slug) }}" class="flex flex-col h-full">
+                            <a href="{{ route('news.show', $item->slug) }}" wire:navigate
+                                class="flex flex-col h-full">
                                 <div class="relative aspect-[4/3] overflow-hidden bg-slate-100 shrink-0">
                                     <img src="{{ $item->imageUrl() }}" alt="{{ $item->title }}"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -627,7 +616,7 @@
                 </div>
 
                 <div class="mt-10 text-center">
-                    <a href="{{ route('news.index') }}"
+                    <a href="{{ route('news.index') }}" wire:navigate
                         class="inline-flex items-center space-x-2 bg-white hover:bg-slate-50 text-slate-700 font-bold px-8 py-3.5 rounded-full text-sm border border-slate-200 shadow-sm apple-transition">
                         <span>Lihat Semua Berita</span>
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -705,7 +694,7 @@
             </div>
 
             <div class="mt-12 text-center">
-                <a href="{{ route('teachers.index') }}"
+                <a href="{{ route('teachers.index') }}" wire:navigate
                     class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-8 py-3.5 rounded-full text-sm inline-flex items-center space-x-2 transition duration-300 shadow-sm">
                     <span>Lihat Semua Guru</span>
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -803,7 +792,7 @@
                     </div>
 
                     {{-- PPDB CTA Banner --}}
-                    <a href="{{ route('ppdb.create') }}"
+                    <a href="{{ route('ppdb.create') }}" wire:navigate
                         class="bg-gradient-to-br from-brand-100 to-brand-200 border border-brand-200 rounded-[24px] h-36 flex flex-col justify-center items-center relative overflow-hidden p-6 text-center group">
                         <div
                             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 w-48 h-48 bg-brand-400 rounded-full blur-2xl">
@@ -864,12 +853,11 @@
                     <div class="text-sm text-white/90 mt-1">Datang dan rasakan langsung lingkungan belajar yang modern
                         dan nyaman.</div>
                 </div>
-                <a href="{{ route('contact') }}#visit"
+                <a href="{{ route('contact') }}#visit" wire:navigate
                     class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-slate-50 transition shadow-lg">
                     Atur Janji →
                 </a>
             </div>
         </div>
     </section>
-
-</x-layouts.public>
+</div>

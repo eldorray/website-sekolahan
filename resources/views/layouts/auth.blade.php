@@ -36,7 +36,7 @@
         </div>
         {{ $slot }}
         <p class="text-center text-xs text-slate-500 dark:text-slate-400 mt-6"><a href="{{ route('home') }}"
-                class="hover:text-brand-600">← Kembali ke Beranda</a></p>
+                wire:navigate class="hover:text-brand-600">← Kembali ke Beranda</a></p>
     </div>
     @livewireScripts
 </body>
