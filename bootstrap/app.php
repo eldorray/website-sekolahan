@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\EnsureRole;
+use App\Http\Middleware\TrackVisitor;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,7 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'role' => \App\Http\Middleware\EnsureRole::class,
+            'role' => EnsureRole::class,
+        ]);
+
+        // Track public visitor traffic on every web request.
+        $middleware->web(append: [
+            TrackVisitor::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
