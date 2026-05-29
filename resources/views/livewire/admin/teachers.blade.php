@@ -50,32 +50,79 @@
 
         <div class="card">
             <h2 class="font-bold text-slate-900 mb-3">{{ $editingId ? 'Edit Guru' : 'Tambah Guru' }}</h2>
+
+            @if ($errors->any())
+                <div class="mb-4 rounded-xl border border-red-200 bg-red-50 p-3">
+                    <div class="flex items-center gap-2 text-red-700 text-sm font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                        Data belum bisa disimpan
+                    </div>
+                    <ul class="mt-1.5 list-disc list-inside text-xs text-red-600 space-y-0.5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form wire:submit="save" class="space-y-3">
-                <div><label class="label">Nama</label><input wire:model="name" class="input">
+                <div><label class="label">Nama</label><input wire:model.blur="name"
+                        class="input @error('name') border-red-400 @enderror">
                     @error('name')
                         <p class="text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
-                <div><label class="label">Email</label><input type="email" wire:model="email" class="input">
+                <div><label class="label">Email</label><input type="email" wire:model.blur="email"
+                        class="input @error('email') border-red-400 @enderror">
                     @error('email')
                         <p class="text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
                 <div><label class="label">Password
                         {{ $editingId ? '(kosongkan jika tidak ganti)' : '' }}</label><input type="password"
-                        wire:model="password" class="input">
+                        wire:model.blur="password" class="input @error('password') border-red-400 @enderror">
                     @error('password')
                         <p class="text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
-                <div><label class="label">Posisi</label><input wire:model="position" class="input"></div>
-                <div><label class="label">Telepon</label><input wire:model="phone" class="input"></div>
+                <div><label class="label">Posisi</label><input wire:model="position" class="input">
+                    @error('position')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div><label class="label">Telepon</label><input wire:model="phone" class="input">
+                    @error('phone')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div><label class="label">Bio</label>
                     <textarea wire:model="bio" rows="2" class="textarea"></textarea>
+                    @error('bio')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
-                <div><label class="label">Instagram</label><input wire:model="instagram" class="input"></div>
-                <div><label class="label">Facebook</label><input wire:model="facebook" class="input"></div>
+                <div><label class="label">Instagram</label><input wire:model.blur="instagram"
+                        class="input @error('instagram') border-red-400 @enderror"
+                        placeholder="https://instagram.com/namaakun">
+                    @error('instagram')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div><label class="label">Facebook</label><input wire:model.blur="facebook"
+                        class="input @error('facebook') border-red-400 @enderror"
+                        placeholder="https://facebook.com/namaakun">
+                    @error('facebook')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div><label class="label">Foto</label><input type="file" wire:model="photo_file" class="text-xs">
+                    @error('photo_file')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 <label class="inline-flex items-center gap-2 text-sm"><input type="checkbox" wire:model="is_active">
                     Aktif</label>

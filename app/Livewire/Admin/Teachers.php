@@ -6,6 +6,7 @@ use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -54,6 +55,35 @@ class Teachers extends Component
         ];
     }
 
+    protected function messages(): array
+    {
+        return [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan.',
+            'password.required' => 'Password wajib diisi untuk guru baru.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'instagram.url' => 'Instagram harus berupa URL lengkap, mis. https://instagram.com/namaakun. Kosongkan jika tidak ada.',
+            'facebook.url' => 'Facebook harus berupa URL lengkap, mis. https://facebook.com/namaakun. Kosongkan jika tidak ada.',
+            'photo_file.image' => 'File foto harus berupa gambar.',
+            'photo_file.max' => 'Ukuran foto maksimal 2 MB.',
+        ];
+    }
+
+    public function updated(string $property): void
+    {
+        // Treat "-" or whitespace-only social fields as empty to avoid silent URL validation failures.
+        if (in_array($property, ['instagram', 'facebook'], true)) {
+            $value = trim((string) $this->{$property});
+            if ($value === '-' || $value === '') {
+                $this->{$property} = '';
+            }
+        }
+
+        $this->validateOnly($property);
+    }
+
     public function edit(int $id): void
     {
         $u = User::where('role', 'guru')->findOrFail($id);
@@ -72,7 +102,13 @@ class Teachers extends Component
 
     public function save(): void
     {
-        $data = $this->validate();
+        try {
+            $data = $this->validate();
+        } catch (ValidationException $e) {
+            $this->notifyError('Periksa kembali isian form. Beberapa data belum valid.');
+            throw $e;
+        }
+
         unset($data['photo_file']);
         $data['role'] = 'guru';
 
