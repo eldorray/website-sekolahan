@@ -785,11 +785,24 @@
                 open: false,
                 photos: [],
                 idx: 0,
-                show(images, start = 0) { this.photos = images;
+                lightFade: true,
+                show(images, start = 0) {
+                    this.photos = images;
                     this.idx = start;
-                    this.open = true; },
-                next() { if (this.photos.length) this.idx = (this.idx + 1) % this.photos.length; },
-                prev() { if (this.photos.length) this.idx = (this.idx - 1 + this.photos.length) % this.photos.length; }
+                    this.lightFade = true;
+                    this.open = true;
+                },
+                swap(to) {
+                    if (!this.photos.length || to === this.idx) return;
+                    this.lightFade = false;
+                    const img = new Image();
+                    img.src = this.photos[to].full;
+                    const apply = () => { this.idx = to;
+                        requestAnimationFrame(() => { this.lightFade = true; }); };
+                    img.complete ? apply() : (img.onload = apply, img.onerror = apply);
+                },
+                next() { if (this.photos.length) this.swap((this.idx + 1) % this.photos.length); },
+                prev() { if (this.photos.length) this.swap((this.idx - 1 + this.photos.length) % this.photos.length); }
             }"
                 @keydown.escape.window="open = false" @keydown.arrow-right.window="open && next()"
                 @keydown.arrow-left.window="open && prev()">
@@ -813,7 +826,8 @@
                             $payload = $imgs
                                 ->map(
                                     fn($i) => [
-                                        'url' => $i->imageUrl(),
+                                        'full' => $i->imageUrl(),
+                                        'thumb' => $i->thumbnailUrl(),
                                         'caption' => $brochure->title,
                                     ],
                                 )
@@ -822,59 +836,59 @@
                             if (empty($payload) && $brochure->preview_image) {
                                 $payload = [
                                     [
-                                        'url' => asset('storage/' . $brochure->preview_image),
+                                        'full' => asset('storage/' . $brochure->preview_image),
+                                        'thumb' => asset('storage/' . $brochure->preview_image),
                                         'caption' => $brochure->title,
                                     ],
                                 ];
                             }
                         @endphp
                         <div class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.13rem)] max-w-sm flex flex-col"
-                            x-data="{ slide: 0, total: {{ max(1, count($payload)) }} }">
+                            x-data="brochureCard(@js($payload))">
                             <div
                                 class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 overflow-hidden">
                                 <div class="relative aspect-[3/4] overflow-hidden bg-slate-100 group">
-                                    @if (!empty($payload))
-                                        @foreach ($payload as $i => $p)
-                                            <button type="button"
-                                                @click="$dispatch('open-brochure', { images: @js($payload), start: slide })"
-                                                x-show="slide === {{ $i }}"
-                                                x-transition.opacity.duration.300ms
-                                                class="absolute inset-0 w-full h-full">
-                                                <img src="{{ $p['url'] }}" alt="{{ $brochure->title }}"
-                                                    loading="lazy" decoding="async"
-                                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                            </button>
-                                        @endforeach
-                                    @else
+                                    <template x-if="items.length">
+                                        <button type="button"
+                                            @click="$dispatch('open-brochure', { images: items, start: slide })"
+                                            class="absolute inset-0 w-full h-full">
+                                            <img :src="items[slide].thumb" :alt="items[slide].caption" loading="lazy"
+                                                decoding="async"
+                                                class="w-full h-full object-cover transition-[opacity,transform] duration-500 ease-out group-hover:scale-105"
+                                                :style="`opacity:${fade ? 1 : 0}`">
+                                        </button>
+                                    </template>
+                                    <template x-if="!items.length">
                                         <div
                                             class="absolute inset-0 w-full h-full flex items-center justify-center text-slate-400 text-xs">
                                             Tidak ada gambar
                                         </div>
-                                    @endif
+                                    </template>
 
-                                    @if (count($payload) > 1)
-                                        <button type="button" @click.stop="slide = (slide - 1 + total) % total"
-                                            class="absolute top-1/2 left-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition">
-                                            ‹
-                                        </button>
-                                        <button type="button" @click.stop="slide = (slide + 1) % total"
-                                            class="absolute top-1/2 right-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition">
-                                            ›
-                                        </button>
-                                        <div
-                                            class="absolute bottom-2 inset-x-0 flex items-center justify-center gap-1.5">
-                                            @foreach ($payload as $i => $p)
-                                                <button type="button" @click.stop="slide = {{ $i }}"
-                                                    :class="slide === {{ $i }} ? 'bg-white w-5' :
-                                                        'bg-white/60 w-1.5'"
-                                                    class="h-1.5 rounded-full transition-all duration-300"></button>
-                                            @endforeach
+                                    <template x-if="total > 1">
+                                        <div>
+                                            <button type="button" @click.stop="prev()"
+                                                class="absolute top-1/2 left-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition active:scale-90">
+                                                ‹
+                                            </button>
+                                            <button type="button" @click.stop="next()"
+                                                class="absolute top-1/2 right-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition active:scale-90">
+                                                ›
+                                            </button>
+                                            <div
+                                                class="absolute bottom-2 inset-x-0 flex items-center justify-center gap-1.5">
+                                                <template x-for="(p, i) in items" :key="i">
+                                                    <button type="button" @click.stop="go(i)"
+                                                        :class="slide === i ? 'bg-white w-5' : 'bg-white/60 w-1.5'"
+                                                        class="h-1.5 rounded-full transition-all duration-300"></button>
+                                                </template>
+                                            </div>
+                                            <span
+                                                class="absolute top-2 right-2 bg-black/55 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                                <span x-text="slide + 1"></span>/<span x-text="total"></span>
+                                            </span>
                                         </div>
-                                        <span
-                                            class="absolute top-2 right-2 bg-black/55 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                                            <span x-text="slide + 1"></span>/<span x-text="total"></span>
-                                        </span>
-                                    @endif
+                                    </template>
                                 </div>
                                 <div class="p-3 text-left">
                                     <h3 class="font-bold text-slate-900 text-sm line-clamp-1">{{ $brochure->title }}
@@ -901,25 +915,25 @@
                 </div>
 
                 {{-- Lightbox --}}
-                <div x-show="open" x-cloak x-transition.opacity
+                <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
                     @open-brochure.window="show($event.detail.images, $event.detail.start ?? 0)"
                     class="fixed inset-0 z-[60] bg-black/90 backdrop-blur flex items-center justify-center p-4"
                     @click.self="open = false">
                     <button type="button" @click="open = false"
-                        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl">✕</button>
+                        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl transition active:scale-90">✕</button>
                     <button type="button" @click="prev()" x-show="photos.length > 1"
-                        class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">‹</button>
+                        class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition active:scale-90">‹</button>
                     <button type="button" @click="next()" x-show="photos.length > 1"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">›</button>
-                    <div class="max-w-3xl w-full text-center">
-                        <template x-for="(p, i) in photos" :key="i">
-                            <div x-show="i === idx" class="w-full">
-                                <img :src="p.url" :alt="p.caption"
-                                    class="max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl">
-                                <p class="text-white/90 mt-3 text-sm" x-text="p.caption"></p>
-                            </div>
-                        </template>
-                        <p class="text-white/50 text-xs mt-4" x-show="photos.length > 1">
+                        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition active:scale-90">›</button>
+                    <div class="max-w-3xl w-full text-center" x-show="photos.length">
+                        <img :src="photos[idx]?.full" :alt="photos[idx]?.caption"
+                            class="max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl transition-opacity duration-300"
+                            :style="`opacity:${lightFade ? 1 : 0}`">
+                        <p class="text-white/90 mt-3 text-sm" x-text="photos[idx]?.caption"></p>
+                        <p class="text-white/50 text-xs mt-2" x-show="photos.length > 1">
                             <span x-text="idx + 1"></span> / <span x-text="photos.length"></span>
                         </p>
                     </div>
@@ -927,6 +941,45 @@
             </div>
         </section>
     @endif
+
+    @push('scripts')
+        <script>
+            document.addEventListener('alpine:init', () => {
+                // Lightweight per-card slider with a single <img> and a quick cross-fade.
+                Alpine.data('brochureCard', (items) => ({
+                    items: items || [],
+                    slide: 0,
+                    fade: true,
+                    get total() {
+                        return this.items.length;
+                    },
+                    swap(to) {
+                        if (to === this.slide || !this.total) return;
+                        this.fade = false;
+                        // Preload next image before swapping for a smooth fade.
+                        const img = new Image();
+                        img.src = this.items[to].thumb;
+                        const apply = () => {
+                            this.slide = to;
+                            requestAnimationFrame(() => {
+                                this.fade = true;
+                            });
+                        };
+                        img.complete ? apply() : (img.onload = apply, img.onerror = apply);
+                    },
+                    next() {
+                        this.swap((this.slide + 1) % this.total);
+                    },
+                    prev() {
+                        this.swap((this.slide - 1 + this.total) % this.total);
+                    },
+                    go(i) {
+                        this.swap(i);
+                    },
+                }));
+            });
+        </script>
+    @endpush
 
     {{-- ============================================ --}}
     {{-- SECTION 5: CONTACT US --}}

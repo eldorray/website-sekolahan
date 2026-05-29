@@ -205,6 +205,8 @@
                             @error('image_file')
                                 <p class="text-xs text-red-500">{{ $message }}</p>
                             @enderror
+                            <p class="text-[11px] text-slate-400">Gambar otomatis dikompres & dikecilkan ke maks 1280px
+                                (kualitas 72%) saat disimpan.</p>
                             <div wire:loading wire:target="image_file"
                                 class="text-xs text-slate-500 flex items-center gap-1">
                                 <div

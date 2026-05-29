@@ -70,6 +70,44 @@ class ImageProcessor
     }
 
     /**
+     * Compress and resize a single image, returning the stored path (no thumbnail).
+     */
+    public static function storeCompressed(
+        UploadedFile $file,
+        string $directory,
+        int $maxWidth = 1280,
+        int $quality = 72,
+    ): string {
+        $manager = new ImageManager(new Driver);
+
+        Storage::disk('public')->makeDirectory($directory);
+
+        $extension = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+        if (! in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)) {
+            $extension = 'jpg';
+        }
+
+        $name = Str::random(24).'.'.$extension;
+        $imagePath = $directory.'/'.$name;
+
+        try {
+            $image = $manager->read($file->getRealPath());
+            $image->scaleDown(width: $maxWidth);
+            $encoded = $image->encode(new AutoEncoder(quality: $quality));
+            Storage::disk('public')->put($imagePath, (string) $encoded);
+
+            return $imagePath;
+        } catch (\Throwable $e) {
+            Log::warning('ImageProcessor compress failed, storing original.', [
+                'file' => $file->getClientOriginalName(),
+                'error' => $e->getMessage(),
+            ]);
+
+            return $file->store($directory, 'public');
+        }
+    }
+
+    /**
      * Delete a stored image and its thumbnail (paths relative to public disk).
      */
     public static function delete(?string $imagePath, ?string $thumbnailPath = null): void

@@ -6,6 +6,7 @@ use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\News as NewsModel;
 use App\Services\AiWriter;
+use App\Services\ImageProcessor;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -82,7 +83,20 @@ class News extends Component
         $data['published_at'] = $this->published_at ?: now()->toDateString();
 
         if ($this->image_file) {
-            $data['image'] = $this->image_file->store('news', 'public');
+            // Compress & resize the uploaded image before storing.
+            $newImage = ImageProcessor::storeCompressed(
+                $this->image_file,
+                'news',
+                maxWidth: 1280,
+                quality: 72,
+            );
+
+            // Remove previous image when replacing during edit.
+            if ($this->editingId && $this->existing_image && $this->existing_image !== $newImage) {
+                ImageProcessor::delete($this->existing_image);
+            }
+
+            $data['image'] = $newImage;
         } elseif ($this->editingId && $this->existing_image === null) {
             // Image was explicitly removed during edit
             $data['image'] = null;
@@ -101,7 +115,11 @@ class News extends Component
 
     public function delete(int $id): void
     {
-        NewsModel::findOrFail($id)->delete();
+        $news = NewsModel::findOrFail($id);
+        if ($news->image) {
+            ImageProcessor::delete($news->image);
+        }
+        $news->delete();
         $this->notifySuccess('Berita berhasil dihapus.');
     }
 
