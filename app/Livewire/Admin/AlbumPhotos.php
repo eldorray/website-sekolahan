@@ -8,7 +8,6 @@ use App\Models\GalleryAlbum;
 use App\Models\GalleryPhoto;
 use App\Services\ImageProcessor;
 use Livewire\Component;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 class AlbumPhotos extends Component
@@ -17,7 +16,7 @@ class AlbumPhotos extends Component
 
     public GalleryAlbum $album;
 
-    /** @var array<int, TemporaryUploadedFile> */
+    /** @var array<int, \Livewire\Features\SupportFileUploads\TemporaryUploadedFile> */
     public array $uploads = [];
 
     public string $captionDraft = '';
@@ -29,9 +28,9 @@ class AlbumPhotos extends Component
         ];
     }
 
-    public function mount(int $album): void
+    public function mount(GalleryAlbum $album): void
     {
-        $this->album = GalleryAlbum::findOrFail($album);
+        $this->album = $album;
     }
 
     public function uploadAll(): void
