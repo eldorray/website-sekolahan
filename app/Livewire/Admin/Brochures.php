@@ -5,15 +5,20 @@ namespace App\Livewire\Admin;
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\Brochure;
+use App\Models\BrochureImage;
 use App\Services\ImageProcessor;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Brochures extends Component
 {
-    use WithDeleteConfirm, WithFileUploads, WithNotifications, WithPagination;
+    use WithDeleteConfirm;
+    use WithFileUploads;
+    use WithNotifications;
+    use WithPagination;
 
     public ?int $editingId = null;
 
@@ -25,11 +30,10 @@ class Brochures extends Component
 
     public bool $is_active = true;
 
-    public $preview_file = null;
+    /** @var array<int, TemporaryUploadedFile> */
+    public array $images = [];
 
     public $file_pdf = null;
-
-    public ?string $existing_preview = null;
 
     public ?string $existing_file = null;
 
@@ -42,7 +46,7 @@ class Brochures extends Component
             'subtitle' => 'nullable|string|max:200',
             'order' => 'integer',
             'is_active' => 'boolean',
-            'preview_file' => 'nullable|image|max:6144',
+            'images.*' => 'image|max:6144',
             'file_pdf' => 'nullable|file|mimes:pdf|max:10240',
         ];
     }
@@ -55,61 +59,107 @@ class Brochures extends Component
         $this->subtitle = $b->subtitle ?? '';
         $this->order = $b->order;
         $this->is_active = $b->is_active;
-        $this->existing_preview = $b->preview_image;
         $this->existing_file = $b->file;
-        $this->preview_file = null;
+        $this->images = [];
         $this->file_pdf = null;
     }
 
     public function save(): void
     {
-        $data = $this->validate();
-        unset($data['preview_file'], $data['file_pdf']);
+        $this->validate();
 
-        if ($this->preview_file) {
-            $resized = ImageProcessor::storeResized(
-                $this->preview_file,
-                'brochures',
-                maxWidth: 1200,
-                thumbWidth: 480,
-            );
-            $data['preview_image'] = $resized['image'];
+        $payload = [
+            'title' => $this->title,
+            'subtitle' => $this->subtitle ?: null,
+            'order' => $this->order,
+            'is_active' => $this->is_active,
+        ];
 
-            if ($this->editingId && $this->existing_preview) {
-                Storage::disk('public')->delete($this->existing_preview);
+        if ($this->editingId) {
+            $brochure = Brochure::findOrFail($this->editingId);
+            $brochure->update($payload);
+            $this->notifySuccess('Brosur berhasil diperbarui.');
+        } else {
+            if (empty($this->images)) {
+                $this->addError('images', 'Minimal satu gambar preview wajib diunggah.');
+
+                return;
             }
-        } elseif (! $this->editingId) {
-            $this->addError('preview_file', 'Gambar preview brosur wajib diisi.');
+            $brochure = Brochure::create($payload);
+            $this->notifySuccess('Brosur berhasil dibuat.');
+        }
 
-            return;
+        // Append uploaded images.
+        if (! empty($this->images)) {
+            $existingCount = $brochure->images()->count();
+            foreach ($this->images as $i => $file) {
+                $resized = ImageProcessor::storeResized(
+                    $file,
+                    'brochures/'.$brochure->id,
+                    maxWidth: 1200,
+                    thumbWidth: 480,
+                );
+
+                BrochureImage::create([
+                    'brochure_id' => $brochure->id,
+                    'image' => $resized['image'],
+                    'thumbnail' => $resized['thumbnail'],
+                    'order' => $existingCount + $i,
+                    'is_cover' => $existingCount === 0 && $i === 0,
+                ]);
+            }
         }
 
         if ($this->file_pdf) {
-            $data['file'] = $this->file_pdf->store('brochures/files', 'public');
             if ($this->editingId && $this->existing_file) {
                 Storage::disk('public')->delete($this->existing_file);
             }
-        }
-
-        if ($this->editingId) {
-            Brochure::find($this->editingId)->update($data);
-            $this->notifySuccess('Brosur berhasil diperbarui.');
-        } else {
-            Brochure::create($data);
-            $this->notifySuccess('Brosur berhasil dibuat.');
+            $brochure->update(['file' => $this->file_pdf->store('brochures/files', 'public')]);
         }
 
         $this->resetForm();
     }
 
+    public function deleteImage(int $imageId): void
+    {
+        $image = BrochureImage::findOrFail($imageId);
+        if ($this->editingId !== $image->brochure_id) {
+            return;
+        }
+        ImageProcessor::delete($image->image, $image->thumbnail);
+        $wasCover = $image->is_cover;
+        $image->delete();
+
+        // Promote another image to cover if needed.
+        if ($wasCover) {
+            $next = BrochureImage::where('brochure_id', $this->editingId)->orderBy('order')->first();
+            $next?->update(['is_cover' => true]);
+        }
+        $this->notifySuccess('Gambar dihapus.');
+    }
+
+    public function setCover(int $imageId): void
+    {
+        $image = BrochureImage::findOrFail($imageId);
+        if ($this->editingId !== $image->brochure_id) {
+            return;
+        }
+        BrochureImage::where('brochure_id', $this->editingId)->update(['is_cover' => false]);
+        $image->update(['is_cover' => true]);
+        $this->notifySuccess('Cover diperbarui.');
+    }
+
     public function delete(int $id): void
     {
         $b = Brochure::findOrFail($id);
-        if ($b->preview_image) {
-            Storage::disk('public')->delete($b->preview_image);
+        foreach ($b->images as $img) {
+            ImageProcessor::delete($img->image, $img->thumbnail);
         }
         if ($b->file) {
             Storage::disk('public')->delete($b->file);
+        }
+        if ($b->preview_image) {
+            Storage::disk('public')->delete($b->preview_image);
         }
         $b->delete();
         $this->notifySuccess('Brosur berhasil dihapus.');
@@ -118,8 +168,8 @@ class Brochures extends Component
     public function resetForm(): void
     {
         $this->reset([
-            'editingId', 'title', 'subtitle', 'order', 'preview_file', 'file_pdf',
-            'existing_preview', 'existing_file',
+            'editingId', 'title', 'subtitle', 'order',
+            'images', 'file_pdf', 'existing_file',
         ]);
         $this->is_active = true;
     }
@@ -127,12 +177,17 @@ class Brochures extends Component
     public function render()
     {
         $items = Brochure::query()
+            ->with('images')
             ->when($this->search, fn ($q) => $q->where('title', 'like', "%{$this->search}%"))
             ->orderBy('order')
             ->orderByDesc('id')
             ->paginate(10);
 
-        return view('livewire.admin.brochures', compact('items'))
+        $editingImages = $this->editingId
+            ? BrochureImage::where('brochure_id', $this->editingId)->orderByDesc('is_cover')->orderBy('order')->get()
+            : collect();
+
+        return view('livewire.admin.brochures', compact('items', 'editingImages'))
             ->layout('layouts.panel', ['title' => 'Brosur']);
     }
 }

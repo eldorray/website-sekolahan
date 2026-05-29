@@ -734,10 +734,10 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="flex flex-wrap justify-center gap-5">
                     @foreach ($albums as $album)
                         <a href="{{ route('gallery.album', $album->slug) }}" wire:navigate
-                            class="group relative overflow-hidden rounded-[24px] border border-slate-100 bg-white shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 block">
+                            class="group relative overflow-hidden rounded-[24px] border border-slate-100 bg-white shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 block w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-0.95rem)] max-w-sm">
                             <div class="aspect-[4/3] overflow-hidden bg-slate-100">
                                 <img src="{{ $album->coverUrl() }}" alt="{{ $album->title }}" loading="lazy"
                                     decoding="async"
@@ -781,8 +781,18 @@
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" x-data="{ open: false, current: null }"
-                @keydown.escape.window="open = false">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" x-data="{
+                open: false,
+                photos: [],
+                idx: 0,
+                show(images, start = 0) { this.photos = images;
+                    this.idx = start;
+                    this.open = true; },
+                next() { if (this.photos.length) this.idx = (this.idx + 1) % this.photos.length; },
+                prev() { if (this.photos.length) this.idx = (this.idx - 1 + this.photos.length) % this.photos.length; }
+            }"
+                @keydown.escape.window="open = false" @keydown.arrow-right.window="open && next()"
+                @keydown.arrow-left.window="open && prev()">
                 <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
                     <span
                         class="text-xs font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-3.5 py-1.5 rounded-full">
@@ -792,25 +802,79 @@
                         Informasi Lengkap Sekolah
                     </h2>
                     <p class="text-base text-slate-500">
-                        Klik pada brosur untuk pratinjau lebih besar atau unduh PDF langsung.
+                        Geser tiap kartu untuk melihat halaman tambahan, klik untuk pratinjau penuh.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-{{ min(4, $brochures->count()) }} gap-5">
+                <div class="flex flex-wrap justify-center gap-6">
                     @foreach ($brochures as $brochure)
-                        <div class="group">
-                            <button type="button"
-                                @click="open = true; current = {{ json_encode([
-                                    'preview' => $brochure->previewUrl(),
-                                    'title' => $brochure->title,
-                                    'subtitle' => $brochure->subtitle,
-                                    'file' => $brochure->fileUrl(),
-                                ]) }}"
-                                class="w-full block bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 overflow-hidden">
-                                <div class="aspect-[3/4] overflow-hidden bg-slate-100">
-                                    <img src="{{ $brochure->previewUrl() }}" alt="{{ $brochure->title }}"
-                                        loading="lazy" decoding="async"
-                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        @php
+                            $imgs = $brochure->images;
+                            $payload = $imgs
+                                ->map(
+                                    fn($i) => [
+                                        'url' => $i->imageUrl(),
+                                        'caption' => $brochure->title,
+                                    ],
+                                )
+                                ->values()
+                                ->all();
+                            if (empty($payload) && $brochure->preview_image) {
+                                $payload = [
+                                    [
+                                        'url' => asset('storage/' . $brochure->preview_image),
+                                        'caption' => $brochure->title,
+                                    ],
+                                ];
+                            }
+                        @endphp
+                        <div class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.13rem)] max-w-sm flex flex-col"
+                            x-data="{ slide: 0, total: {{ max(1, count($payload)) }} }">
+                            <div
+                                class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 overflow-hidden">
+                                <div class="relative aspect-[3/4] overflow-hidden bg-slate-100 group">
+                                    @if (!empty($payload))
+                                        @foreach ($payload as $i => $p)
+                                            <button type="button"
+                                                @click="$dispatch('open-brochure', { images: @js($payload), start: slide })"
+                                                x-show="slide === {{ $i }}"
+                                                x-transition.opacity.duration.300ms
+                                                class="absolute inset-0 w-full h-full">
+                                                <img src="{{ $p['url'] }}" alt="{{ $brochure->title }}"
+                                                    loading="lazy" decoding="async"
+                                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                            </button>
+                                        @endforeach
+                                    @else
+                                        <div
+                                            class="absolute inset-0 w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                                            Tidak ada gambar
+                                        </div>
+                                    @endif
+
+                                    @if (count($payload) > 1)
+                                        <button type="button" @click.stop="slide = (slide - 1 + total) % total"
+                                            class="absolute top-1/2 left-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition">
+                                            ‹
+                                        </button>
+                                        <button type="button" @click.stop="slide = (slide + 1) % total"
+                                            class="absolute top-1/2 right-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition">
+                                            ›
+                                        </button>
+                                        <div
+                                            class="absolute bottom-2 inset-x-0 flex items-center justify-center gap-1.5">
+                                            @foreach ($payload as $i => $p)
+                                                <button type="button" @click.stop="slide = {{ $i }}"
+                                                    :class="slide === {{ $i }} ? 'bg-white w-5' :
+                                                        'bg-white/60 w-1.5'"
+                                                    class="h-1.5 rounded-full transition-all duration-300"></button>
+                                            @endforeach
+                                        </div>
+                                        <span
+                                            class="absolute top-2 right-2 bg-black/55 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                            <span x-text="slide + 1"></span>/<span x-text="total"></span>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="p-3 text-left">
                                     <h3 class="font-bold text-slate-900 text-sm line-clamp-1">{{ $brochure->title }}
@@ -820,7 +884,7 @@
                                             {{ $brochure->subtitle }}</p>
                                     @endif
                                 </div>
-                            </button>
+                            </div>
                             @if ($brochure->fileUrl())
                                 <a href="{{ $brochure->fileUrl() }}" target="_blank" rel="noopener"
                                     class="mt-2 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold transition">
@@ -838,25 +902,26 @@
 
                 {{-- Lightbox --}}
                 <div x-show="open" x-cloak x-transition.opacity
+                    @open-brochure.window="show($event.detail.images, $event.detail.start ?? 0)"
                     class="fixed inset-0 z-[60] bg-black/90 backdrop-blur flex items-center justify-center p-4"
                     @click.self="open = false">
                     <button type="button" @click="open = false"
                         class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl">✕</button>
-                    <div class="max-w-3xl w-full">
-                        <template x-if="current">
-                            <div class="text-center">
-                                <img :src="current.preview" :alt="current.title"
+                    <button type="button" @click="prev()" x-show="photos.length > 1"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">‹</button>
+                    <button type="button" @click="next()" x-show="photos.length > 1"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">›</button>
+                    <div class="max-w-3xl w-full text-center">
+                        <template x-for="(p, i) in photos" :key="i">
+                            <div x-show="i === idx" class="w-full">
+                                <img :src="p.url" :alt="p.caption"
                                     class="max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl">
-                                <h3 class="text-white font-bold text-lg mt-4" x-text="current.title"></h3>
-                                <p class="text-white/70 text-sm mt-1" x-text="current.subtitle"></p>
-                                <template x-if="current.file">
-                                    <a :href="current.file" target="_blank" rel="noopener"
-                                        class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold transition">
-                                        Unduh PDF
-                                    </a>
-                                </template>
+                                <p class="text-white/90 mt-3 text-sm" x-text="p.caption"></p>
                             </div>
                         </template>
+                        <p class="text-white/50 text-xs mt-4" x-show="photos.length > 1">
+                            <span x-text="idx + 1"></span> / <span x-text="photos.length"></span>
+                        </p>
                     </div>
                 </div>
             </div>

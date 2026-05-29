@@ -9,8 +9,9 @@
                 <table class="w-full text-sm responsive-table">
                     <thead class="text-left text-slate-500 border-b">
                         <tr>
-                            <th class="py-2">Preview</th>
+                            <th class="py-2">Cover</th>
                             <th>Judul</th>
+                            <th>Gambar</th>
                             <th>Order</th>
                             <th>Aktif</th>
                             <th class="text-right">Aksi</th>
@@ -19,8 +20,8 @@
                     <tbody class="divide-y">
                         @forelse ($items as $b)
                             <tr>
-                                <td data-label="Preview" class="py-2.5">
-                                    <img src="{{ $b->previewUrl() }}" alt="{{ $b->title }}"
+                                <td data-label="Cover" class="py-2.5">
+                                    <img src="{{ $b->coverUrl() }}" alt="{{ $b->title }}"
                                         class="w-16 h-20 object-cover rounded-lg border border-slate-100 shadow-sm">
                                 </td>
                                 <td data-label="Judul">
@@ -34,6 +35,10 @@
                                             PDF terlampir
                                         </a>
                                     @endif
+                                </td>
+                                <td data-label="Gambar">
+                                    <span
+                                        class="rounded-full bg-slate-100 text-slate-700 px-2 py-0.5 text-xs font-semibold">{{ $b->images->count() }}</span>
                                 </td>
                                 <td data-label="Order">{{ $b->order }}</td>
                                 <td data-label="Status">{!! $b->is_active
@@ -49,7 +54,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-6 text-slate-500">Belum ada brosur.</td>
+                                <td colspan="6" class="text-center py-6 text-slate-500">Belum ada brosur.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -74,19 +79,59 @@
                 </div>
 
                 <div>
-                    <label class="label">Gambar Preview</label>
-                    @if ($preview_file)
-                        <img src="{{ $preview_file->temporaryUrl() }}"
-                            class="w-32 h-40 object-cover rounded-lg mb-2 border border-slate-100">
-                    @elseif ($existing_preview)
-                        <img src="{{ asset('storage/' . $existing_preview) }}"
-                            class="w-32 h-40 object-cover rounded-lg mb-2 border border-slate-100">
-                    @endif
-                    <input type="file" wire:model="preview_file" accept="image/*" class="text-xs">
-                    @error('preview_file')
+                    <label class="label">Gambar Brosur (boleh banyak)</label>
+                    <input type="file" wire:model="images" multiple accept="image/*" class="text-xs block w-full">
+                    @error('images')
                         <p class="text-xs text-red-500">{{ $message }}</p>
                     @enderror
-                    <p class="text-[11px] text-slate-400 mt-1">Otomatis dikecilkan ke maks 1200px lebar.</p>
+                    @error('images.*')
+                        <p class="text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                    <p class="text-[11px] text-slate-400 mt-1">Otomatis dikecilkan ke 1200px (utama) & 480px
+                        (thumbnail). Maks 6 MB per gambar.</p>
+
+                    @if (!empty($images))
+                        <div class="mt-3 grid grid-cols-3 gap-2">
+                            @foreach ($images as $tmp)
+                                <div
+                                    class="aspect-[3/4] rounded-lg overflow-hidden border border-slate-200 bg-slate-50">
+                                    <img src="{{ $tmp->temporaryUrl() }}" class="w-full h-full object-cover">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    @if ($editingId && $editingImages->count())
+                        <div class="mt-4">
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Gambar
+                                Tersimpan</p>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach ($editingImages as $img)
+                                    <div
+                                        class="relative group rounded-lg overflow-hidden border border-slate-200 bg-slate-50">
+                                        <div class="aspect-[3/4]">
+                                            <img src="{{ $img->thumbnailUrl() }}" loading="lazy" decoding="async"
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                        @if ($img->is_cover)
+                                            <span
+                                                class="absolute top-1.5 left-1.5 bg-brand-600 text-white text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded shadow">Cover</span>
+                                        @endif
+                                        <div
+                                            class="absolute inset-x-1 bottom-1 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+                                            @unless ($img->is_cover)
+                                                <button type="button" wire:click="setCover({{ $img->id }})"
+                                                    class="flex-1 px-1.5 py-1 rounded bg-white/90 hover:bg-white text-[10px] font-bold text-slate-700 shadow">Cover</button>
+                                            @endunless
+                                            <button type="button" wire:click="deleteImage({{ $img->id }})"
+                                                wire:confirm="Hapus gambar ini?"
+                                                class="flex-1 px-1.5 py-1 rounded bg-red-500/90 hover:bg-red-600 text-[10px] font-bold text-white shadow">Hapus</button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div>
@@ -114,10 +159,10 @@
                 </div>
 
                 <div class="flex gap-2 pt-2">
-                    <button class="btn-primary" wire:loading.attr="disabled" wire:target="save,preview_file,file_pdf">
+                    <button class="btn-primary" wire:loading.attr="disabled" wire:target="save,images,file_pdf">
                         <span wire:loading.remove
-                            wire:target="save,preview_file,file_pdf">{{ $editingId ? 'Update' : 'Simpan' }}</span>
-                        <span wire:loading wire:target="save,preview_file,file_pdf">Memproses…</span>
+                            wire:target="save,images,file_pdf">{{ $editingId ? 'Update' : 'Simpan' }}</span>
+                        <span wire:loading wire:target="save,images,file_pdf">Memproses…</span>
                     </button>
                     @if ($editingId)
                         <button type="button" wire:click="resetForm" class="btn-ghost">Batal</button>
@@ -127,6 +172,6 @@
         </div>
     </div>
 
-    <x-confirm-delete title="Hapus Brosur?" description="Brosur ini akan dihapus permanen." :show="(bool) $confirmingDeleteId"
-        :label="$confirmingDeleteLabel" />
+    <x-confirm-delete title="Hapus Brosur?" description="Brosur dan seluruh gambarnya akan dihapus permanen."
+        :show="(bool) $confirmingDeleteId" :label="$confirmingDeleteLabel" />
 </div>
