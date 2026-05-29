@@ -12,15 +12,22 @@ use Livewire\WithPagination;
 
 class MyNews extends Component
 {
-    use WithPagination, WithFileUploads, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithFileUploads, WithNotifications, WithPagination;
 
     public ?int $editingId = null;
+
     public string $title = '';
+
     public string $category = 'ARTIKEL';
+
     public string $excerpt = '';
+
     public string $content = '';
+
     public string $published_at = '';
+
     public bool $is_published = false;
+
     public $image_file;
 
     protected function rules(): array
@@ -63,7 +70,7 @@ class MyNews extends Component
             NewsModel::where('user_id', auth()->id())->where('id', $this->editingId)->update($data);
             $this->notifySuccess('Berita berhasil diperbarui.');
         } else {
-            $data['slug'] = Str::slug($this->title) . '-' . Str::random(4);
+            $data['slug'] = Str::slug($this->title).'-'.Str::random(4);
             NewsModel::create($data);
             $this->notifySuccess('Berita berhasil dibuat.');
         }
@@ -86,6 +93,7 @@ class MyNews extends Component
     public function render()
     {
         $items = NewsModel::where('user_id', auth()->id())->latest()->paginate(10);
+
         return view('livewire.guru.my-news', compact('items'))
             ->layout('layouts.panel', ['title' => 'Berita Saya']);
     }

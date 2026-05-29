@@ -5,6 +5,7 @@ namespace App\Livewire\Concerns;
 trait WithDeleteConfirm
 {
     public ?int $confirmingDeleteId = null;
+
     public string $confirmingDeleteLabel = '';
 
     public function confirmDelete(int $id, string $label = ''): void
@@ -21,7 +22,9 @@ trait WithDeleteConfirm
 
     public function confirmDestroy(): void
     {
-        if ($this->confirmingDeleteId === null) return;
+        if ($this->confirmingDeleteId === null) {
+            return;
+        }
         $id = $this->confirmingDeleteId;
         $this->cancelDelete();
         $this->delete($id);

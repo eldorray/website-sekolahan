@@ -12,16 +12,24 @@ use Livewire\WithPagination;
 
 class Programs extends Component
 {
-    use WithPagination, WithFileUploads, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithFileUploads, WithNotifications, WithPagination;
 
     public ?int $editingId = null;
+
     public string $title = '';
+
     public string $icon = 'book';
+
     public string $short_description = '';
+
     public string $description = '';
+
     public bool $is_active = true;
+
     public int $order = 0;
+
     public $image_file;
+
     public ?string $existing_image = null;
 
     public string $search = '';
@@ -88,7 +96,7 @@ class Programs extends Component
 
     public function render()
     {
-        $items = Program::when($this->search, fn($q) => $q->where('title', 'like', "%{$this->search}%"))
+        $items = Program::when($this->search, fn ($q) => $q->where('title', 'like', "%{$this->search}%"))
             ->orderBy('order')->paginate(10);
 
         return view('livewire.admin.programs', compact('items'))

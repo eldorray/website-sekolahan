@@ -10,13 +10,13 @@ use Livewire\WithPagination;
 
 class Visits extends Component
 {
-    use WithPagination, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithNotifications, WithPagination;
 
     public function setStatus(int $id, string $status): void
     {
         VisitSchedule::find($id)->update(['status' => $status]);
         $labels = ['approved' => 'disetujui', 'rejected' => 'ditolak', 'pending' => 'pending'];
-        $this->notifySuccess('Permintaan kunjungan ' . ($labels[$status] ?? $status) . '.');
+        $this->notifySuccess('Permintaan kunjungan '.($labels[$status] ?? $status).'.');
     }
 
     public function delete(int $id): void
@@ -28,6 +28,7 @@ class Visits extends Component
     public function render()
     {
         $items = VisitSchedule::latest()->paginate(15);
+
         return view('livewire.admin.visits', compact('items'))
             ->layout('layouts.panel', ['title' => 'Permintaan Kunjungan']);
     }

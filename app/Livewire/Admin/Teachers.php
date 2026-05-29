@@ -12,26 +12,37 @@ use Livewire\WithPagination;
 
 class Teachers extends Component
 {
-    use WithPagination, WithFileUploads, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithFileUploads, WithNotifications, WithPagination;
 
     public ?int $editingId = null;
+
     public string $name = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $position = '';
+
     public string $phone = '';
+
     public string $bio = '';
+
     public string $instagram = '';
+
     public string $facebook = '';
+
     public bool $is_active = true;
+
     public $photo_file;
+
     public string $search = '';
 
     protected function rules(): array
     {
         return [
             'name' => 'required|string|max:160',
-            'email' => 'required|email|max:160|unique:users,email,' . ($this->editingId ?? 'NULL'),
+            'email' => 'required|email|max:160|unique:users,email,'.($this->editingId ?? 'NULL'),
             'password' => $this->editingId ? 'nullable|string|min:6' : 'required|string|min:6',
             'position' => 'nullable|string|max:120',
             'phone' => 'nullable|string|max:30',
@@ -65,7 +76,7 @@ class Teachers extends Component
         unset($data['photo_file']);
         $data['role'] = 'guru';
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
@@ -100,7 +111,7 @@ class Teachers extends Component
     public function render()
     {
         $items = User::where('role', 'guru')
-            ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"))
+            ->when($this->search, fn ($q) => $q->where('name', 'like', "%{$this->search}%"))
             ->paginate(10);
 
         return view('livewire.admin.teachers', compact('items'))

@@ -11,7 +11,7 @@ class Setting extends Model
 
     public static function get(string $key, $default = null)
     {
-        return Cache::rememberForever('setting.' . $key, function () use ($key, $default) {
+        return Cache::rememberForever('setting.'.$key, function () use ($key, $default) {
             return static::where('key', $key)->value('value') ?? $default;
         });
     }
@@ -19,7 +19,7 @@ class Setting extends Model
     public static function set(string $key, $value): void
     {
         static::updateOrCreate(['key' => $key], ['value' => $value]);
-        Cache::forget('setting.' . $key);
+        Cache::forget('setting.'.$key);
     }
 
     public static function all_keyed(): array
@@ -30,7 +30,10 @@ class Setting extends Model
     public static function imageUrl(string $key): ?string
     {
         $path = static::get($key);
-        if (! $path) return null;
-        return asset('storage/' . $path);
+        if (! $path) {
+            return null;
+        }
+
+        return asset('storage/'.$path);
     }
 }

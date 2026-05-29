@@ -18,8 +18,11 @@ class Settings extends Component
     public string $brandColor = '#65ad36';
 
     public $app_logo_file;
+
     public $school_logo_file;
+
     public $favicon_file;
+
     public $hero_image_file;
 
     public array $fields = [
@@ -75,7 +78,7 @@ class Settings extends Component
             Setting::set($key, (string) $value);
         }
 
-        $hex = '#' . ltrim($this->brandColor, '#');
+        $hex = '#'.ltrim($this->brandColor, '#');
         Setting::set('brand_color', $hex);
 
         foreach ([
@@ -86,7 +89,9 @@ class Settings extends Component
         ] as $key => $prop) {
             if ($this->$prop) {
                 $old = Setting::get($key);
-                if ($old) Storage::disk('public')->delete($old);
+                if ($old) {
+                    Storage::disk('public')->delete($old);
+                }
                 $path = $this->$prop->store('branding', 'public');
                 Setting::set($key, $path);
                 $this->$prop = null;
@@ -99,7 +104,9 @@ class Settings extends Component
     public function removeImage(string $key): void
     {
         $old = Setting::get($key);
-        if ($old) Storage::disk('public')->delete($old);
+        if ($old) {
+            Storage::disk('public')->delete($old);
+        }
         Setting::set($key, '');
         $this->notifySuccess('Gambar berhasil dihapus.');
     }

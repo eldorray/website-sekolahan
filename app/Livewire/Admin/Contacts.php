@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 
 class Contacts extends Component
 {
-    use WithPagination, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithNotifications, WithPagination;
 
     public ?int $viewing = null;
 
@@ -30,6 +30,7 @@ class Contacts extends Component
     {
         $items = ContactMessage::latest()->paginate(15);
         $detail = $this->viewing ? ContactMessage::find($this->viewing) : null;
+
         return view('livewire.admin.contacts', compact('items', 'detail'))
             ->layout('layouts.panel', ['title' => 'Pesan Masuk']);
     }

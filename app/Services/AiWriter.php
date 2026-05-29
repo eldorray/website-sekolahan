@@ -22,9 +22,9 @@ class AiWriter
 
         if (empty($cfg['api_key'])) {
             throw new \RuntimeException(
-                "API key untuk '{$provider}' kosong. " .
-                "Silakan set " . strtoupper($provider) . "_API_KEY di file .env server, " .
-                "lalu jalankan `php artisan config:clear`."
+                "API key untuk '{$provider}' kosong. ".
+                'Silakan set '.strtoupper($provider).'_API_KEY di file .env server, '.
+                'lalu jalankan `php artisan config:clear`.'
             );
         }
 
@@ -46,11 +46,11 @@ FORMAT OUTPUT (JSON ketat, tanpa markdown code block):
 SYSTEM;
 
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $cfg['api_key'],
+            'Authorization' => 'Bearer '.$cfg['api_key'],
             'Content-Type' => 'application/json',
         ])
             ->timeout(60)
-            ->post(rtrim($cfg['base_url'], '/') . '/chat/completions', [
+            ->post(rtrim($cfg['base_url'], '/').'/chat/completions', [
                 'model' => $cfg['model'],
                 'messages' => [
                     ['role' => 'system', 'content' => $systemPrompt],
@@ -61,7 +61,7 @@ SYSTEM;
             ]);
 
         if ($response->failed()) {
-            throw new \RuntimeException('AI request failed: ' . $response->body());
+            throw new \RuntimeException('AI request failed: '.$response->body());
         }
 
         $text = $response->json('choices.0.message.content', '');
@@ -74,7 +74,7 @@ SYSTEM;
         $data = json_decode($text, true);
 
         if (! $data || ! isset($data['title'], $data['content'])) {
-            throw new \RuntimeException('AI returned invalid format. Raw: ' . $text);
+            throw new \RuntimeException('AI returned invalid format. Raw: '.$text);
         }
 
         return [

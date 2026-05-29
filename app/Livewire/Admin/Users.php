@@ -11,20 +11,25 @@ use Livewire\WithPagination;
 
 class Users extends Component
 {
-    use WithPagination, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithNotifications, WithPagination;
 
     public ?int $editingId = null;
+
     public string $name = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $role = 'admin';
+
     public bool $is_active = true;
 
     protected function rules(): array
     {
         return [
             'name' => 'required|string|max:160',
-            'email' => 'required|email|max:160|unique:users,email,' . ($this->editingId ?? 'NULL'),
+            'email' => 'required|email|max:160|unique:users,email,'.($this->editingId ?? 'NULL'),
             'password' => $this->editingId ? 'nullable|string|min:6' : 'required|string|min:6',
             'role' => 'required|in:admin,guru',
             'is_active' => 'boolean',
@@ -45,8 +50,11 @@ class Users extends Component
     public function save(): void
     {
         $data = $this->validate();
-        if (!empty($data['password'])) $data['password'] = Hash::make($data['password']);
-        else unset($data['password']);
+        if (! empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
 
         if ($this->editingId) {
             User::find($this->editingId)->update($data);
@@ -62,6 +70,7 @@ class Users extends Component
     {
         if ($id === auth()->id()) {
             $this->notifyError('Tidak bisa menghapus diri sendiri.');
+
             return;
         }
         User::findOrFail($id)->delete();
@@ -78,6 +87,7 @@ class Users extends Component
     public function render()
     {
         $items = User::latest()->paginate(15);
+
         return view('livewire.admin.users', compact('items'))
             ->layout('layouts.panel', ['title' => 'Pengguna']);
     }

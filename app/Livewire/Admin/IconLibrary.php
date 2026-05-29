@@ -7,6 +7,7 @@ use Livewire\Component;
 class IconLibrary extends Component
 {
     public string $search = '';
+
     public string $style = 'outline'; // outline | solid
 
     public function render()

@@ -13,24 +13,37 @@ use Livewire\WithPagination;
 
 class News extends Component
 {
-    use WithPagination, WithFileUploads, WithNotifications, WithDeleteConfirm;
+    use WithDeleteConfirm, WithFileUploads, WithNotifications, WithPagination;
 
     public ?int $editingId = null;
+
     public string $title = '';
+
     public string $category = 'ARTIKEL';
+
     public string $excerpt = '';
+
     public string $content = '';
+
     public string $published_at = '';
+
     public bool $is_published = true;
+
     public $image_file;
+
     public ?string $existing_image = null;
+
     public string $search = '';
 
     // AI Chat
     public string $aiPrompt = '';
+
     public string $aiProvider = '';
+
     public bool $aiLoading = false;
+
     public string $aiError = '';
+
     public array $aiMessages = [];
 
     protected function rules(): array
@@ -64,7 +77,7 @@ class News extends Component
     {
         $data = $this->validate();
         unset($data['image_file']);
-        $data['slug'] = Str::slug($this->title) . '-' . Str::random(4);
+        $data['slug'] = Str::slug($this->title).'-'.Str::random(4);
         $data['user_id'] = auth()->id();
         $data['published_at'] = $this->published_at ?: now()->toDateString();
 
@@ -109,6 +122,7 @@ class News extends Component
     {
         if (empty(trim($this->aiPrompt))) {
             $this->aiError = 'Tulis instruksi terlebih dahulu.';
+
             return;
         }
 
@@ -143,8 +157,8 @@ class News extends Component
 
             $this->notifySuccess('Berita berhasil di-generate oleh AI!');
         } catch (\Throwable $e) {
-            $this->aiError = 'Gagal generate: ' . $e->getMessage();
-            $this->aiMessages[] = ['role' => 'ai', 'text' => '❌ ' . $this->aiError];
+            $this->aiError = 'Gagal generate: '.$e->getMessage();
+            $this->aiMessages[] = ['role' => 'ai', 'text' => '❌ '.$this->aiError];
         } finally {
             $this->aiLoading = false;
             $this->aiPrompt = '';
@@ -161,7 +175,7 @@ class News extends Component
     public function render()
     {
         $items = NewsModel::with('author')
-            ->when($this->search, fn($q) => $q->where('title', 'like', "%{$this->search}%"))
+            ->when($this->search, fn ($q) => $q->where('title', 'like', "%{$this->search}%"))
             ->latest()->paginate(10);
 
         return view('livewire.admin.news', compact('items'))

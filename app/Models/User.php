@@ -53,9 +53,10 @@ class User extends Authenticatable
 
     public function photoUrl(): string
     {
-        if ($this->photo && file_exists(public_path('storage/' . $this->photo))) {
-            return asset('storage/' . $this->photo);
+        if ($this->photo && file_exists(public_path('storage/'.$this->photo))) {
+            return asset('storage/'.$this->photo);
         }
-        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=86efac&color=14532d&size=256';
+
+        return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&background=86efac&color=14532d&size=256';
     }
 }

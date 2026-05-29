@@ -12,13 +12,21 @@ class Profile extends Component
     use WithFileUploads, WithNotifications;
 
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $position = '';
+
     public string $bio = '';
+
     public string $instagram = '';
+
     public string $facebook = '';
+
     public string $password = '';
+
     public $photo_file;
 
     public function mount(): void
@@ -38,7 +46,7 @@ class Profile extends Component
         $u = auth()->user();
         $data = $this->validate([
             'name' => 'required|string|max:160',
-            'email' => 'required|email|max:160|unique:users,email,' . $u->id,
+            'email' => 'required|email|max:160|unique:users,email,'.$u->id,
             'phone' => 'nullable|string|max:30',
             'position' => 'nullable|string|max:120',
             'bio' => 'nullable|string|max:1000',
@@ -49,8 +57,11 @@ class Profile extends Component
         ]);
 
         unset($data['photo_file']);
-        if (!empty($data['password'])) $data['password'] = Hash::make($data['password']);
-        else unset($data['password']);
+        if (! empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
 
         if ($this->photo_file) {
             $data['photo'] = $this->photo_file->store('photos', 'public');

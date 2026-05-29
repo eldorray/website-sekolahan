@@ -26,9 +26,10 @@ class News extends Model
 
     public function imageUrl(): string
     {
-        if ($this->image && file_exists(public_path('storage/' . $this->image))) {
-            return asset('storage/' . $this->image);
+        if ($this->image && file_exists(public_path('storage/'.$this->image))) {
+            return asset('storage/'.$this->image);
         }
-        return 'https://picsum.photos/seed/news' . $this->id . '/600/400';
+
+        return 'https://picsum.photos/seed/news'.$this->id.'/600/400';
     }
 }
