@@ -262,7 +262,8 @@
                                     <span
                                         class="text-2xl font-black text-brand-600">{{ Setting::get('stat_graduation', '98%') }}</span>
                                     <p class="text-xs font-semibold text-slate-700 mt-1">
-                                        {{ Setting::get('stat_graduation_label', 'Lulusan Melanjutkan ke PTN') }}</p>
+                                        {{ Setting::get('stat_graduation_label', 'Lulusan Melanjutkan ke SMAN/SMKN') }}
+                                    </p>
                                 </div>
                                 <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-100">
                                     <span
@@ -707,6 +708,160 @@
             </div>
         </div>
     </section>
+
+    {{-- ============================================ --}}
+    {{-- SECTION: GALLERY --}}
+    {{-- ============================================ --}}
+    @if ($albums->count())
+        <section id="gallery" class="py-24 relative overflow-hidden -mx-6 sm:-mx-8 lg:-mx-10 px-6 sm:px-8 lg:px-10">
+            <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                <div
+                    class="absolute top-[10%] right-[5%] w-[480px] h-[480px] bg-purple-100/25 rounded-full blur-[130px]">
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                    <span
+                        class="text-xs font-black uppercase tracking-widest text-purple-600 bg-purple-50 px-3.5 py-1.5 rounded-full">
+                        Galeri Kegiatan
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                        Momen Berharga di {{ $school }}
+                    </h2>
+                    <p class="text-base text-slate-500">
+                        Kilas balik kegiatan, prestasi, dan kebersamaan yang membentuk komunitas kami.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    @foreach ($albums as $album)
+                        <a href="{{ route('gallery.album', $album->slug) }}" wire:navigate
+                            class="group relative overflow-hidden rounded-[24px] border border-slate-100 bg-white shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 block">
+                            <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                                <img src="{{ $album->coverUrl() }}" alt="{{ $album->title }}" loading="lazy"
+                                    decoding="async"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent">
+                            </div>
+                            <div class="absolute bottom-0 inset-x-0 p-5">
+                                <div
+                                    class="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-sm text-purple-700 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm mb-2">
+                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                    </svg>
+                                    {{ $album->photos_count }} foto
+                                </div>
+                                <h3 class="text-white font-bold text-lg leading-tight drop-shadow">{{ $album->title }}
+                                </h3>
+                                @if ($album->description)
+                                    <p class="text-white/85 text-xs mt-1 line-clamp-2 font-light">
+                                        {{ $album->description }}</p>
+                                @endif
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    {{-- ============================================ --}}
+    {{-- SECTION: BROSUR --}}
+    {{-- ============================================ --}}
+    @if ($brochures->count())
+        <section id="brochures" class="py-20 relative overflow-hidden">
+            <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                <div
+                    class="absolute bottom-[10%] left-[2%] w-[420px] h-[420px] bg-amber-100/20 rounded-full blur-[120px]">
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" x-data="{ open: false, current: null }"
+                @keydown.escape.window="open = false">
+                <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
+                    <span
+                        class="text-xs font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-3.5 py-1.5 rounded-full">
+                        Brosur Resmi
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                        Informasi Lengkap Sekolah
+                    </h2>
+                    <p class="text-base text-slate-500">
+                        Klik pada brosur untuk pratinjau lebih besar atau unduh PDF langsung.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-{{ min(4, $brochures->count()) }} gap-5">
+                    @foreach ($brochures as $brochure)
+                        <div class="group">
+                            <button type="button"
+                                @click="open = true; current = {{ json_encode([
+                                    'preview' => $brochure->previewUrl(),
+                                    'title' => $brochure->title,
+                                    'subtitle' => $brochure->subtitle,
+                                    'file' => $brochure->fileUrl(),
+                                ]) }}"
+                                class="w-full block bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl apple-transition hover:-translate-y-1 overflow-hidden">
+                                <div class="aspect-[3/4] overflow-hidden bg-slate-100">
+                                    <img src="{{ $brochure->previewUrl() }}" alt="{{ $brochure->title }}"
+                                        loading="lazy" decoding="async"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <div class="p-3 text-left">
+                                    <h3 class="font-bold text-slate-900 text-sm line-clamp-1">{{ $brochure->title }}
+                                    </h3>
+                                    @if ($brochure->subtitle)
+                                        <p class="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                                            {{ $brochure->subtitle }}</p>
+                                    @endif
+                                </div>
+                            </button>
+                            @if ($brochure->fileUrl())
+                                <a href="{{ $brochure->fileUrl() }}" target="_blank" rel="noopener"
+                                    class="mt-2 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold transition">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                    </svg>
+                                    Unduh PDF
+                                </a>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Lightbox --}}
+                <div x-show="open" x-cloak x-transition.opacity
+                    class="fixed inset-0 z-[60] bg-black/90 backdrop-blur flex items-center justify-center p-4"
+                    @click.self="open = false">
+                    <button type="button" @click="open = false"
+                        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl">✕</button>
+                    <div class="max-w-3xl w-full">
+                        <template x-if="current">
+                            <div class="text-center">
+                                <img :src="current.preview" :alt="current.title"
+                                    class="max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl">
+                                <h3 class="text-white font-bold text-lg mt-4" x-text="current.title"></h3>
+                                <p class="text-white/70 text-sm mt-1" x-text="current.subtitle"></p>
+                                <template x-if="current.file">
+                                    <a :href="current.file" target="_blank" rel="noopener"
+                                        class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold transition">
+                                        Unduh PDF
+                                    </a>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
 
     {{-- ============================================ --}}
     {{-- SECTION 5: CONTACT US --}}

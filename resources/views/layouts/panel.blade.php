@@ -94,6 +94,8 @@
                 ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'home'],
                 ['route' => 'admin.programs', 'label' => 'Program', 'icon' => 'academic-cap'],
                 ['route' => 'admin.news', 'label' => 'Berita', 'icon' => 'newspaper'],
+                ['route' => 'admin.brochures', 'label' => 'Brosur', 'icon' => 'document-text'],
+                ['route' => 'admin.gallery', 'label' => 'Galeri', 'icon' => 'photo'],
                 ['route' => 'admin.teachers', 'label' => 'Guru', 'icon' => 'users'],
                 ['route' => 'admin.ppdb', 'label' => 'PPDB', 'icon' => 'document-text'],
                 ['route' => 'admin.contacts', 'label' => 'Pesan', 'icon' => 'envelope'],

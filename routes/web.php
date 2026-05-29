@@ -16,6 +16,7 @@ Route::get('/program/{slug}', Public\ProgramShow::class)->name('programs.show');
 Route::get('/berita', Public\NewsIndex::class)->name('news.index');
 Route::get('/berita/{slug}', Public\NewsShow::class)->name('news.show');
 Route::get('/tim-guru', Public\Teachers::class)->name('teachers.index');
+Route::get('/galeri/{slug}', Public\AlbumShow::class)->name('gallery.album');
 Route::get('/kontak', Public\Contact::class)->name('contact');
 Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');
 
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/programs', Admin\Programs::class)->name('programs');
     Route::get('/news', Admin\News::class)->name('news');
     Route::get('/teachers', Admin\Teachers::class)->name('teachers');
+    Route::get('/brochures', Admin\Brochures::class)->name('brochures');
+    Route::get('/gallery', Admin\Gallery::class)->name('gallery');
+    Route::get('/gallery/{album}/photos', Admin\AlbumPhotos::class)->name('gallery.photos');
     Route::get('/ppdb', Admin\Ppdb::class)->name('ppdb');
     Route::get('/contacts', Admin\Contacts::class)->name('contacts');
     Route::get('/visits', Admin\Visits::class)->name('visits');
