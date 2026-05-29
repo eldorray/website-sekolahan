@@ -27,6 +27,7 @@ class Settings extends Component
 
     public array $fields = [
         'school_name' => 'Nama Sekolah',
+        'headmaster_name' => 'Nama Kepala Sekolah',
         'tagline' => 'Tagline',
         'hero_welcome' => 'Hero - Sambutan',
         'hero_title_1' => 'Hero - Judul 1',

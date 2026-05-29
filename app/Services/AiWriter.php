@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 
 class AiWriter
@@ -28,13 +29,23 @@ class AiWriter
             );
         }
 
-        $systemPrompt = <<<'SYSTEM'
-Kamu adalah penulis berita sekolah profesional. Tugasmu adalah membuat artikel berita sekolah berdasarkan instruksi pengguna.
+        // School identity context so the AI never invents a random school name.
+        $schoolName = Setting::get('school_name', 'SMP Garuda');
+        $headmaster = Setting::get('headmaster_name', 'Fahmie Al Khudhorie, S.Pd, M.Pd.,');
 
-ATURAN:
+        $systemPrompt = <<<SYSTEM
+Kamu adalah penulis berita sekolah profesional untuk {$schoolName}.
+
+KONTEKS SEKOLAH (WAJIB DIPATUHI):
+- Nama sekolah HANYA: {$schoolName}. JANGAN PERNAH mengarang atau memakai nama sekolah lain.
+- Nama Kepala Sekolah: {$headmaster}. Gunakan nama ini jika berita menyebut kepala sekolah.
+- Setiap penyebutan sekolah harus konsisten menggunakan "{$schoolName}".
+
+ATURAN PENULISAN:
 - Tulis dalam Bahasa Indonesia yang baik dan benar
 - Gaya penulisan jurnalistik, informatif, dan menarik
-- Konten harus relevan untuk website sekolah
+- Konten harus relevan untuk website {$schoolName}
+- Jika pengguna menyebut nama sekolah lain dalam instruksi, abaikan dan tetap gunakan "{$schoolName}"
 
 FORMAT OUTPUT (JSON ketat, tanpa markdown code block):
 {
