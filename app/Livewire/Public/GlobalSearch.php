@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Public;
 
+use App\Models\Brochure;
 use App\Models\GalleryAlbum;
 use App\Models\News;
 use App\Models\Program;
@@ -27,6 +28,16 @@ class GlobalSearch extends Component
         ['label' => 'PPDB / Pendaftaran', 'route' => 'ppdb.create', 'type' => 'Halaman'],
     ];
 
+    /**
+     * Home-page sections (anchors) that have no dedicated route.
+     *
+     * @var array<int, array{label: string, anchor: string, icon: string}>
+     */
+    protected array $sections = [
+        ['label' => 'Brosur', 'anchor' => 'brochures', 'icon' => 'document-text'],
+        ['label' => 'Galeri Kegiatan', 'anchor' => 'gallery', 'icon' => 'photo'],
+    ];
+
     public function getResultsProperty(): array
     {
         $term = trim($this->q);
@@ -45,6 +56,19 @@ class GlobalSearch extends Component
                     'subtitle' => null,
                     'url' => route($page['route']),
                     'icon' => 'document',
+                ];
+            }
+        }
+
+        // Home sections (anchors)
+        foreach ($this->sections as $section) {
+            if (Str::contains(Str::lower($section['label']), Str::lower($term))) {
+                $results[] = [
+                    'type' => 'Halaman',
+                    'title' => $section['label'],
+                    'subtitle' => null,
+                    'url' => route('home').'#'.$section['anchor'],
+                    'icon' => $section['icon'],
                 ];
             }
         }
@@ -101,6 +125,25 @@ class GlobalSearch extends Component
                     'subtitle' => $album->photos()->count().' foto',
                     'url' => route('gallery.album', $album->slug),
                     'icon' => 'photo',
+                ];
+            });
+
+        // Brochures (no dedicated page — link to the home brochures section)
+        Brochure::where('is_active', true)
+            ->where(function ($query) use ($term) {
+                $query->where('title', 'like', "%{$term}%")
+                    ->orWhere('subtitle', 'like', "%{$term}%");
+            })
+            ->orderBy('order')
+            ->limit(5)
+            ->get()
+            ->each(function (Brochure $brochure) use (&$results) {
+                $results[] = [
+                    'type' => 'Brosur',
+                    'title' => $brochure->title,
+                    'subtitle' => $brochure->subtitle ?: 'Brosur sekolah',
+                    'url' => route('home').'#brochures',
+                    'icon' => 'document-text',
                 ];
             });
 
