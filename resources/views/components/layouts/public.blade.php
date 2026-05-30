@@ -152,6 +152,7 @@
                 </nav>
 
                 <div class="flex items-center gap-3">
+                    <livewire:public.global-search />
                     <x-dark-mode-toggle size="md" class="hidden sm:inline-flex" />
                     <a href="{{ route('ppdb.create') }}" wire:navigate
                         class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold apple-transition hover:scale-105 hover:shadow-lg shadow-brand-500/30">
