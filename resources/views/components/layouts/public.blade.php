@@ -36,7 +36,11 @@
     </noscript>
     @vite(['resources/css/app.css'])
     @livewireStyles
-    <x-brand-styles />
+    @php
+        $eventTheme = \App\Models\EventTheme::activeFor(now());
+        $eventBackgroundImageUrl = $eventTheme?->backgroundImageUrl();
+    @endphp
+    <x-brand-styles :event-theme="$eventTheme" />
     @stack('styles')
     <style>
         .liquid-glass {
@@ -110,13 +114,87 @@
         .animate-float {
             animation: float 6s ease-in-out infinite;
         }
+
+        body.has-event-theme .event-background {
+            background-color: var(--event-background);
+            background-image:
+                linear-gradient(135deg, var(--event-background) 0%, #ffffff 78%),
+                repeating-linear-gradient(45deg, color-mix(in srgb, var(--event-primary) 14%, transparent) 0 1px, transparent 1px 18px);
+        }
+
+        body.has-event-theme .event-background-overlay {
+            background: color-mix(in srgb, var(--event-background) 72%, white 28%);
+        }
+
+        body.event-theme-independence .event-background {
+            background-image:
+                linear-gradient(180deg, color-mix(in srgb, var(--event-primary) 24%, white) 0 48%, #ffffff 48% 100%),
+                repeating-linear-gradient(90deg, color-mix(in srgb, var(--event-primary) 18%, transparent) 0 2px, transparent 2px 26px);
+        }
+
+        body.event-theme-ramadan .event-background,
+        body.event-theme-eid-fitr .event-background,
+        body.event-theme-eid-adha .event-background,
+        body.event-theme-islamic-new-year .event-background {
+            background-image:
+                linear-gradient(135deg, var(--event-background) 0%, #ffffff 72%),
+                repeating-linear-gradient(60deg, color-mix(in srgb, var(--event-primary) 12%, transparent) 0 1px, transparent 1px 20px),
+                repeating-linear-gradient(120deg, color-mix(in srgb, var(--event-accent) 10%, transparent) 0 1px, transparent 1px 24px);
+        }
+
+        body.event-theme-maulid .event-background,
+        body.event-theme-isra-miraj .event-background {
+            background-image:
+                linear-gradient(135deg, var(--event-background) 0%, #ffffff 76%),
+                repeating-linear-gradient(135deg, color-mix(in srgb, var(--event-primary) 13%, transparent) 0 1px, transparent 1px 22px);
+        }
+
+        .event-announcement {
+            color: var(--event-secondary);
+            background:
+                linear-gradient(135deg, color-mix(in srgb, var(--event-primary) 94%, black) 0%, var(--event-primary-dark) 100%);
+            box-shadow: 0 18px 50px color-mix(in srgb, var(--event-primary) 22%, transparent);
+        }
+
+        .event-announcement::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.28;
+            background-image:
+                repeating-linear-gradient(45deg, transparent 0 18px, rgba(255, 255, 255, 0.22) 18px 19px);
+            pointer-events: none;
+        }
+
+        .event-pill {
+            background: color-mix(in srgb, var(--event-secondary) 18%, transparent);
+            color: var(--event-secondary);
+            border-color: color-mix(in srgb, var(--event-secondary) 36%, transparent);
+        }
+
+        .event-background-image {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.24;
+            filter: saturate(0.95) contrast(0.92);
+            pointer-events: none;
+        }
+
+        html.dark .event-background-image {
+            opacity: 0.16;
+        }
     </style>
 </head>
 
-<body class="font-sans text-slate-800 antialiased min-h-screen relative">
+<body class="font-sans text-slate-800 antialiased min-h-screen relative {{ $eventTheme ? 'has-event-theme event-theme-'.$eventTheme->style : '' }}">
     <!-- Main Background -->
-    <div class="fixed inset-0 bg-main z-[-1]"></div>
-    <div class="fixed inset-0 bg-slate-100/60 backdrop-blur-xl z-[-1]"></div>
+    <div class="fixed inset-0 bg-main event-background z-[-3]"></div>
+    <div class="fixed inset-0 bg-slate-100/60 backdrop-blur-xl event-background-overlay z-[-2]"></div>
+    @if ($eventBackgroundImageUrl)
+        <div class="fixed inset-0 event-background-image z-[-1]"
+            style="background-image: url('{{ $eventBackgroundImageUrl }}')"></div>
+    @endif
     @php
         $school = \App\Models\Setting::get('school_name', 'Alifia Modern School');
         $tagline = \App\Models\Setting::get('tagline', 'Modern School');
@@ -192,6 +270,27 @@
             </div>
         </div>
     </header>
+
+    @if ($eventTheme)
+        <section class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mb-8 animate-fade-up delay-100">
+            <div class="event-announcement relative overflow-hidden rounded-[2rem] px-5 sm:px-6 py-4 border border-white/30">
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div class="min-w-0">
+                        <div class="text-xs font-bold uppercase tracking-wider opacity-80">Tema Hari Besar</div>
+                        <div class="text-lg sm:text-xl font-extrabold leading-tight">{{ $eventTheme->name }}</div>
+                        @if ($eventTheme->message)
+                            <div class="text-sm font-medium opacity-90 mt-1">{{ $eventTheme->message }}</div>
+                        @endif
+                    </div>
+                    <div class="event-pill inline-flex shrink-0 items-center justify-center rounded-full border px-4 py-2 text-xs font-bold">
+                        {{ $eventTheme->repeat_annually ? $eventTheme->start_date->format('d/m') : $eventTheme->start_date->format('d/m/Y') }}
+                        -
+                        {{ $eventTheme->repeat_annually ? $eventTheme->end_date->format('d/m') : $eventTheme->end_date->format('d/m/Y') }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
 
     <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 animate-fade-up delay-100">
         <div class="liquid-glass rounded-[2rem] p-6 sm:p-8 lg:p-10 shadow-sm border border-white/80 min-h-[60vh] mb-12">
