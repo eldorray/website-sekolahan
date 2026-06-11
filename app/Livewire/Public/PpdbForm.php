@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Public;
 
+use App\Livewire\Concerns\WithSpamProtection;
 use App\Models\PpdbRegistration;
 use Livewire\Component;
 
 class PpdbForm extends Component
 {
+    use WithSpamProtection;
+
     public string $full_name = '';
 
     public string $nickname = '';
@@ -35,6 +38,8 @@ class PpdbForm extends Component
 
     public function submit(): void
     {
+        $this->guardAgainstSpam('ppdb');
+
         $data = $this->validate([
             'full_name' => 'required|string|max:160',
             'nickname' => 'nullable|string|max:60',

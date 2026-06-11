@@ -73,6 +73,11 @@
         <form wire:submit="submit"
             class="liquid-glass rounded-[2rem] p-6 sm:p-8 lg:p-10 border border-white/80 shadow-lg space-y-8">
 
+            <x-honeypot livewire-model="extraFields" />
+            @error('throttle')
+                <div class="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-amber-800 text-sm">{{ $message }}</div>
+            @enderror
+
             {{-- ===== Section: Calon Siswa ===== --}}
             <section>
                 <div class="flex items-center gap-3 mb-5">

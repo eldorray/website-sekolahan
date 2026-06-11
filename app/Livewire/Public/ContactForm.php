@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Public;
 
+use App\Livewire\Concerns\WithSpamProtection;
 use App\Models\ContactMessage;
 use Livewire\Component;
 
 class ContactForm extends Component
 {
+    use WithSpamProtection;
+
     public string $name = '';
 
     public string $email = '';
@@ -21,6 +24,8 @@ class ContactForm extends Component
 
     public function submit(): void
     {
+        $this->guardAgainstSpam('contact');
+
         $data = $this->validate([
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:160',

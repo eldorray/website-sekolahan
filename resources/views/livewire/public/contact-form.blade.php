@@ -1,4 +1,8 @@
 <form wire:submit="submit" class="space-y-6">
+    <x-honeypot livewire-model="extraFields" />
+    @error('throttle')
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-amber-800 text-sm">{{ $message }}</div>
+    @enderror
     @if ($sent)
         <div
             class="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center space-x-3 text-emerald-800">
