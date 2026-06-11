@@ -15,6 +15,14 @@ class GeoIp
      */
     public static function lookup(string $ip): ?array
     {
+        // Privacy opt-out: when disabled, never send the IP to a third party.
+        if (! config('services.geoip.enabled', true)) {
+            return [
+                'country' => 'Unknown',
+                'country_code' => 'XX',
+            ];
+        }
+
         // Skip private/local IPs.
         if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             return [

@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    // GeoIP lookup (ipapi.co). Set GEOIP_ENABLED=false to stop sending
+    // visitor IPs to a third party (footer country flags are then skipped).
+    'geoip' => [
+        'enabled' => env('GEOIP_ENABLED', true),
+    ],
+
 ];
