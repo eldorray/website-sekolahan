@@ -20,7 +20,9 @@ return new class extends Migration
         });
 
         // Migrate existing preview_image into the new table as the cover.
-        Brochure::query()->whereNotNull('preview_image')->each(function (Brochure $b): void {
+        // withoutGlobalScopes() so this keeps working after the model later
+        // gains the SoftDeletes scope (deleted_at doesn't exist yet here).
+        Brochure::withoutGlobalScopes()->whereNotNull('preview_image')->each(function (Brochure $b): void {
             $b->images()->create([
                 'image' => $b->preview_image,
                 'thumbnail' => $b->preview_image,

@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PpdbRegistration extends Model
 {
-    use HasFactory;
+    use Auditable, HasFactory, SoftDeletes;
 
     protected $fillable = [
         'registration_number',
