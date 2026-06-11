@@ -5,6 +5,7 @@ namespace App\Livewire\Guru;
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\News as NewsModel;
+use App\Support\HtmlSanitizer;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -59,6 +60,7 @@ class MyNews extends Component
     {
         $data = $this->validate();
         unset($data['image_file']);
+        $data['content'] = HtmlSanitizer::clean($data['content']);
         $data['user_id'] = auth()->id();
         $data['published_at'] = $this->published_at ?: now()->toDateString();
 

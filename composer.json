@@ -13,7 +13,8 @@
         "intervention/image": "*",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
-        "livewire/livewire": "^4.1"
+        "livewire/livewire": "^4.1",
+        "mews/purifier": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",

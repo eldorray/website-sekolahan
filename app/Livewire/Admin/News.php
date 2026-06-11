@@ -7,6 +7,7 @@ use App\Livewire\Concerns\WithNotifications;
 use App\Models\News as NewsModel;
 use App\Services\AiWriter;
 use App\Services\ImageProcessor;
+use App\Support\HtmlSanitizer;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -78,6 +79,7 @@ class News extends Component
     {
         $data = $this->validate();
         unset($data['image_file']);
+        $data['content'] = HtmlSanitizer::clean($data['content']);
         $data['slug'] = Str::slug($this->title).'-'.Str::random(4);
         $data['user_id'] = auth()->id();
         $data['published_at'] = $this->published_at ?: now()->toDateString();

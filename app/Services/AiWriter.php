@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Setting;
+use App\Support\HtmlSanitizer;
 use Illuminate\Support\Facades\Http;
 
 class AiWriter
@@ -92,7 +93,8 @@ SYSTEM;
             'title' => $data['title'] ?? '',
             'category' => $data['category'] ?? 'ARTIKEL',
             'excerpt' => $data['excerpt'] ?? '',
-            'content' => $data['content'] ?? '',
+            // Sanitize the model-generated HTML before it ever reaches the editor.
+            'content' => HtmlSanitizer::clean($data['content'] ?? ''),
         ];
     }
 }

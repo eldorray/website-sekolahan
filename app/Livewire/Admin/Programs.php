@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\Program;
+use App\Support\HtmlSanitizer;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -65,6 +66,7 @@ class Programs extends Component
     {
         $data = $this->validate();
         unset($data['image_file']);
+        $data['description'] = HtmlSanitizer::clean($data['description'] ?? '');
         $data['slug'] = Str::slug($this->title);
 
         if ($this->image_file) {
