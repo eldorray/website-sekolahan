@@ -55,8 +55,7 @@ class PpdbForm extends Component
             'grade_target' => 'required|string|max:60',
         ]);
 
-        $data['registration_number'] = 'PPDB-'.now()->format('Y').'-'.str_pad((string) (PpdbRegistration::count() + 1), 4, '0', STR_PAD_LEFT);
-        $reg = PpdbRegistration::create($data);
+        $reg = PpdbRegistration::createWithNumber($data);
         $this->registrationNumber = $reg->registration_number;
     }
 
