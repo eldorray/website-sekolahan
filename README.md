@@ -130,17 +130,32 @@ Buka browser dan akses: **http://localhost:8000**
 
 ---
 
-## 🔐 Akun Default
+## 🔐 Akun
 
-Setelah menjalankan `php artisan db:seed`, kamu bisa login dengan akun berikut:
+### Development / demo
 
-| Role | Email | Password |
-|---|---|---|
-| **Admin** | `admin@school.id` | `password` |
-| **Guru** | `fathoni@school.id` | `password` |
+`php artisan db:seed` hanya berjalan di environment **non-produksi** dan membuat akun demo
+(admin `admin@school.id` & beberapa guru). Password seed default `password` dan dapat
+diganti lewat `SEED_PASSWORD` di `.env`:
 
-- **Panel Admin:** http://localhost:8000/admin
-- **Panel Guru:** http://localhost:8000/guru
+```bash
+SEED_PASSWORD=rahasia-kuat php artisan db:seed
+```
+
+### Produksi
+
+Seeder **tidak** membuat akun apa pun di produksi. Buat admin pertama secara interaktif:
+
+```bash
+php artisan admin:create
+# atau non-interaktif:
+php artisan admin:create --name="Nama Admin" --email="admin@sekolah.sch.id"
+```
+
+- **Panel Admin:** `/admin`
+- **Panel Guru:** `/guru`
+
+> ⚠️ Jangan pernah memakai password demo (`password`) di produksi.
 
 ---
 

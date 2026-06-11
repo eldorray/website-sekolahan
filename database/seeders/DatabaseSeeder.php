@@ -14,11 +14,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Never seed demo accounts (with shared/known passwords) in production.
+        // Create the first admin there with: php artisan admin:create
+        if (app()->isProduction()) {
+            $this->command?->warn('Production environment: demo data is NOT seeded. Run `php artisan admin:create` to create an admin.');
+
+            return;
+        }
+
+        // Local/demo seed password — override via SEED_PASSWORD in .env if needed.
+        $seedPassword = env('SEED_PASSWORD', 'password');
+
         // Admin
         $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@school.id',
-            'password' => Hash::make('password'),
+            'password' => Hash::make($seedPassword),
             'role' => 'admin',
             'phone' => '021-1234-5678',
             'position' => 'Administrator',
@@ -38,7 +49,7 @@ class DatabaseSeeder extends Seeder
             User::create([
                 'name' => $t['name'],
                 'email' => $t['email'],
-                'password' => Hash::make('password'),
+                'password' => Hash::make($seedPassword),
                 'role' => 'guru',
                 'position' => $t['position'],
                 'bio' => 'Pendidik berpengalaman yang berdedikasi dalam mengembangkan potensi siswa.',
