@@ -28,6 +28,8 @@ class PpdbRegistration extends Model
         'parent_phone',
         'parent_email',
         'grade_target',
+        'kk_file',
+        'birth_certificate_file',
         'status',
         'notes',
     ];

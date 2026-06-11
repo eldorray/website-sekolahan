@@ -22,6 +22,8 @@ class PpdbCsv
         'Telepon Ortu',
         'Email Ortu',
         'Jenjang',
+        'KK',
+        'Akte',
         'Status',
         'Tanggal Daftar',
     ];
@@ -45,6 +47,8 @@ class PpdbCsv
             $r->parent_phone,
             $r->parent_email,
             $r->grade_target,
+            $r->kk_file ? 'Ada' : '-',
+            $r->birth_certificate_file ? 'Ada' : '-',
             $r->status,
             optional($r->created_at)->format('Y-m-d H:i'),
         ];

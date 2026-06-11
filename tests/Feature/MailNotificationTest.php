@@ -7,7 +7,9 @@ use App\Mail\PpdbAdminAlertMail;
 use App\Mail\PpdbReceivedMail;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -22,6 +24,7 @@ beforeEach(function () {
 
 test('ppdb submission queues registrant confirmation and admin alert', function () {
     Mail::fake();
+    Storage::fake('local');
 
     Livewire::test(PpdbForm::class)
         ->set('full_name', 'Ananda')
@@ -34,6 +37,8 @@ test('ppdb submission queues registrant confirmation and admin alert', function 
         ->set('parent_phone', '0812')
         ->set('parent_email', 'ortu@example.com')
         ->set('grade_target', 'SD Kelas 1')
+        ->set('kk_file', UploadedFile::fake()->create('kk.pdf', 100, 'application/pdf'))
+        ->set('birth_certificate_file', UploadedFile::fake()->image('akte.jpg'))
         ->call('submit')
         ->assertHasNoErrors();
 

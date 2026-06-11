@@ -10,10 +10,11 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class PpdbForm extends Component
 {
-    use WithSpamProtection;
+    use WithFileUploads, WithSpamProtection;
 
     public string $full_name = '';
 
@@ -39,6 +40,10 @@ class PpdbForm extends Component
 
     public string $grade_target = 'SD Kelas 1';
 
+    public $kk_file;
+
+    public $birth_certificate_file;
+
     public ?string $registrationNumber = null;
 
     public function submit(): void
@@ -58,7 +63,17 @@ class PpdbForm extends Component
             'parent_phone' => 'required|string|max:30',
             'parent_email' => 'nullable|email|max:160',
             'grade_target' => 'required|string|max:60',
+            'kk_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'birth_certificate_file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ], [], [
+            'kk_file' => 'Kartu Keluarga',
+            'birth_certificate_file' => 'Akte Kelahiran',
         ]);
+
+        // Store on the private "local" disk — these are personal documents and
+        // must not be publicly accessible.
+        $data['kk_file'] = $this->kk_file->store('ppdb/kk', 'local');
+        $data['birth_certificate_file'] = $this->birth_certificate_file->store('ppdb/akte', 'local');
 
         $reg = PpdbRegistration::createWithNumber($data);
         $this->registrationNumber = $reg->registration_number;

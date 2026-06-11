@@ -185,6 +185,29 @@
                         </div>
                     </div>
 
+                    {{-- Dokumen --}}
+                    <div class="mb-5">
+                        <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Dokumen</h4>
+                        <div class="flex flex-wrap gap-2">
+                            @if ($detail->kk_file)
+                                <a href="{{ route('admin.ppdb.document', [$detail->id, 'kk']) }}" target="_blank"
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 text-brand-700 ring-1 ring-brand-200 px-4 py-2 text-sm font-medium hover:bg-brand-100 transition">
+                                    ⬇ Kartu Keluarga
+                                </a>
+                            @else
+                                <span class="text-sm text-slate-400">KK belum diunggah</span>
+                            @endif
+                            @if ($detail->birth_certificate_file)
+                                <a href="{{ route('admin.ppdb.document', [$detail->id, 'akte']) }}" target="_blank"
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 text-brand-700 ring-1 ring-brand-200 px-4 py-2 text-sm font-medium hover:bg-brand-100 transition">
+                                    ⬇ Akte Kelahiran
+                                </a>
+                            @else
+                                <span class="text-sm text-slate-400">Akte belum diunggah</span>
+                            @endif
+                        </div>
+                    </div>
+
                     {{-- Actions --}}
                     <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2 border-t border-slate-100">
                         <button wire:click="$set('viewing', null)"

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PpdbDocumentController;
 use App\Http\Controllers\SitemapController;
 use App\Livewire\Admin;
 use App\Livewire\Auth\ForgotPassword;
@@ -62,6 +63,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/gallery', Admin\Gallery::class)->name('gallery');
     Route::get('/gallery/{album}/photos', Admin\AlbumPhotos::class)->name('gallery.photos');
     Route::get('/ppdb', Admin\Ppdb::class)->name('ppdb');
+    Route::get('/ppdb/{registration}/document/{type}', PpdbDocumentController::class)->name('ppdb.document');
     Route::get('/contacts', Admin\Contacts::class)->name('contacts');
     Route::get('/visits', Admin\Visits::class)->name('visits');
     Route::get('/users', Admin\Users::class)->name('users');

@@ -5,7 +5,9 @@ use App\Livewire\Public\PpdbForm;
 use App\Models\ContactMessage;
 use App\Models\PpdbRegistration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -61,6 +63,8 @@ test('contact form is rate limited per IP', function () {
 });
 
 test('legitimate ppdb submission is stored', function () {
+    Storage::fake('local');
+
     Livewire::test(PpdbForm::class)
         ->set('full_name', 'Ananda Putra')
         ->set('gender', 'L')
@@ -71,6 +75,8 @@ test('legitimate ppdb submission is stored', function () {
         ->set('mother_name', 'Ibu B')
         ->set('parent_phone', '08123456789')
         ->set('grade_target', 'SD Kelas 1')
+        ->set('kk_file', UploadedFile::fake()->create('kk.pdf', 100, 'application/pdf'))
+        ->set('birth_certificate_file', UploadedFile::fake()->image('akte.jpg'))
         ->call('submit')
         ->assertHasNoErrors();
 

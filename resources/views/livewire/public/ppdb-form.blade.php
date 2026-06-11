@@ -228,6 +228,38 @@
 
             <div class="border-t border-white/60"></div>
 
+            {{-- ===== Dokumen ===== --}}
+            <section>
+                <div class="flex items-center gap-3 mb-5">
+                    <h3 class="font-bold text-slate-900">Dokumen Pendukung</h3>
+                </div>
+                <p class="text-xs text-slate-500 mb-4">Unggah berkas dalam format JPG, PNG, atau PDF (maks. 2 MB per
+                    berkas).</p>
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="label">Kartu Keluarga (KK) <span class="text-red-500">*</span></label>
+                        <input type="file" wire:model="kk_file" accept=".jpg,.jpeg,.png,.pdf"
+                            class="input @error('kk_file') !border-red-300 !bg-red-50/40 @enderror">
+                        <div wire:loading wire:target="kk_file" class="text-xs text-slate-400 mt-1">Mengunggah…</div>
+                        @error('kk_file')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="label">Akte Kelahiran <span class="text-red-500">*</span></label>
+                        <input type="file" wire:model="birth_certificate_file" accept=".jpg,.jpeg,.png,.pdf"
+                            class="input @error('birth_certificate_file') !border-red-300 !bg-red-50/40 @enderror">
+                        <div wire:loading wire:target="birth_certificate_file" class="text-xs text-slate-400 mt-1">
+                            Mengunggah…</div>
+                        @error('birth_certificate_file')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </section>
+
+            <div class="border-t border-white/60"></div>
+
             {{-- ===== Submit ===== --}}
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <p class="text-xs text-slate-500 max-w-md">
