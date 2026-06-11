@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SitemapController;
 use App\Livewire\Admin;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
@@ -21,6 +22,14 @@ Route::get('/tim-guru', Public\Teachers::class)->name('teachers.index');
 Route::get('/galeri/{slug}', Public\AlbumShow::class)->name('gallery.album');
 Route::get('/kontak', Public\Contact::class)->name('contact');
 Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');
+
+// SEO
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', function () {
+    $body = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /guru\n\nSitemap: ".route('sitemap')."\n";
+
+    return response($body, 200, ['Content-Type' => 'text/plain']);
+})->name('robots');
 
 // Auth
 Route::middleware('guest')->group(function () {

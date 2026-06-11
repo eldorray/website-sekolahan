@@ -3,6 +3,7 @@
 namespace App\Livewire\Public;
 
 use App\Models\News;
+use App\Support\Seo;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -29,6 +30,14 @@ class NewsShow extends Component
             ->take(3)
             ->get();
 
-        return view('livewire.public.news-show', compact('news', 'related'));
+        app(Seo::class)->set(
+            title: $news->title,
+            description: $news->excerpt,
+            image: $news->imageUrl(),
+            type: 'article',
+        );
+
+        return view('livewire.public.news-show', compact('news', 'related'))
+            ->title($news->title);
     }
 }

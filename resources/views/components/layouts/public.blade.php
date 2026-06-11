@@ -19,7 +19,23 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? \App\Models\Setting::get('school_name', 'Alifia Modern School') }}</title>
+    @php $seo = app(\App\Support\Seo::class); @endphp
+    <title>{{ $title ?? $seo->fullTitle() }}</title>
+    <meta name="description" content="{{ $seo->metaDescription() }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    {{-- Open Graph / Twitter --}}
+    <meta property="og:site_name" content="{{ $seo->schoolName() }}">
+    <meta property="og:title" content="{{ $seo->fullTitle() }}">
+    <meta property="og:description" content="{{ $seo->metaDescription() }}">
+    <meta property="og:type" content="{{ $seo->type }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    @if ($ogImage = $seo->ogImage())
+        <meta property="og:image" content="{{ $ogImage }}">
+        <meta name="twitter:image" content="{{ $ogImage }}">
+    @endif
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo->fullTitle() }}">
+    <meta name="twitter:description" content="{{ $seo->metaDescription() }}">
     @if ($favicon = \App\Models\Setting::imageUrl('favicon'))
         <link rel="icon" href="{{ $favicon }}">
         <link rel="shortcut icon" href="{{ $favicon }}">

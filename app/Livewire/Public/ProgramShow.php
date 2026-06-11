@@ -3,6 +3,7 @@
 namespace App\Livewire\Public;
 
 use App\Models\Program;
+use App\Support\Seo;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -22,6 +23,12 @@ class ProgramShow extends Component
             ->where('is_active', true)
             ->firstOrFail();
 
-        return view('livewire.public.program-show', compact('program'));
+        app(Seo::class)->set(
+            title: $program->title,
+            description: $program->short_description,
+        );
+
+        return view('livewire.public.program-show', compact('program'))
+            ->title($program->title);
     }
 }
