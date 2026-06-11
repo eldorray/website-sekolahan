@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Admin;
 
+use App\Jobs\GenerateNewsArticle;
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\News as NewsModel;
-use App\Services\AiWriter;
 use App\Services\ImageProcessor;
 use App\Support\HtmlSanitizer;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -47,6 +48,9 @@ class News extends Component
     public string $aiError = '';
 
     public array $aiMessages = [];
+
+    // Cache key for the currently running AI generation job (null = idle).
+    public ?string $aiJobKey = null;
 
     protected function rules(): array
     {
@@ -152,37 +156,64 @@ class News extends Component
         // Add user message to chat
         $this->aiMessages[] = ['role' => 'user', 'text' => $this->aiPrompt];
 
-        try {
-            $provider = $this->aiProvider ?: config('ai.default', 'gemini');
-            $result = AiWriter::generateNews($this->aiPrompt, $provider);
+        // Offload the (slow, external) AI call to a queued job so the request
+        // returns immediately; pollAi() picks up the result.
+        $provider = $this->aiProvider ?: config('ai.default', 'gemini');
+        $this->aiJobKey = 'ai-news:'.Str::uuid()->toString();
+        Cache::put($this->aiJobKey, ['status' => 'pending'], 600);
 
-            // Set category and date directly (no typewriter for these)
-            $this->category = $result['category'];
-            $this->published_at = now()->toDateString();
+        GenerateNewsArticle::dispatch($this->aiJobKey, $this->aiPrompt, $provider);
 
-            // Add AI response to chat
-            $this->aiMessages[] = [
-                'role' => 'ai',
-                'text' => "Berita berhasil dibuat! Judul: \"{$result['title']}\". Lihat efek pengetikan di form.",
-            ];
+        $this->aiPrompt = '';
+    }
 
-            // Trigger typewriter effect via window CustomEvent (more reliable than Livewire event)
-            $payload = json_encode([
-                'title' => $result['title'],
-                'excerpt' => $result['excerpt'],
-                'content' => $result['content'],
-            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-            $this->js("setTimeout(() => window.dispatchEvent(new CustomEvent('ai-typewriter', { detail: {$payload} })), 100)");
-
-            $this->notifySuccess('Berita berhasil di-generate oleh AI!');
-        } catch (\Throwable $e) {
-            $this->aiError = 'Gagal generate: '.$e->getMessage();
-            $this->aiMessages[] = ['role' => 'ai', 'text' => '❌ '.$this->aiError];
-        } finally {
-            $this->aiLoading = false;
-            $this->aiPrompt = '';
+    /**
+     * Polled while a generation job runs. Applies the result (or error) to the
+     * form once the job finishes, then stops the loading state.
+     */
+    public function pollAi(): void
+    {
+        if (! $this->aiJobKey) {
+            return;
         }
+
+        $state = Cache::get($this->aiJobKey);
+
+        if (! $state || ($state['status'] ?? null) === 'pending') {
+            return;
+        }
+
+        Cache::forget($this->aiJobKey);
+        $this->aiJobKey = null;
+        $this->aiLoading = false;
+
+        if (($state['status'] ?? null) === 'error') {
+            $this->aiError = 'Gagal generate: '.($state['message'] ?? 'unknown');
+            $this->aiMessages[] = ['role' => 'ai', 'text' => '❌ '.$this->aiError];
+
+            return;
+        }
+
+        $result = $state['result'];
+
+        // Set category and date directly (no typewriter for these)
+        $this->category = $result['category'];
+        $this->published_at = now()->toDateString();
+
+        $this->aiMessages[] = [
+            'role' => 'ai',
+            'text' => "Berita berhasil dibuat! Judul: \"{$result['title']}\". Lihat efek pengetikan di form.",
+        ];
+
+        $payload = json_encode([
+            'title' => $result['title'],
+            'excerpt' => $result['excerpt'],
+            'content' => $result['content'],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        $this->js("setTimeout(() => window.dispatchEvent(new CustomEvent('ai-typewriter', { detail: {$payload} })), 100)");
+
+        $this->notifySuccess('Berita berhasil di-generate oleh AI!');
     }
 
     public function clearAiChat(): void
@@ -190,6 +221,8 @@ class News extends Component
         $this->aiMessages = [];
         $this->aiError = '';
         $this->aiPrompt = '';
+        $this->aiJobKey = null;
+        $this->aiLoading = false;
     }
 
     public function render()

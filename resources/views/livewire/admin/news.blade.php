@@ -86,6 +86,11 @@
                 <p class="text-xs text-slate-500 mb-3">Deskripsikan berita yang ingin dibuat, AI akan mengisi form
                     secara otomatis.</p>
 
+                {{-- Poll the queued AI job for its result while it runs --}}
+                @if ($aiLoading)
+                    <div wire:poll.1500ms="pollAi"></div>
+                @endif
+
                 {{-- Chat Messages --}}
                 @if (count($aiMessages) > 0)
                     <div
