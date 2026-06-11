@@ -210,6 +210,40 @@ website-sekolahan/
 npm run build
 ```
 
+### ✅ Checklist Keamanan Produksi
+
+Sebelum go-live, pastikan langkah berikut sudah dijalankan:
+
+1. **Environment & debug** — di `.env`:
+   ```env
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://domain-sekolah-anda.sch.id
+   ```
+   `APP_DEBUG=true` di produksi membocorkan stack trace, env, dan query — wajib `false`.
+
+2. **Akun admin** — seeder TIDAK membuat akun di produksi. Buat admin:
+   ```bash
+   php artisan admin:create
+   ```
+   Jangan pernah memakai password demo (`password`).
+
+3. **Cache konfigurasi** (jalankan ulang setiap kali deploy / ubah `.env`):
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+   Untuk membersihkan: `php artisan optimize:clear`.
+
+4. **HTTPS & sesi** — gunakan HTTPS, dan pertimbangkan `SESSION_ENCRYPT=true`.
+
+5. **Queue** — pastikan worker berjalan (`php artisan queue:work`) agar email & job AI terproses.
+
+6. **Privasi** — set `GEOIP_ENABLED=false` jika tidak ingin mengirim IP pengunjung ke pihak ketiga.
+
+7. **Secret** — jangan commit `.env` / API key ke repo.
+
 ---
 
 ## 📄 Lisensi
