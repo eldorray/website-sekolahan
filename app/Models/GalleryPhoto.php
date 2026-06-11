@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GalleryPhoto extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'album_id',
+        'image',
+        'thumbnail',
+        'caption',
+        'order',
+    ];
 
     public function album(): BelongsTo
     {

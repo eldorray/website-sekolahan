@@ -12,7 +12,17 @@ class News extends Model
 
     protected $table = 'news';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'title',
+        'slug',
+        'category',
+        'excerpt',
+        'content',
+        'image',
+        'published_at',
+        'is_published',
+    ];
 
     protected $casts = [
         'is_published' => 'boolean',

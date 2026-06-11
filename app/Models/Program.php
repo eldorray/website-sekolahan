@@ -9,7 +9,16 @@ class Program extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'slug',
+        'icon',
+        'short_description',
+        'description',
+        'image',
+        'order',
+        'is_active',
+    ];
 
     protected $casts = [
         'is_active' => 'boolean',

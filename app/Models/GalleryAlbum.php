@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GalleryAlbum extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'cover_image',
+        'order',
+        'is_published',
+    ];
 
     protected $casts = [
         'is_published' => 'boolean',

@@ -7,7 +7,22 @@ use Illuminate\Support\Carbon;
 
 class EventTheme extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'style',
+        'message',
+        'start_date',
+        'end_date',
+        'primary_color',
+        'secondary_color',
+        'accent_color',
+        'background_color',
+        'background_image',
+        'text_color',
+        'priority',
+        'repeat_annually',
+        'is_active',
+    ];
 
     protected $casts = [
         'start_date' => 'date',

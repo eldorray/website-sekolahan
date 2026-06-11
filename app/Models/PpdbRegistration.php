@@ -12,7 +12,23 @@ class PpdbRegistration extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'registration_number',
+        'full_name',
+        'nickname',
+        'gender',
+        'birthplace',
+        'birthdate',
+        'previous_school',
+        'address',
+        'father_name',
+        'mother_name',
+        'parent_phone',
+        'parent_email',
+        'grade_target',
+        'status',
+        'notes',
+    ];
 
     protected $casts = [
         'birthdate' => 'date',

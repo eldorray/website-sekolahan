@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Cache;
 
 class Setting extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'key',
+        'value',
+    ];
 
     public static function get(string $key, $default = null)
     {

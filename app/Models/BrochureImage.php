@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BrochureImage extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'brochure_id',
+        'image',
+        'thumbnail',
+        'order',
+        'is_cover',
+    ];
 
     protected $casts = [
         'is_cover' => 'boolean',

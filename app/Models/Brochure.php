@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Brochure extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'subtitle',
+        'preview_image',
+        'file',
+        'order',
+        'is_active',
+    ];
 
     protected $casts = [
         'is_active' => 'boolean',
