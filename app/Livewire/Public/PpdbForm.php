@@ -3,7 +3,12 @@
 namespace App\Livewire\Public;
 
 use App\Livewire\Concerns\WithSpamProtection;
+use App\Mail\PpdbAdminAlertMail;
+use App\Mail\PpdbReceivedMail;
 use App\Models\PpdbRegistration;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class PpdbForm extends Component
@@ -57,6 +62,32 @@ class PpdbForm extends Component
 
         $reg = PpdbRegistration::createWithNumber($data);
         $this->registrationNumber = $reg->registration_number;
+
+        $this->sendNotifications($reg);
+    }
+
+    /**
+     * Queue confirmation to the registrant and an alert to the admin.
+     * Mail failures must never block a successful registration.
+     */
+    protected function sendNotifications(PpdbRegistration $reg): void
+    {
+        try {
+            if ($reg->parent_email) {
+                Mail::to($reg->parent_email)->queue(new PpdbReceivedMail($reg));
+            }
+
+            if ($adminEmail = $this->adminEmail()) {
+                Mail::to($adminEmail)->queue(new PpdbAdminAlertMail($reg));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('PPDB notification failed', ['error' => $e->getMessage()]);
+        }
+    }
+
+    protected function adminEmail(): ?string
+    {
+        return Setting::get('email') ?: config('mail.from.address');
     }
 
     public function render()

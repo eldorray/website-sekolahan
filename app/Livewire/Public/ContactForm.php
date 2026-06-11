@@ -3,7 +3,11 @@
 namespace App\Livewire\Public;
 
 use App\Livewire\Concerns\WithSpamProtection;
+use App\Mail\ContactAdminAlertMail;
 use App\Models\ContactMessage;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class ContactForm extends Component
@@ -34,7 +38,16 @@ class ContactForm extends Component
             'message' => 'required|string|max:2000',
         ]);
 
-        ContactMessage::create($data);
+        $contact = ContactMessage::create($data);
+
+        try {
+            if ($adminEmail = (Setting::get('email') ?: config('mail.from.address'))) {
+                Mail::to($adminEmail)->queue(new ContactAdminAlertMail($contact));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Contact notification failed', ['error' => $e->getMessage()]);
+        }
+
         $this->reset(['name', 'email', 'phone', 'subject', 'message']);
         $this->sent = true;
     }
