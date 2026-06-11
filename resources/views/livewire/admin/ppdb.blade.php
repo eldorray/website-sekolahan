@@ -10,6 +10,10 @@
                     <option value="rejected">Ditolak</option>
                 </select>
                 <input wire:model.live.debounce.300ms="search" placeholder="Cari nama / no…" class="input">
+                <button type="button" wire:click="export" class="btn-secondary whitespace-nowrap">
+                    <span wire:loading.remove wire:target="export">⬇ Ekspor CSV</span>
+                    <span wire:loading wire:target="export">Menyiapkan…</span>
+                </button>
             </div>
         </div>
         <div class="overflow-x-auto">

@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Admin;
 
+use App\Exports\PpdbCsv;
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\PpdbRegistration;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class Ppdb extends Component
 {
@@ -31,12 +33,23 @@ class Ppdb extends Component
         $this->notifySuccess('Data pendaftaran berhasil dihapus.');
     }
 
+    public function export(): StreamedResponse
+    {
+        $filename = 'ppdb-'.now()->format('Y-m-d').'.csv';
+
+        return PpdbCsv::download($this->baseQuery(), $filename);
+    }
+
+    protected function baseQuery()
+    {
+        return PpdbRegistration::query()
+            ->when($this->search, fn ($q) => $q->where('full_name', 'like', "%{$this->search}%")->orWhere('registration_number', 'like', "%{$this->search}%"))
+            ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter));
+    }
+
     public function render()
     {
-        $items = PpdbRegistration::query()
-            ->when($this->search, fn ($q) => $q->where('full_name', 'like', "%{$this->search}%")->orWhere('registration_number', 'like', "%{$this->search}%"))
-            ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter))
-            ->latest()->paginate(15);
+        $items = $this->baseQuery()->latest()->paginate(15);
 
         $detail = $this->viewing ? PpdbRegistration::find($this->viewing) : null;
 
