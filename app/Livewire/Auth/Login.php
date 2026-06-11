@@ -31,19 +31,30 @@ class Login extends Component
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($credentials, $this->remember)) {
+        // Verify credentials WITHOUT logging in yet, so we can interpose 2FA.
+        if (! Auth::validate($credentials)) {
             RateLimiter::hit($this->throttleKey(), $this->decaySeconds);
             throw ValidationException::withMessages(['email' => 'Email atau password salah.']);
         }
 
-        $user = Auth::user();
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+
         if (! $user->is_active) {
-            Auth::logout();
             RateLimiter::hit($this->throttleKey(), $this->decaySeconds);
             throw ValidationException::withMessages(['email' => 'Akun tidak aktif.']);
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        // 2FA enabled: defer login to the challenge screen.
+        if ($user->hasTwoFactorEnabled()) {
+            session()->put('login.2fa.user_id', $user->getKey());
+            session()->put('login.2fa.remember', $this->remember);
+
+            return $this->redirectRoute('two-factor.challenge', navigate: true);
+        }
+
+        Auth::login($user, $this->remember);
         request()->session()->regenerate();
 
         return $this->redirectIntended($user->isAdmin() ? route('admin.dashboard') : route('guru.dashboard'), navigate: true);

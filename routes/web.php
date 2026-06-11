@@ -5,6 +5,8 @@ use App\Livewire\Admin;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Auth\TwoFactorChallenge;
+use App\Livewire\Auth\TwoFactorSettings;
 use App\Livewire\Guru;
 use App\Livewire\Public;
 use Illuminate\Http\Request;
@@ -36,6 +38,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
     Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
+    Route::get('/two-factor-challenge', TwoFactorChallenge::class)->name('two-factor.challenge');
 });
 
 Route::post('/logout', function (Request $request) {
@@ -45,6 +48,9 @@ Route::post('/logout', function (Request $request) {
 
     return redirect()->route('home');
 })->middleware('auth')->name('logout');
+
+// Account security (2FA) — available to any authenticated staff member.
+Route::get('/two-factor', TwoFactorSettings::class)->middleware('auth')->name('two-factor.settings');
 
 // Admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {

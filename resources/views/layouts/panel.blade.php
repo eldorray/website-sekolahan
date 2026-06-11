@@ -259,6 +259,11 @@
                                         Profil Saya
                                     </a>
                                 @endif
+                                <a href="{{ route('two-factor.settings') }}" wire:navigate
+                                    class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white/80 rounded-xl apple-transition">
+                                    <x-icon name="cog" class="h-4 w-4 text-slate-500" />
+                                    Keamanan (2FA)
+                                </a>
                                 <a href="{{ route('home') }}" target="_blank"
                                     class="md:hidden flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white/80 rounded-xl apple-transition">
                                     <x-icon name="globe" class="h-4 w-4 text-slate-500" />
