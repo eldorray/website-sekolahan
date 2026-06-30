@@ -236,8 +236,6 @@
     </template>
 
     {{-- Delete Confirm Modal --}}
-    <template x-teleport="body">
-        <x-confirm-delete title="Hapus Pendaftaran?" description="Data pendaftaran PPDB ini akan dihapus permanen."
-            :show="(bool) $confirmingDeleteId" :label="$confirmingDeleteLabel" />
-    </template>
+    <x-confirm-delete title="Hapus Pendaftaran?" description="Data pendaftaran PPDB ini akan dihapus permanen."
+        :show="(bool) $confirmingDeleteId" :label="$confirmingDeleteLabel" />
 </div>
