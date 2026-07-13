@@ -12,8 +12,8 @@
                     d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div class="text-xs">
-                <p class="font-bold">Pesan Terkirim dengan Sukses!</p>
-                <p class="mt-0.5">Terima kasih, tim kami akan segera membalas lewat e-mail.</p>
+                <p class="font-bold">{{ __('Pesan Terkirim dengan Sukses!') }}</p>
+                <p class="mt-0.5">{{ __('Terima kasih, tim kami akan segera membalas lewat e-mail.') }}</p>
             </div>
         </div>
     @endif
@@ -28,7 +28,7 @@
             placeholder=" ">
         <label for="contact-name"
             class="absolute left-5 transition-all duration-300 pointer-events-none text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-brand-600 peer-focus:font-bold top-2 text-brand-600 font-bold">
-            Nama Lengkap Anda
+            {{ __('Nama Lengkap Anda') }}
         </label>
         @error('name')
             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
@@ -45,7 +45,7 @@
             placeholder=" ">
         <label for="contact-email"
             class="absolute left-5 transition-all duration-300 pointer-events-none text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-brand-600 peer-focus:font-bold top-2 text-brand-600 font-bold">
-            Alamat Email Aktif
+            {{ __('Alamat Email Aktif') }}
         </label>
         @error('email')
             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
@@ -62,7 +62,7 @@
                 placeholder=" ">
             <label for="contact-phone"
                 class="absolute left-5 transition-all duration-300 pointer-events-none text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-brand-600 peer-focus:font-bold top-2 text-brand-600 font-bold">
-                No. Telepon (Opsional)
+                {{ __('No. Telepon (Opsional)') }}
             </label>
         </div>
 
@@ -75,7 +75,7 @@
                 placeholder=" ">
             <label for="contact-subject"
                 class="absolute left-5 transition-all duration-300 pointer-events-none text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-brand-600 peer-focus:font-bold top-2 text-brand-600 font-bold">
-                Subjek Pertanyaan
+                {{ __('Subjek Pertanyaan') }}
             </label>
             @error('subject')
                 <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
@@ -93,7 +93,7 @@
             placeholder=" "></textarea>
         <label for="contact-message"
             class="absolute left-5 transition-all duration-300 pointer-events-none text-xs peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-focus:top-2 peer-focus:text-xs peer-focus:text-brand-600 peer-focus:font-bold top-2 text-brand-600 font-bold">
-            Tulis Detail Pesan Anda...
+            {{ __('Tulis Detail Pesan Anda...') }}
         </label>
         @error('message')
             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
@@ -104,7 +104,7 @@
     <button type="submit"
         class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
         wire:loading.attr="disabled">
-        <span wire:loading.remove>Kirim Pesan</span>
+        <span wire:loading.remove>{{ __('Kirim Pesan') }}</span>
         <svg wire:loading.remove class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"

@@ -10,9 +10,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                 </svg>
             </div>
-            <h3 class="text-3xl font-extrabold text-slate-900 animate-fade-up delay-100">Pendaftaran Berhasil!</h3>
-            <p class="text-slate-600 mt-2 animate-fade-up delay-200">Selamat, data Anda telah kami terima. Berikut nomor
-                pendaftaran Anda:</p>
+            <h3 class="text-3xl font-extrabold text-slate-900 animate-fade-up delay-100">{{ __('Pendaftaran Berhasil!') }}</h3>
+            <p class="text-slate-600 mt-2 animate-fade-up delay-200">{{ __('Selamat, data Anda telah kami terima. Berikut nomor pendaftaran Anda:') }}</p>
 
             <div
                 class="mt-6 inline-flex items-center gap-3 rounded-2xl bg-brand-50 border-2 border-dashed border-brand-300 px-6 py-4 animate-fade-up delay-300">
@@ -26,8 +25,7 @@
             </div>
 
             <p class="text-xs text-slate-500 mt-4 max-w-md mx-auto animate-fade-up delay-300">
-                Simpan nomor pendaftaran ini sebagai bukti. Tim kami akan menghubungi Anda melalui kontak yang
-                didaftarkan untuk proses selanjutnya.
+                {{ __('Simpan nomor pendaftaran ini sebagai bukti. Tim kami akan menghubungi Anda melalui kontak yang didaftarkan untuk proses selanjutnya.') }}
             </p>
 
             <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center animate-fade-up delay-300">
@@ -37,11 +35,11 @@
                         stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
-                    Ke Beranda
+                    {{ __('Ke Beranda') }}
                 </a>
                 <a href="{{ route('contact') }}" wire:navigate
                     class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition shadow-md shadow-brand-500/30">
-                    Hubungi Tim PPDB
+                    {{ __('Hubungi Tim PPDB') }}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -60,7 +58,7 @@
                         d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                 </svg>
                 <div class="text-sm">
-                    <div class="font-semibold text-red-800">Mohon perbaiki data berikut:</div>
+                    <div class="font-semibold text-red-800">{{ __('Mohon perbaiki data berikut:') }}</div>
                     <ul class="mt-1 list-disc list-inside text-red-600 text-xs space-y-0.5">
                         @foreach ($errors->all() as $err)
                             <li>{{ $err }}</li>
@@ -90,43 +88,43 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 text-lg">Data Calon Siswa</h3>
-                        <p class="text-xs text-slate-500">Informasi pribadi calon peserta didik.</p>
+                        <h3 class="font-bold text-slate-900 text-lg">{{ __('Data Calon Siswa') }}</h3>
+                        <p class="text-xs text-slate-500">{{ __('Informasi pribadi calon peserta didik.') }}</p>
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div class="sm:col-span-2">
-                        <label class="label">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Nama Lengkap') }} <span class="text-red-500">*</span></label>
                         <input wire:model="full_name"
                             class="input @error('full_name') !border-red-300 !bg-red-50/40 @enderror"
-                            placeholder="Sesuai akta kelahiran">
+                            placeholder="{{ __('Sesuai akta kelahiran') }}">
                         @error('full_name')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <label class="label">Nama Panggilan</label>
-                        <input wire:model="nickname" class="input" placeholder="Mis. Naufal">
+                        <label class="label">{{ __('Nama Panggilan') }}</label>
+                        <input wire:model="nickname" class="input" placeholder="{{ __('Mis. Naufal') }}">
                     </div>
                     <div>
-                        <label class="label">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Jenis Kelamin') }} <span class="text-red-500">*</span></label>
                         <select wire:model="gender" class="select">
-                            <option value="L">Laki-laki</option>
-                            <option value="P">Perempuan</option>
+                            <option value="L">{{ __('Laki-laki') }}</option>
+                            <option value="P">{{ __('Perempuan') }}</option>
                         </select>
                     </div>
                     <div>
-                        <label class="label">Tempat Lahir <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Tempat Lahir') }} <span class="text-red-500">*</span></label>
                         <input wire:model="birthplace"
                             class="input @error('birthplace') !border-red-300 !bg-red-50/40 @enderror"
-                            placeholder="Mis. Jakarta">
+                            placeholder="{{ __('Mis. Jakarta') }}">
                         @error('birthplace')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <label class="label">Tanggal Lahir <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Tanggal Lahir') }} <span class="text-red-500">*</span></label>
                         <input type="date" wire:model="birthdate"
                             class="input @error('birthdate') !border-red-300 !bg-red-50/40 @enderror">
                         @error('birthdate')
@@ -134,18 +132,18 @@
                         @enderror
                     </div>
                     <div class="sm:col-span-2">
-                        <label class="label">Jenjang yang Dituju <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Jenjang yang Dituju') }} <span class="text-red-500">*</span></label>
                         <select wire:model="grade_target" class="select">
-                            <optgroup label="Taman Kanak-kanak">
+                            <optgroup label="{{ __('Taman Kanak-kanak') }}">
                                 <option>TK A</option>
                                 <option>TK B</option>
                             </optgroup>
-                            <optgroup label="Sekolah Dasar">
+                            <optgroup label="{{ __('Sekolah Dasar') }}">
                                 <option>SD Kelas 1</option>
                                 <option>SD Kelas 2</option>
                                 <option>SD Kelas 3</option>
                             </optgroup>
-                            <optgroup label="Sekolah Menengah">
+                            <optgroup label="{{ __('Sekolah Menengah') }}">
                                 <option>SMP Kelas 7</option>
                                 <option>SMP Kelas 8</option>
                                 <option>SMA Kelas 10</option>
@@ -153,15 +151,15 @@
                         </select>
                     </div>
                     <div class="sm:col-span-2">
-                        <label class="label">Asal Sekolah</label>
+                        <label class="label">{{ __('Asal Sekolah') }}</label>
                         <input wire:model="previous_school" class="input"
-                            placeholder="Kosongkan jika belum pernah sekolah">
+                            placeholder="{{ __('Kosongkan jika belum pernah sekolah') }}">
                     </div>
                     <div class="sm:col-span-2">
-                        <label class="label">Alamat Rumah <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Alamat Rumah') }} <span class="text-red-500">*</span></label>
                         <textarea wire:model="address" rows="3"
                             class="textarea @error('address') !border-red-300 !bg-red-50/40 @enderror"
-                            placeholder="Alamat lengkap beserta kode pos"></textarea>
+                            placeholder="{{ __('Alamat lengkap beserta kode pos') }}"></textarea>
                         @error('address')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -183,14 +181,14 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 text-lg">Data Orang Tua / Wali</h3>
-                        <p class="text-xs text-slate-500">Kontak yang akan kami hubungi untuk konfirmasi.</p>
+                        <h3 class="font-bold text-slate-900 text-lg">{{ __('Data Orang Tua / Wali') }}</h3>
+                        <p class="text-xs text-slate-500">{{ __('Kontak yang akan kami hubungi untuk konfirmasi.') }}</p>
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="label">Nama Ayah <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Nama Ayah') }} <span class="text-red-500">*</span></label>
                         <input wire:model="father_name"
                             class="input @error('father_name') !border-red-300 !bg-red-50/40 @enderror">
                         @error('father_name')
@@ -198,7 +196,7 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="label">Nama Ibu <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Nama Ibu') }} <span class="text-red-500">*</span></label>
                         <input wire:model="mother_name"
                             class="input @error('mother_name') !border-red-300 !bg-red-50/40 @enderror">
                         @error('mother_name')
@@ -206,10 +204,10 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="label">No. Telepon / WhatsApp <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('No. Telepon / WhatsApp') }} <span class="text-red-500">*</span></label>
                         <input wire:model="parent_phone"
                             class="input @error('parent_phone') !border-red-300 !bg-red-50/40 @enderror"
-                            placeholder="Contoh: 0812xxxxxxxx">
+                            placeholder="{{ __('Contoh: 0812xxxxxxxx') }}">
                         @error('parent_phone')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -218,7 +216,7 @@
                         <label class="label">Email</label>
                         <input type="email" wire:model="parent_email"
                             class="input @error('parent_email') !border-red-300 !bg-red-50/40 @enderror"
-                            placeholder="nama@email.com">
+                            placeholder="{{ __('nama@email.com') }}">
                         @error('parent_email')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -231,26 +229,25 @@
             {{-- ===== Dokumen ===== --}}
             <section>
                 <div class="flex items-center gap-3 mb-5">
-                    <h3 class="font-bold text-slate-900">Dokumen Pendukung</h3>
+                    <h3 class="font-bold text-slate-900">{{ __('Dokumen Pendukung') }}</h3>
                 </div>
-                <p class="text-xs text-slate-500 mb-4">Unggah berkas dalam format JPG, PNG, atau PDF (maks. 2 MB per
-                    berkas).</p>
+                <p class="text-xs text-slate-500 mb-4">{{ __('Unggah berkas dalam format JPG, PNG, atau PDF (maks. 2 MB per berkas).') }}</p>
                 <div class="grid sm:grid-cols-2 gap-5">
                     <div>
-                        <label class="label">Kartu Keluarga (KK) <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Kartu Keluarga (KK)') }} <span class="text-red-500">*</span></label>
                         <input type="file" wire:model="kk_file" accept=".jpg,.jpeg,.png,.pdf"
                             class="input @error('kk_file') !border-red-300 !bg-red-50/40 @enderror">
-                        <div wire:loading wire:target="kk_file" class="text-xs text-slate-400 mt-1">Mengunggah…</div>
+                        <div wire:loading wire:target="kk_file" class="text-xs text-slate-400 mt-1">{{ __('Mengunggah…') }}</div>
                         @error('kk_file')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <label class="label">Akte Kelahiran <span class="text-red-500">*</span></label>
+                        <label class="label">{{ __('Akte Kelahiran') }} <span class="text-red-500">*</span></label>
                         <input type="file" wire:model="birth_certificate_file" accept=".jpg,.jpeg,.png,.pdf"
                             class="input @error('birth_certificate_file') !border-red-300 !bg-red-50/40 @enderror">
                         <div wire:loading wire:target="birth_certificate_file" class="text-xs text-slate-400 mt-1">
-                            Mengunggah…</div>
+                            {{ __('Mengunggah…') }}</div>
                         @error('birth_certificate_file')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -263,12 +260,12 @@
             {{-- ===== Submit ===== --}}
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <p class="text-xs text-slate-500 max-w-md">
-                    Dengan mengirimkan formulir ini, Anda menyetujui data tersebut diproses untuk keperluan PPDB.
+                    {{ __('Dengan mengirimkan formulir ini, Anda menyetujui data tersebut diproses untuk keperluan PPDB.') }}
                 </p>
                 <button type="submit" wire:loading.attr="disabled" wire:target="submit"
                     class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 text-white text-sm font-semibold shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40 hover:-translate-y-0.5 transition disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0">
                     <span wire:loading.remove wire:target="submit" class="inline-flex items-center gap-2">
-                        Kirim Pendaftaran
+                        {{ __('Kirim Pendaftaran') }}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -283,7 +280,7 @@
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z">
                             </path>
                         </svg>
-                        Mengirim...
+                        {{ __('Mengirim...') }}
                     </span>
                 </button>
             </div>

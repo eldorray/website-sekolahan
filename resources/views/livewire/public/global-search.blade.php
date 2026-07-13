@@ -34,7 +34,7 @@
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
-        <span class="hidden sm:inline">Cari</span>
+        <span class="hidden sm:inline">{{ __('Cari') }}</span>
         <span
             class="hidden lg:inline-flex items-center gap-0.5 ml-1 text-[10px] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5">
             ⌘K
@@ -72,7 +72,7 @@
                             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
                     <input x-ref="searchInput" type="text" wire:model.live.debounce.250ms="q"
-                        @input="activeIndex = 0" placeholder="Cari berita, program, galeri, halaman…"
+                        @input="activeIndex = 0" placeholder="{{ __('Cari berita, program, galeri, halaman…') }}"
                         class="w-full bg-transparent py-4 text-base text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none">
                     <div wire:loading wire:target="q" class="shrink-0">
                         <div class="w-4 h-4 border-2 border-brand-500 border-t-transparent rounded-full animate-spin">
@@ -94,14 +94,14 @@
                                         d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                 </svg>
                             </div>
-                            <p class="text-sm text-slate-400">Ketik minimal 2 huruf untuk mencari.</p>
-                            <p class="text-xs text-slate-300 mt-1">Berita · Program · Galeri · Halaman</p>
+                            <p class="text-sm text-slate-400">{{ __('Ketik minimal 2 huruf untuk mencari.') }}</p>
+                            <p class="text-xs text-slate-300 mt-1">{{ __('Berita · Program · Galeri · Halaman') }}</p>
                         </div>
                     @elseif (count($results) === 0)
                         <div class="px-4 py-10 text-center">
-                            <p class="text-sm text-slate-500 dark:text-slate-300">Tidak ada hasil untuk "<span
+                            <p class="text-sm text-slate-500 dark:text-slate-300">{{ __('Tidak ada hasil untuk') }} "<span
                                     class="font-semibold">{{ $q }}</span>".</p>
-                            <p class="text-xs text-slate-400 mt-1">Coba kata kunci lain.</p>
+                            <p class="text-xs text-slate-400 mt-1">{{ __('Coba kata kunci lain.') }}</p>
                         </div>
                     @else
                         @foreach ($results as $i => $r)
@@ -135,12 +135,12 @@
                             class="font-sans border border-slate-200 dark:border-slate-600 rounded px-1.5 py-0.5">↑</kbd>
                         <kbd
                             class="font-sans border border-slate-200 dark:border-slate-600 rounded px-1.5 py-0.5">↓</kbd>
-                        navigasi
+                        {{ __('navigasi') }}
                     </span>
                     <span class="flex items-center gap-2">
                         <kbd
                             class="font-sans border border-slate-200 dark:border-slate-600 rounded px-1.5 py-0.5">↵</kbd>
-                        buka
+                        {{ __('buka') }}
                     </span>
                 </div>
             </div>

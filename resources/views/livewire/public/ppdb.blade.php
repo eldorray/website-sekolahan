@@ -26,24 +26,23 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
                         </svg>
-                        <span>Pendaftaran Online {{ $ppdbYear }}</span>
+                        <span>{{ __('Pendaftaran Online :year', ['year' => $ppdbYear]) }}</span>
                     </div>
 
                     <h1
                         class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1] animate-fade-up delay-100">
-                        Daftar
+                        {{ __('Daftar') }}
                         <span class="text-brand-600 relative inline-block">
                             PPDB
                             <span class="absolute bottom-1 left-0 w-full h-3 bg-brand-100/85 -z-10 rounded-full"></span>
                         </span>
-                        Sekarang
+                        {{ __('Sekarang') }}
                     </h1>
 
                     <p
                         class="text-base sm:text-lg text-slate-600 leading-relaxed font-light max-w-xl mx-auto lg:mx-0 animate-fade-up delay-200">
-                        Bergabunglah dengan keluarga besar <span
-                            class="font-semibold text-slate-800">{{ $school }}</span>. Lengkapi formulir berikut
-                        dan tim kami akan menghubungi Anda untuk proses selanjutnya.
+                        {{ __('Bergabunglah dengan keluarga besar') }} <span
+                            class="font-semibold text-slate-800">{{ $school }}</span>. {{ __('Lengkapi formulir berikut dan tim kami akan menghubungi Anda untuk proses selanjutnya.') }}
                     </p>
 
                     {{-- Mini stats --}}
@@ -51,17 +50,17 @@
                         <div class="liquid-glass rounded-2xl p-4 text-center border border-white/80">
                             <div class="text-2xl font-extrabold text-brand-600">
                                 {{ Setting::get('stat_students', '1200+') }}</div>
-                            <div class="text-[11px] font-semibold text-slate-500 mt-1">Siswa Aktif</div>
+                            <div class="text-[11px] font-semibold text-slate-500 mt-1">{{ __('Siswa Aktif') }}</div>
                         </div>
                         <div class="liquid-glass rounded-2xl p-4 text-center border border-white/80">
                             <div class="text-2xl font-extrabold text-brand-600">{{ Setting::get('accreditation', 'A') }}
                             </div>
-                            <div class="text-[11px] font-semibold text-slate-500 mt-1">Akreditasi</div>
+                            <div class="text-[11px] font-semibold text-slate-500 mt-1">{{ __('Akreditasi') }}</div>
                         </div>
                         <div class="liquid-glass rounded-2xl p-4 text-center border border-white/80">
                             <div class="text-2xl font-extrabold text-brand-600">
                                 {{ Setting::get('stat_graduation', '98%') }}</div>
-                            <div class="text-[11px] font-semibold text-slate-500 mt-1">Lulusan PTN</div>
+                            <div class="text-[11px] font-semibold text-slate-500 mt-1">{{ __('Lulusan PTN') }}</div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +78,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <div class="text-xs font-semibold text-brand-600 uppercase tracking-widest">Tahun Ajaran
+                                <div class="text-xs font-semibold text-brand-600 uppercase tracking-widest">{{ __('Tahun Ajaran') }}
                                 </div>
                                 <div class="text-xl font-bold text-slate-900">{{ $ppdbYear }}</div>
                             </div>
@@ -98,8 +97,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div class="font-semibold text-slate-900">Pendaftaran Gratis</div>
-                                    <div class="text-xs text-slate-500">Tidak ada biaya formulir</div>
+                                    <div class="font-semibold text-slate-900">{{ __('Pendaftaran Gratis') }}</div>
+                                    <div class="text-xs text-slate-500">{{ __('Tidak ada biaya formulir') }}</div>
                                 </div>
                             </li>
                             <li class="flex items-start gap-3">
@@ -112,8 +111,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div class="font-semibold text-slate-900">Proses Cepat</div>
-                                    <div class="text-xs text-slate-500">Konfirmasi 1x24 jam kerja</div>
+                                    <div class="font-semibold text-slate-900">{{ __('Proses Cepat') }}</div>
+                                    <div class="text-xs text-slate-500">{{ __('Konfirmasi 1x24 jam kerja') }}</div>
                                 </div>
                             </li>
                             <li class="flex items-start gap-3">
@@ -126,8 +125,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div class="font-semibold text-slate-900">Dukungan Penuh</div>
-                                    <div class="text-xs text-slate-500">Tim PPDB siap membantu</div>
+                                    <div class="font-semibold text-slate-900">{{ __('Dukungan Penuh') }}</div>
+                                    <div class="text-xs text-slate-500">{{ __('Tim PPDB siap membantu') }}</div>
                                 </div>
                             </li>
                         </ul>
@@ -144,8 +143,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Butuh
-                                    Bantuan?</div>
+                                <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">{{ __('Butuh Bantuan?') }}</div>
                                 <div class="font-bold text-slate-900">{{ Setting::get('phone', '-') }}</div>
                             </div>
                         </div>
@@ -163,10 +161,10 @@
             <div class="text-center mb-10">
                 <span
                     class="text-xs font-black uppercase tracking-widest text-brand-600 bg-brand-50 px-3.5 py-1.5 rounded-full">
-                    Alur Pendaftaran
+                    {{ __('Alur Pendaftaran') }}
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-3">
-                    Empat Langkah Mudah
+                    {{ __('Empat Langkah Mudah') }}
                 </h2>
             </div>
 
@@ -174,26 +172,26 @@
                 @php
                     $steps = [
                         [
-                            'title' => 'Isi Formulir',
-                            'desc' => 'Lengkapi data calon siswa & orang tua di halaman ini.',
+                            'title' => __('Isi Formulir'),
+                            'desc' => __('Lengkapi data calon siswa & orang tua di halaman ini.'),
                             'icon' =>
                                 'M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zM19.5 19.5h-15',
                         ],
                         [
-                            'title' => 'Konfirmasi',
-                            'desc' => 'Tim kami akan menghubungi via telepon/email.',
+                            'title' => __('Konfirmasi'),
+                            'desc' => __('Tim kami akan menghubungi via telepon/email.'),
                             'icon' =>
                                 'M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.839 2.51l-4.66-2.51m0 0l-1.023-.55a2.25 2.25 0 00-2.134 0l-1.022.55m0 0l-4.661 2.51m16.5 1.615a2.25 2.25 0 01-1.183 1.98l-6.478 3.488m0 0a2.25 2.25 0 01-2.134 0m2.134 0l-7.5-4.039m0 0l-1.022.55a2.25 2.25 0 01-2.134 0l-1.022-.55m0 0L2.25 13.605',
                         ],
                         [
-                            'title' => 'Tes & Wawancara',
-                            'desc' => 'Mengikuti tes seleksi sesuai jenjang.',
+                            'title' => __('Tes & Wawancara'),
+                            'desc' => __('Mengikuti tes seleksi sesuai jenjang.'),
                             'icon' =>
                                 'M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z',
                         ],
                         [
-                            'title' => 'Daftar Ulang',
-                            'desc' => 'Lengkapi administrasi & jadi bagian ' . $school . '.',
+                            'title' => __('Daftar Ulang'),
+                            'desc' => __('Lengkapi administrasi & jadi bagian :school.', ['school' => $school]),
                             'icon' =>
                                 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z',
                         ],
@@ -229,13 +227,13 @@
             <div class="text-center mb-8">
                 <span
                     class="text-xs font-black uppercase tracking-widest text-brand-600 bg-brand-50 px-3.5 py-1.5 rounded-full">
-                    Formulir Pendaftaran
+                    {{ __('Formulir Pendaftaran') }}
                 </span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-3">
-                    Mulai Pendaftaran
+                    {{ __('Mulai Pendaftaran') }}
                 </h2>
                 <p class="text-sm text-slate-500 mt-2 max-w-lg mx-auto">
-                    Lengkapi semua data yang diperlukan dengan benar. Kami akan memproses dan menghubungi Anda segera.
+                    {{ __('Lengkapi semua data yang diperlukan dengan benar. Kami akan memproses dan menghubungi Anda segera.') }}
                 </p>
             </div>
 
