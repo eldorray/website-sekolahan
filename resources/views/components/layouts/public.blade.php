@@ -247,6 +247,7 @@
 
                 <div class="flex items-center gap-3">
                     <livewire:public.global-search />
+                    <x-language-switcher class="hidden sm:inline-flex" />
                     <x-dark-mode-toggle size="md" class="hidden sm:inline-flex" />
                     <a href="{{ route('ppdb.create') }}" wire:navigate
                         class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-500 to-brand-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold apple-transition hover:scale-105 hover:shadow-lg shadow-brand-500/30">
@@ -283,6 +284,9 @@
                 <a href="{{ route('ppdb.create') }}" wire:navigate @click="open = false"
                     class="block mt-2 rounded-xl bg-brand-500 px-4 py-3 text-sm font-semibold text-white text-center shadow-md">PPDB
                     {{ \App\Models\Setting::get('ppdb_year', '2026') }}</a>
+                <div class="mt-3 pt-3 border-t border-white/60">
+                    <x-language-switcher :stacked="true" />
+                </div>
             </div>
         </div>
     </header>
