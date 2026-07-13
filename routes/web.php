@@ -26,6 +26,14 @@ Route::get('/galeri/{slug}', Public\AlbumShow::class)->name('gallery.album');
 Route::get('/kontak', Public\Contact::class)->name('contact');
 Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');
 
+// Language switch (chrome i18n). Whitelisted locales only.
+Route::get('/lang/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['id', 'en'], true), 404);
+    session(['locale' => $locale]);
+
+    return back();
+})->name('locale.switch');
+
 // SEO
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/robots.txt', function () {

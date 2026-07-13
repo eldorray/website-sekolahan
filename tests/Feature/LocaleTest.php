@@ -21,3 +21,13 @@ test('invalid session locale falls back to default', function () {
     withSession(['locale' => 'zz'])->get('/')->assertOk();
     expect(app()->getLocale())->toBe('id');
 });
+
+test('switch route sets session locale and redirects back', function () {
+    get('/lang/en', ['referer' => url('/tentang-kami')])
+        ->assertRedirect('/tentang-kami')
+        ->assertSessionHas('locale', 'en');
+});
+
+test('switch route rejects unsupported locale', function () {
+    get('/lang/zz')->assertNotFound();
+});
