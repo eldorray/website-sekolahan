@@ -1,3 +1,21 @@
 {
-    "Ganti bahasa ke :lang": "Switch language to :lang"
+    "Ganti bahasa ke :lang": "Switch language to :lang",
+    "Beranda": "Home",
+    "Tentang Kami": "About Us",
+    "Program": "Programs",
+    "Berita": "News",
+    "Guru": "Teachers",
+    "Kontak": "Contact",
+    "Tema Hari Besar": "Special Occasion",
+    "Navigasi": "Navigation",
+    "Ikuti Kami": "Follow Us",
+    "Login Staff": "Staff Login",
+    "Sekarang aktif": "Currently active",
+    "Hari Ini": "Today",
+    "Pengunjung": "Visitors",
+    "Pengunjung unik": "Unique visitors",
+    "Total kunjungan halaman": "Total page views",
+    "Pengunjung dari": "Visitors from",
+    "Belum ada data pengunjung dari negara mana pun.": "No visitor data from any country yet.",
+    "Kembali ke atas": "Back to top"
 }

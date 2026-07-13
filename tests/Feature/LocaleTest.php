@@ -31,3 +31,11 @@ test('switch route sets session locale and redirects back', function () {
 test('switch route rejects unsupported locale', function () {
     get('/lang/zz')->assertNotFound();
 });
+
+test('nav renders english when locale is en', function () {
+    withSession(['locale' => 'en'])->get('/')->assertOk()->assertSee('Home');
+});
+
+test('nav renders indonesian by default', function () {
+    get('/')->assertOk()->assertSee('Beranda');
+});
