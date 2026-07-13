@@ -167,11 +167,11 @@
                         class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                         <a href="{{ route('ppdb.create') }}" wire:navigate
                             class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-semibold px-8 py-4 rounded-full text-base apple-transition hover:shadow-xl hover:shadow-brand-500/20 transform hover:-translate-y-0.5 text-center">
-                            Mulai Pendaftaran
+                            {{ __('Mulai Pendaftaran') }}
                         </a>
                         <a href="#about"
                             class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 font-semibold px-8 py-4 rounded-full text-base border border-slate-200/85 shadow-sm apple-transition flex items-center justify-center space-x-2 transform hover:-translate-y-0.5">
-                            <span>Eksplorasi Profil</span>
+                            <span>{{ __('Eksplorasi Profil') }}</span>
                             <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                 stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -191,7 +191,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold">Akreditasi</h4>
+                                <h4 class="text-sm font-bold">{{ __('Akreditasi') }}</h4>
                                 <p class="text-xs text-slate-500">{{ Setting::get('accreditation', 'Unggul (A)') }}</p>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                             </div>
                             <div>
                                 <h4 class="text-sm font-bold">{{ Setting::get('stat_students', '1200+') }}</h4>
-                                <p class="text-xs text-slate-500">Siswa Aktif</p>
+                                <p class="text-xs text-slate-500">{{ __('Siswa Aktif') }}</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -219,7 +219,7 @@
                             </div>
                             <div>
                                 <h4 class="text-sm font-bold">{{ Setting::get('stat_programs', '15+') }}</h4>
-                                <p class="text-xs text-slate-500">Program Unggulan</p>
+                                <p class="text-xs text-slate-500">{{ __('Program Unggulan') }}</p>
                             </div>
                         </div>
                     </div>
@@ -282,7 +282,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                             </svg>
-                            <span class="text-xs font-bold text-amber-800">Kreatif</span>
+                            <span class="text-xs font-bold text-amber-800">{{ __('Kreatif') }}</span>
                         </div>
 
                         <div
@@ -298,7 +298,7 @@
                                     class="w-8 h-8 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center text-[10px] text-white font-bold">
                                     3</div>
                             </div>
-                            <span class="text-xs font-bold text-red-800">Program Juara</span>
+                            <span class="text-xs font-bold text-red-800">{{ __('Program Juara') }}</span>
                         </div>
                     </div>
                 </div>
@@ -323,10 +323,10 @@
             <div data-aos="zoom-out-up" class="text-center max-w-3xl mx-auto mb-16 space-y-4">
                 <span
                     class="text-xs font-black uppercase tracking-widest text-brand-600 bg-brand-50 px-3.5 py-1.5 rounded-full">
-                    Pilar Pendidikan Kami
+                    {{ __('Pilar Pendidikan Kami') }}
                 </span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                    Membangun Fondasi Masa Depan yang Kokoh
+                    {{ __('Membangun Fondasi Masa Depan yang Kokoh') }}
                 </h2>
                 <p class="text-base text-slate-500">
                     {{ Setting::get('about_subtitle', $school . ' didirikan untuk menjadi pionir pendidikan terintegrasi teknologi, tanpa melupakan penanaman moral yang luhur.') }}
@@ -377,7 +377,7 @@
                             {{ $program->short_description }}</p>
                         <a href="{{ route('programs.show', $program->slug) }}" wire:navigate
                             class="text-xs font-bold {{ $c['link'] }} flex items-center space-x-1 mt-2 group-hover:translate-x-1 transition-transform">
-                            <span>Lihat Detail</span>
+                            <span>{{ __('Lihat Detail') }}</span>
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                 stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -394,7 +394,7 @@
 
                     {{-- Tab Selector --}}
                     <div class="lg:col-span-4 flex flex-col space-y-3">
-                        <h3 class="text-2xl font-black text-slate-900 mb-2">Profil Inti Sekolah</h3>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">{{ __('Profil Inti Sekolah') }}</h3>
 
                         <button @click="activeTab = 'visi'"
                             :class="activeTab === 'visi' ? 'bg-brand-600 border-brand-600 text-white active-tab-glow' :
@@ -409,9 +409,9 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm sm:text-base">Visi Sekolah</h4>
+                                <h4 class="font-bold text-sm sm:text-base">{{ __('Visi Sekolah') }}</h4>
                                 <p :class="activeTab === 'visi' ? 'text-white/85' : 'text-slate-400'"
-                                    class="text-xs mt-0.5">Tujuan akhir & impian bersama</p>
+                                    class="text-xs mt-0.5">{{ __('Tujuan akhir & impian bersama') }}</p>
                             </div>
                         </button>
 
@@ -430,9 +430,9 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm sm:text-base">Misi Utama</h4>
+                                <h4 class="font-bold text-sm sm:text-base">{{ __('Misi Utama') }}</h4>
                                 <p :class="activeTab === 'misi' ? 'text-white/85' : 'text-slate-400'"
-                                    class="text-xs mt-0.5">Langkah strategis berkelanjutan</p>
+                                    class="text-xs mt-0.5">{{ __('Langkah strategis berkelanjutan') }}</p>
                             </div>
                         </button>
 
@@ -449,9 +449,9 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm sm:text-base">Sejarah Singkat</h4>
+                                <h4 class="font-bold text-sm sm:text-base">{{ __('Sejarah Singkat') }}</h4>
                                 <p :class="activeTab === 'sejarah' ? 'text-white/85' : 'text-slate-400'"
-                                    class="text-xs mt-0.5">Perjalanan panjang inovasi</p>
+                                    class="text-xs mt-0.5">{{ __('Perjalanan panjang inovasi') }}</p>
                             </div>
                         </button>
                     </div>
@@ -465,9 +465,8 @@
                             x-transition:enter-start="opacity-0 translate-y-4"
                             x-transition:enter-end="opacity-100 translate-y-0" class="space-y-4">
                             <span
-                                class="text-xs font-bold text-brand-600 uppercase tracking-widest bg-brand-50 px-2.5 py-1 rounded">Masa
-                                Depan Cerah</span>
-                            <h3 class="text-2xl font-bold text-slate-900">Visi Kami</h3>
+                                class="text-xs font-bold text-brand-600 uppercase tracking-widest bg-brand-50 px-2.5 py-1 rounded">{{ __('Masa Depan Cerah') }}</span>
+                            <h3 class="text-2xl font-bold text-slate-900">{{ __('Visi Kami') }}</h3>
                             <div class="text-slate-600 leading-relaxed font-light prose prose-sm max-w-none">
                                 {!! Setting::get(
                                     'visi',
@@ -482,9 +481,8 @@
                             x-transition:enter-end="opacity-100 translate-y-0" class="space-y-4"
                             style="display: none;">
                             <span
-                                class="text-xs font-bold text-emerald-600 uppercase tracking-widest bg-emerald-50 px-2.5 py-1 rounded">Rencana
-                                Aksi</span>
-                            <h3 class="text-2xl font-bold text-slate-900">Misi Kami</h3>
+                                class="text-xs font-bold text-emerald-600 uppercase tracking-widest bg-emerald-50 px-2.5 py-1 rounded">{{ __('Rencana Aksi') }}</span>
+                            <h3 class="text-2xl font-bold text-slate-900">{{ __('Misi Kami') }}</h3>
                             <div class="text-slate-600 leading-relaxed font-light prose prose-sm max-w-none">
                                 {!! Setting::get(
                                     'misi',
@@ -500,7 +498,7 @@
                             style="display: none;">
                             <span
                                 class="text-xs font-bold text-amber-600 uppercase tracking-widest bg-amber-50 px-2.5 py-1 rounded">{{ Setting::get('founded_year', 'Sejak 2018') }}</span>
-                            <h3 class="text-2xl font-bold text-slate-900">Inovasi yang Tak Pernah Berhenti</h3>
+                            <h3 class="text-2xl font-bold text-slate-900">{{ __('Inovasi yang Tak Pernah Berhenti') }}</h3>
                             <div class="text-slate-600 leading-relaxed font-light prose prose-sm max-w-none">
                                 {!! Setting::get(
                                     'school_history',
@@ -534,19 +532,19 @@
                 <div class="space-y-3">
                     <span
                         class="text-xs font-black uppercase tracking-widest text-brand-600 bg-brand-50 px-3.5 py-1.5 rounded-full">
-                        Kabar & Inspirasi
+                        {{ __('Kabar & Inspirasi') }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                        Update Terbaru {{ $school }}
+                        {{ __('Update Terbaru :school', ['school' => $school]) }}
                     </h2>
                     <p class="text-slate-500 text-sm sm:text-base max-w-xl">
-                        Temukan kabar prestasi, liputan agenda sekolah, dan cerita menarik dari komunitas kami.
+                        {{ __('Temukan kabar prestasi, liputan agenda sekolah, dan cerita menarik dari komunitas kami.') }}
                     </p>
                 </div>
 
                 {{-- Search --}}
                 <div class="relative w-full md:w-80">
-                    <input type="text" x-model="search" placeholder="Cari berita atau prestasi..."
+                    <input type="text" x-model="search" placeholder="{{ __('Cari berita atau prestasi...') }}"
                         class="w-full pl-11 pr-5 py-3 rounded-full border border-slate-200 bg-white shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 transition text-sm text-slate-900">
                     <svg class="w-5 h-5 text-slate-400 absolute left-4 top-3.5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
@@ -605,7 +603,7 @@
                                     </p>
                                     <div
                                         class="pt-3 mt-auto flex items-center text-xs font-bold text-brand-600 group-hover:translate-x-1.5 transition-transform duration-200">
-                                        <span>Baca Selengkapnya</span>
+                                        <span>{{ __('Baca Selengkapnya') }}</span>
                                         <svg class="w-4 h-4 ml-0.5" fill="none" viewBox="0 0 24 24"
                                             stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -621,7 +619,7 @@
                 <div class="mt-10 text-center">
                     <a href="{{ route('news.index') }}" wire:navigate
                         class="inline-flex items-center space-x-2 bg-white hover:bg-slate-50 text-slate-700 font-bold px-8 py-3.5 rounded-full text-sm border border-slate-200 shadow-sm apple-transition">
-                        <span>Lihat Semua Berita</span>
+                        <span>{{ __('Lihat Semua Berita') }}</span>
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -636,8 +634,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                     </svg>
-                    <h3 class="text-lg font-bold text-slate-900 mb-1">Belum Ada Berita</h3>
-                    <p class="text-sm text-slate-500">Berita akan segera ditampilkan di sini.</p>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">{{ __('Belum Ada Berita') }}</h3>
+                    <p class="text-sm text-slate-500">{{ __('Berita akan segera ditampilkan di sini.') }}</p>
                 </div>
             @endif
         </div>
@@ -658,13 +656,13 @@
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
                 <span
                     class="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3.5 py-1.5 rounded-full">
-                    Tim Pengajar
+                    {{ __('Tim Pengajar') }}
                 </span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                    Guru Profesional & Berdedikasi
+                    {{ __('Guru Profesional & Berdedikasi') }}
                 </h2>
                 <p class="text-base text-slate-500">
-                    Para pendidik berpengalaman yang siap membimbing siswa meraih potensi terbaik mereka.
+                    {{ __('Para pendidik berpengalaman yang siap membimbing siswa meraih potensi terbaik mereka.') }}
                 </p>
             </div>
 
@@ -699,7 +697,7 @@
             <div class="mt-12 text-center">
                 <a href="{{ route('teachers.index') }}" wire:navigate
                     class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-8 py-3.5 rounded-full text-sm inline-flex items-center space-x-2 transition duration-300 shadow-sm">
-                    <span>Lihat Semua Guru</span>
+                    <span>{{ __('Lihat Semua Guru') }}</span>
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -724,13 +722,13 @@
                 <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
                     <span
                         class="text-xs font-black uppercase tracking-widest text-purple-600 bg-purple-50 px-3.5 py-1.5 rounded-full">
-                        Galeri Kegiatan
+                        {{ __('Galeri Kegiatan') }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                        Momen Berharga di {{ $school }}
+                        {{ __('Momen Berharga di :school', ['school' => $school]) }}
                     </h2>
                     <p class="text-base text-slate-500">
-                        Kilas balik kegiatan, prestasi, dan kebersamaan yang membentuk komunitas kami.
+                        {{ __('Kilas balik kegiatan, prestasi, dan kebersamaan yang membentuk komunitas kami.') }}
                     </p>
                 </div>
 
@@ -754,7 +752,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                                     </svg>
-                                    {{ $album->photos_count }} foto
+                                    {{ __(':count foto', ['count' => $album->photos_count]) }}
                                 </div>
                                 <h3 class="text-white font-bold text-lg leading-tight drop-shadow">{{ $album->title }}
                                 </h3>
@@ -809,13 +807,13 @@
                 <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
                     <span
                         class="text-xs font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-3.5 py-1.5 rounded-full">
-                        Brosur Resmi
+                        {{ __('Brosur Resmi') }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                        Informasi Lengkap Sekolah
+                        {{ __('Informasi Lengkap Sekolah') }}
                     </h2>
                     <p class="text-base text-slate-500">
-                        Geser tiap kartu untuk melihat halaman tambahan, klik untuk pratinjau penuh.
+                        {{ __('Geser tiap kartu untuk melihat halaman tambahan, klik untuk pratinjau penuh.') }}
                     </p>
                 </div>
 
@@ -861,7 +859,7 @@
                                     <template x-if="!items.length">
                                         <div
                                             class="absolute inset-0 w-full h-full flex items-center justify-center text-slate-400 text-xs">
-                                            Tidak ada gambar
+                                            {{ __('Tidak ada gambar') }}
                                         </div>
                                     </template>
 
@@ -907,7 +905,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                                     </svg>
-                                    Unduh PDF
+                                    {{ __('Unduh PDF') }}
                                 </a>
                             @endif
                         </div>
@@ -999,13 +997,13 @@
                     <div class="space-y-4">
                         <span
                             class="text-xs font-black uppercase tracking-widest text-brand-600 bg-brand-50 px-3.5 py-1.5 rounded-full">
-                            Hubungi Kami
+                            {{ __('Hubungi Kami') }}
                         </span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                            Siap Membantu Anda
+                            {{ __('Siap Membantu Anda') }}
                         </h2>
                         <p class="text-slate-500 leading-relaxed font-light">
-                            Ada pertanyaan mengenai pendaftaran, program, atau fasilitas? Silakan hubungi kami.
+                            {{ __('Ada pertanyaan mengenai pendaftaran, program, atau fasilitas? Silakan hubungi kami.') }}
                         </p>
                     </div>
 
@@ -1024,7 +1022,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm text-slate-900">Alamat Sekolah</h4>
+                                <h4 class="font-bold text-sm text-slate-900">{{ __('Alamat Sekolah') }}</h4>
                                 <p class="text-xs text-slate-500 mt-1">
                                     {{ Setting::get('address', 'Alamat belum diatur') }}</p>
                             </div>
@@ -1042,7 +1040,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm text-slate-900">Telepon & WhatsApp</h4>
+                                <h4 class="font-bold text-sm text-slate-900">{{ __('Telepon & WhatsApp') }}</h4>
                                 <p class="text-xs text-slate-500 mt-1">{{ Setting::get('phone', 'Belum diatur') }}</p>
                             </div>
                         </div>
@@ -1059,7 +1057,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm text-slate-900">Jam Operasional</h4>
+                                <h4 class="font-bold text-sm text-slate-900">{{ __('Jam Operasional') }}</h4>
                                 <p class="text-xs text-slate-500 mt-1">
                                     {{ Setting::get('office_hours', 'Senin - Jumat: 08.00 - 15.00 WIB') }}</p>
                             </div>
@@ -1079,15 +1077,14 @@
                         </svg>
                         <h4
                             class="font-bold text-sm text-brand-900 relative z-10 flex items-center justify-center space-x-1">
-                            <span>Daftar PPDB Sekarang</span>
+                            <span>{{ __('Daftar PPDB Sekarang') }}</span>
                             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                             </svg>
                         </h4>
-                        <p class="text-xs text-brand-700/80 mt-1 relative z-10">Pendaftaran
-                            {{ Setting::get('ppdb_year', '2026/2027') }} telah dibuka.</p>
+                        <p class="text-xs text-brand-700/80 mt-1 relative z-10">{{ __('Pendaftaran :year telah dibuka.', ['year' => Setting::get('ppdb_year', '2026/2027')]) }}</p>
                     </a>
                 </div>
 
@@ -1095,9 +1092,8 @@
                 <div class="lg:col-span-7">
                     <div
                         class="bg-white/95 backdrop-blur-sm rounded-[32px] p-6 sm:p-10 border border-slate-200/60 google-shadow-md">
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Kirim Pesan Langsung</h3>
-                        <p class="text-xs text-slate-400 mb-8">Tim kami akan merespons dalam waktu 1x24 jam
-                            operasional.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">{{ __('Kirim Pesan Langsung') }}</h3>
+                        <p class="text-xs text-slate-400 mb-8">{{ __('Tim kami akan merespons dalam waktu 1x24 jam operasional.') }}</p>
 
                         @livewire('public.contact-form')
                     </div>
@@ -1124,13 +1120,12 @@
                     </svg>
                 </div>
                 <div class="flex-1 text-white text-center lg:text-left">
-                    <div class="text-xl font-bold">Jadwalkan Kunjungan Sekolah</div>
-                    <div class="text-sm text-white/90 mt-1">Datang dan rasakan langsung lingkungan belajar yang modern
-                        dan nyaman.</div>
+                    <div class="text-xl font-bold">{{ __('Jadwalkan Kunjungan Sekolah') }}</div>
+                    <div class="text-sm text-white/90 mt-1">{{ __('Datang dan rasakan langsung lingkungan belajar yang modern dan nyaman.') }}</div>
                 </div>
                 <a href="{{ route('contact') }}#visit" wire:navigate
                     class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-slate-50 transition shadow-lg">
-                    Atur Janji →
+                    {{ __('Atur Janji') }} →
                 </a>
             </div>
         </div>

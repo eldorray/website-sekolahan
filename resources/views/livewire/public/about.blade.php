@@ -6,7 +6,7 @@
                 class="text-center max-w-2xl mx-auto liquid-glass rounded-[2rem] p-8 sm:p-12 border border-white/80 shadow-sm">
                 <div
                     class="inline-flex items-center gap-2 bg-white/60 backdrop-blur-md text-slate-700 px-5 py-2.5 rounded-full text-sm font-semibold w-fit mb-4 border border-white/60 shadow-sm">
-                    Tentang Kami
+                    {{ __('Tentang Kami') }}
                 </div>
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-6 drop-shadow-sm">
                     {{ Setting::get('school_name') }}</h1>
@@ -24,7 +24,7 @@
             </div>
             <div class="liquid-glass rounded-[2rem] p-8 border border-white/80">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6 relative inline-block">
-                    Sejarah Singkat
+                    {{ __('Sejarah Singkat') }}
                     <div class="absolute -bottom-2 left-0 w-12 h-1 bg-brand-500 rounded-full"></div>
                 </h2>
                 <div class="prose prose-slate max-w-none font-medium text-slate-600 mb-8">{!! Setting::get('about_history') !!}</div>
@@ -32,17 +32,17 @@
                     <div
                         class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 text-center apple-transition hover:-translate-y-1 hover:shadow-md">
                         <div class="text-2xl font-bold text-brand-600">{{ Setting::get('stat_students') }}</div>
-                        <div class="text-[12px] font-semibold text-slate-500 mt-1">Siswa Aktif</div>
+                        <div class="text-[12px] font-semibold text-slate-500 mt-1">{{ __('Siswa Aktif') }}</div>
                     </div>
                     <div
                         class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 text-center apple-transition hover:-translate-y-1 hover:shadow-md">
                         <div class="text-2xl font-bold text-brand-600">{{ Setting::get('stat_teachers') }}</div>
-                        <div class="text-[12px] font-semibold text-slate-500 mt-1">Guru</div>
+                        <div class="text-[12px] font-semibold text-slate-500 mt-1">{{ __('Guru') }}</div>
                     </div>
                     <div
                         class="bg-white/50 backdrop-blur-sm p-4 rounded-[1.5rem] border border-white/60 text-center apple-transition hover:-translate-y-1 hover:shadow-md">
                         <div class="text-2xl font-bold text-brand-600">{{ Setting::get('stat_years') }}</div>
-                        <div class="text-[12px] font-semibold text-slate-500 mt-1">Tahun</div>
+                        <div class="text-[12px] font-semibold text-slate-500 mt-1">{{ __('Tahun') }}</div>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-900">Visi</h3>
+                <h3 class="text-2xl font-bold mb-4 text-slate-900">{{ __('Visi') }}</h3>
                 <div class="prose prose-slate max-w-none font-medium text-slate-600">{!! Setting::get('visi') !!}</div>
             </div>
             <div
@@ -75,7 +75,7 @@
                             d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A8.25 8.25 0 1120.25 10.5M8.288 14.212A5.25 5.25 0 1117.25 10.5" />
                     </svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-900">Misi</h3>
+                <h3 class="text-2xl font-bold mb-4 text-slate-900">{{ __('Misi') }}</h3>
                 <div class="prose prose-slate max-w-none font-medium text-slate-600">{!! Setting::get('misi') !!}</div>
             </div>
         </div>
