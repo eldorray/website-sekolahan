@@ -1,18 +1,17 @@
 <div>
     <section class="py-8 animate-fade-up">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('home') }}#gallery" wire:navigate class="text-sm text-brand-600 hover:underline">←
-                Kembali</a>
+            <a href="{{ route('home') }}#gallery" wire:navigate class="text-sm text-brand-600 hover:underline">← {{ __('Kembali') }}</a>
             <div class="mt-4 liquid-glass rounded-[2rem] p-8 sm:p-10 border border-white/80 shadow-sm">
                 <div
                     class="inline-flex items-center gap-2 bg-white/60 backdrop-blur-md text-slate-700 px-5 py-2.5 rounded-full text-sm font-semibold w-fit mb-3 border border-white/60 shadow-sm">
-                    Galeri Album
+                    {{ __('Galeri Album') }}
                 </div>
                 <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900">{{ $album->title }}</h1>
                 @if ($album->description)
                     <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed font-light">{{ $album->description }}</p>
                 @endif
-                <p class="text-xs text-slate-400 mt-3">{{ $album->photos()->count() }} foto</p>
+                <p class="text-xs text-slate-400 mt-3">{{ __(':count foto', ['count' => $album->photos()->count()]) }}</p>
             </div>
         </div>
     </section>
@@ -43,7 +42,7 @@
                 <div class="mt-6">{{ $photos->links() }}</div>
             @else
                 <div class="liquid-glass rounded-[2rem] p-10 text-center border border-white/80 shadow-sm">
-                    <p class="text-slate-500 text-sm">Belum ada foto di album ini.</p>
+                    <p class="text-slate-500 text-sm">{{ __('Belum ada foto di album ini.') }}</p>
                 </div>
             @endif
 

@@ -1,8 +1,7 @@
 <div>
     <article class="py-12">
         <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('news.index') }}" wire:navigate class="text-sm text-brand-600 hover:underline">← Semua
-                Berita</a>
+            <a href="{{ route('news.index') }}" wire:navigate class="text-sm text-brand-600 hover:underline">← {{ __('Semua Berita') }}</a>
             <span
                 class="mt-4 inline-block rounded-md bg-brand-500 px-2 py-1 text-[10px] font-bold text-white">{{ $news->category }}</span>
             <h1 class="mt-3 text-4xl font-extrabold text-slate-900 leading-tight">{{ $news->title }}</h1>
@@ -21,7 +20,7 @@
     @if ($related->count())
         <section class="py-10 bg-slate-50/40">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-5">Berita Terkait</h2>
+                <h2 class="text-2xl font-bold text-slate-900 mb-5">{{ __('Berita Terkait') }}</h2>
                 <div class="grid sm:grid-cols-3 gap-5">
                     @foreach ($related as $r)
                         <a href="{{ route('news.show', $r->slug) }}" wire:navigate class="group">
