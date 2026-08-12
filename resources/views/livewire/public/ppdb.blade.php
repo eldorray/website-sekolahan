@@ -60,7 +60,8 @@
                         <div class="liquid-glass rounded-2xl p-4 text-center border border-white/80">
                             <div class="text-2xl font-extrabold text-brand-600">
                                 {{ Setting::get('stat_graduation', '98%') }}</div>
-                            <div class="text-[11px] font-semibold text-slate-500 mt-1">{{ __('Lulusan PTN') }}</div>
+                            <div class="text-[11px] font-semibold text-slate-500 mt-1">
+                                {{ Setting::get('stat_graduation_short') ?: __('Lulusan PTN') }}</div>
                         </div>
                     </div>
                 </div>

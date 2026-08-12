@@ -260,16 +260,16 @@
                             <div class="mt-5 grid grid-cols-2 gap-4">
                                 <div class="bg-brand-50/60 p-4 rounded-2xl border border-brand-100">
                                     <span
-                                        class="text-2xl font-black text-brand-600">{{ Setting::get('stat_graduation', '98%') }}</span>
+                                        class="text-2xl font-black text-brand-600">{{ Setting::get('stat_graduation') ?: '98%' }}</span>
                                     <p class="text-xs font-semibold text-slate-700 mt-1">
-                                        {{ Setting::get('stat_graduation_label', 'Lulusan Melanjutkan ke SMAN/SMKN') }}
+                                        {{ Setting::get('stat_graduation_label') ?: 'Lulusan Melanjutkan ke SMAN/SMKN' }}
                                     </p>
                                 </div>
                                 <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-100">
                                     <span
-                                        class="text-2xl font-black text-emerald-600">{{ Setting::get('stat_facility', '100%') }}</span>
+                                        class="text-2xl font-black text-emerald-600">{{ Setting::get('stat_facility') ?: '100%' }}</span>
                                     <p class="text-xs font-semibold text-slate-700 mt-1">
-                                        {{ Setting::get('stat_facility_label', 'Fasilitas Modern & Lengkap') }}</p>
+                                        {{ Setting::get('stat_facility_label') ?: 'Fasilitas Modern & Lengkap' }}</p>
                                 </div>
                             </div>
                         </div>
