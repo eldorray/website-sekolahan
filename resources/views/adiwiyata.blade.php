@@ -194,6 +194,65 @@
                 }
 
                 /* Kontrol */
+                .lockbar {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                    background: var(--surface);
+                    border: 1px solid var(--gray-300);
+                    border-radius: var(--radius);
+                    padding: 12px 14px;
+                    margin-bottom: 14px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: var(--gray-700);
+                }
+
+                .lockbar.open {
+                    background: var(--green-50);
+                    border-color: var(--green-100);
+                    color: var(--green-800);
+                }
+
+                .lockbar span {
+                    flex: 1;
+                    min-width: 180px;
+                }
+
+                .lockbar form {
+                    display: contents;
+                }
+
+                .pin {
+                    width: 120px;
+                    padding: 8px 12px;
+                    border: 1px solid var(--gray-300);
+                    border-radius: 99px;
+                    font-family: inherit;
+                    font-size: 14px;
+                    letter-spacing: 3px;
+                    background: var(--surface);
+                    color: var(--gray-900);
+                }
+
+                .pin:focus {
+                    outline: none;
+                    border-color: var(--green-600);
+                    box-shadow: 0 0 0 3px rgba(22, 163, 74, .12);
+                }
+
+                .lockerr {
+                    flex-basis: 100%;
+                    color: var(--red-700);
+                    font-size: 12px;
+                }
+
+                .rad.locked {
+                    cursor: not-allowed;
+                    opacity: .75;
+                }
+
                 .controls {
                     display: flex;
                     gap: 8px;
@@ -739,6 +798,31 @@
             </div>
         </div>
 
+        @if ($canSave)
+            <div class="lockbar open">
+                <span>🔓 {{ __('Mode ubah aktif. Penilaian tersimpan di server dan terlihat oleh semua orang.') }}</span>
+                <form method="POST" action="{{ route('adiwiyata.lock') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-ghost">{{ __('Kunci lagi') }}</button>
+                </form>
+            </div>
+        @elseif ($pinConfigured)
+            <form method="POST" action="{{ route('adiwiyata.unlock') }}" class="lockbar">
+                @csrf
+                <span>🔒 {{ __('Masukkan PIN untuk mengubah penilaian') }}</span>
+                <input type="password" name="pin" class="pin" autocomplete="off" inputmode="numeric"
+                    aria-label="{{ __('PIN') }}" required>
+                <button type="submit" class="btn btn-save">{{ __('Buka') }}</button>
+                @error('pin')
+                    <span class="lockerr">{{ $message }}</span>
+                @enderror
+            </form>
+        @else
+            <div class="lockbar">
+                <span>🔒 {{ __('Halaman ini baca-saja. Penyimpanan penilaian belum diaktifkan.') }}</span>
+            </div>
+        @endif
+
         <div class="controls">
             <input class="search" id="adSearch" type="search"
                 placeholder="🔍 {{ __('Cari folder / kriteria...') }}" aria-label="{{ __('Cari folder / kriteria...') }}">
@@ -758,11 +842,13 @@
             <div class="foot-actions">
                 <button type="button" class="btn btn-ghost" id="btnExport">⬇️
                     {{ __('Unduh hasil penilaian (JSON)') }}</button>
-                <button type="button" class="btn btn-ghost" id="btnReset">🗑️
-                    {{ __('Kosongkan penilaian') }}</button>
+                @if ($canSave)
+                    <button type="button" class="btn btn-ghost" id="btnReset">🗑️
+                        {{ __('Kosongkan penilaian') }}</button>
+                @endif
             </div>
-            <div style="margin-top:10px">{{ __('Sistem Monitoring Bukti Kegiatan PBLHS') }} · <span
-                    id="storeMode">-</span></div>
+            <div style="margin-top:10px">{{ __('Sistem Monitoring Bukti Kegiatan PBLHS') }} ·
+                {{ __('tersimpan di server, sama untuk semua perangkat') }}</div>
             <div style="margin-top:4px" id="linkStat">-</div>
         </div>
     </div>
@@ -773,6 +859,10 @@
         <script>
             (function() {
                 const DATA_URL = @json(route('adiwiyata.data'));
+                const SAVE_URL = @json(route('adiwiyata.save'));
+                const RESET_URL = @json(route('adiwiyata.reset'));
+                const CAN_SAVE = @json($canSave);
+                const CSRF = document.querySelector('meta[name="csrf-token"]').content;
                 const LOCALE = @json(str_replace('_', '-', app()->getLocale()));
 
                 /* Teks dinamis diterjemahkan di server supaya halaman ini ikut dwibahasa. */
@@ -808,8 +898,8 @@
                         'noAssessment' => __('Belum ada penilaian'),
                         'confirmReset' => __('Kosongkan :n penilaian? Status akan kembali ke hasil pemindaian Drive.'),
                         'resetDone' => __('Penilaian dikosongkan'),
-                        'storeBrowser' => __('tersimpan di browser ini'),
-                        'storeMemory' => __('hanya di memori — hilang saat halaman ditutup'),
+                        'locked' => __('Sesi PIN sudah habis. Muat ulang halaman dan masukkan PIN lagi.'),
+                        'saveFailed' => __('Gagal menyimpan: :error'),
                         'loadFailed' => __('Gagal memuat data pemindaian.'),
                     ];
                 @endphp
@@ -845,40 +935,26 @@
                 let data = null,
                     filter = "all",
                     q = "";
-                let overrides = {}; // {key:{status,note,savedAt}}  -> hasil klik guru, tersimpan
-                let drafts = {}; // {key:{status,note}}          -> belum disimpan
-                let storageMode = T.storeMemory;
+                /* Penilaian datang dari server, jadi sama untuk semua browser dan perangkat. */
+                let overrides = @json($assessments); // {key:{status,note,savedAt}}
+                let drafts = {}; // {key:{status,note}} -> belum disimpan
                 const byKey = {};
                 const openKeys = new Set();
 
-                /* ---------- Penyimpanan: localStorage per browser ---------- */
-                const Store = {
-                    key: "adiwiyata_status_v1",
-                    load() {
-                        try {
-                            const raw = localStorage.getItem(this.key);
-                            storageMode = T.storeBrowser;
-                            if (!raw) return {};
-                            const o = JSON.parse(raw);
-                            /* format lama menyimpan peta penilaian langsung di akar */
-                            return (o && o.v === 2) ? (o.overrides || {}) : (o || {});
-                        } catch (e) {
-                            storageMode = T.storeMemory;
-                            return {};
-                        }
-                    },
-                    save() {
-                        try {
-                            localStorage.setItem(this.key, JSON.stringify({
-                                v: 2,
-                                overrides
-                            }));
-                            return T.storeBrowser;
-                        } catch (e) {
-                            return T.storeMemory;
-                        }
-                    }
-                };
+                function post(url, body) {
+                    return fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                            "X-CSRF-TOKEN": CSRF
+                        },
+                        body: JSON.stringify(body || {})
+                    }).then(async res => {
+                        if (!res.ok) throw new Error(res.status === 403 ? T.locked : "HTTP " + res.status);
+                        return res.json();
+                    });
+                }
 
                 /* ---------- Persiapan pohon ---------- */
                 function prepare(n, parents, inheritedId) {
@@ -970,9 +1046,13 @@
                     const grp = "st_" + Math.abs(hash(n._key));
                     const k = esc(n._key);
 
+                    /* Terkunci: status & catatan tetap terlihat, tapi tidak bisa diubah.
+                       Server tetap menolak simpan tanpa session PIN — ini cuma lapisan UI. */
+                    const off = CAN_SAVE ? "" : " disabled";
+
                     const radios = OPTIONS.map(([v, label]) =>
-                        `<label class="rad ${v}${cur===v?" checked":""}">
-                           <input type="radio" name="${grp}" value="${v}" data-key="${k}"${cur===v?" checked":""}>
+                        `<label class="rad ${v}${cur===v?" checked":""}${CAN_SAVE?"":" locked"}">
+                           <input type="radio" name="${grp}" value="${v}" data-key="${k}"${cur===v?" checked":""}${off}>
                            <span>${esc(label)}</span>
                          </label>`).join("");
 
@@ -986,10 +1066,10 @@
                         <div class="ed-label">${esc(T.statusLabel)}</div>
                         <div class="radios">${radios}</div>
                         <div class="ed-label">${esc(T.noteLabel)}</div>
-                        <textarea class="note" data-key="${k}" placeholder="${esc(T.notePlaceholder)}">${esc(note)}</textarea>
+                        <textarea class="note" data-key="${k}" placeholder="${esc(T.notePlaceholder)}"${off}>${esc(note)}</textarea>
                         <div class="ed-actions">
                           <a class="btn btn-drive${n._exact?"":" approx"}" href="${esc(driveUrl(n))}" target="_blank" rel="noopener" title="${esc(driveTitle(n))}">📂 ${esc(n._exact?T.openDrive:T.openDriveParent)}</a>
-                          <button type="button" class="btn btn-save" data-key="${k}">💾 ${esc(T.save)}</button>
+                          ${CAN_SAVE?`<button type="button" class="btn btn-save" data-key="${k}">💾 ${esc(T.save)}</button>`:""}
                           ${state}
                         </div>
                       </div>`;
@@ -1054,7 +1134,6 @@
                     document.getElementById("folderName").textContent = root.n;
                     document.getElementById("updated").textContent = data.generated;
                     document.getElementById("rootLink").href = driveUrl(root);
-                    document.getElementById("storeMode").textContent = storageMode;
 
                     const all = Object.values(byKey),
                         exact = all.filter(n => n._exact).length;
@@ -1083,21 +1162,28 @@
                 }
 
                 /* ---------- Aksi ---------- */
-                function saveOne(key) {
+                async function saveOne(key) {
                     const node = byKey[key];
                     const draft = drafts[key] || {};
                     const prev = overrides[key] || {};
                     const status = draft.status || prev.status || (node ? node.st : "empty");
                     const note = draft.note !== undefined ? draft.note : (prev.note || "");
 
-                    overrides[key] = {
-                        status,
-                        note,
-                        savedAt: new Date().toISOString()
-                    };
-                    delete drafts[key];
-
-                    storageMode = Store.save();
+                    try {
+                        // Server yang menentukan hasil akhir — jangan optimistis, kalau
+                        // gagal draft tetap utuh supaya isian guru tidak hilang.
+                        overrides[key] = await post(SAVE_URL, {
+                            folder_key: key,
+                            status,
+                            note
+                        });
+                        delete drafts[key];
+                    } catch (e) {
+                        toast(t("saveFailed", {
+                            error: e.message
+                        }));
+                        return;
+                    }
 
                     const y = window.scrollY;
                     render();
@@ -1240,25 +1326,34 @@
 
                 document.getElementById("btnExport").addEventListener("click", exportJson);
 
-                document.getElementById("btnReset").addEventListener("click", () => {
-                    const n = Object.keys(overrides).length;
-                    if (!n) {
-                        toast(T.noAssessment);
-                        return;
-                    }
-                    if (!confirm(t("confirmReset", {
-                            n
-                        }))) return;
-                    overrides = {};
-                    drafts = {};
-                    storageMode = Store.save();
-                    render();
-                    toast(T.resetDone);
-                });
+                const btnReset = document.getElementById("btnReset");
+                if (btnReset) {
+                    btnReset.addEventListener("click", async () => {
+                        const n = Object.keys(overrides).length;
+                        if (!n) {
+                            toast(T.noAssessment);
+                            return;
+                        }
+                        if (!confirm(t("confirmReset", {
+                                n
+                            }))) return;
+                        try {
+                            await post(RESET_URL);
+                        } catch (e) {
+                            toast(t("saveFailed", {
+                                error: e.message
+                            }));
+                            return;
+                        }
+                        overrides = {};
+                        drafts = {};
+                        render();
+                        toast(T.resetDone);
+                    });
+                }
 
                 /* ---------- Mulai ---------- */
                 (async function init() {
-                    overrides = Store.load();
                     try {
                         const res = await fetch(DATA_URL);
                         if (!res.ok) throw new Error(res.status);

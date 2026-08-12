@@ -227,7 +227,16 @@
     "Belum ada penilaian": "No assessment yet",
     "Kosongkan :n penilaian? Status akan kembali ke hasil pemindaian Drive.": "Clear :n assessments? Statuses will revert to the Drive scan result.",
     "Penilaian dikosongkan": "Assessments cleared",
-    "tersimpan di browser ini": "saved in this browser",
-    "hanya di memori — hilang saat halaman ditutup": "in memory only — lost when the page is closed",
-    "Gagal memuat data pemindaian.": "Failed to load scan data."
+    "Gagal memuat data pemindaian.": "Failed to load scan data.",
+    "tersimpan di server, sama untuk semua perangkat": "stored on the server, identical on every device",
+    "Sesi PIN sudah habis. Muat ulang halaman dan masukkan PIN lagi.": "PIN session expired. Reload the page and enter the PIN again.",
+    "Gagal menyimpan: :error": "Failed to save: :error",
+    "Mode ubah aktif. Penilaian tersimpan di server dan terlihat oleh semua orang.": "Edit mode active. Assessments are stored on the server and visible to everyone.",
+    "Kunci lagi": "Lock again",
+    "Masukkan PIN untuk mengubah penilaian": "Enter the PIN to change assessments",
+    "PIN": "PIN",
+    "Buka": "Unlock",
+    "Halaman ini baca-saja. Penyimpanan penilaian belum diaktifkan.": "This page is read-only. Assessment saving is not enabled.",
+    "PIN salah.": "Wrong PIN.",
+    "Terlalu banyak percobaan. Coba lagi dalam :seconds detik.": "Too many attempts. Try again in :seconds seconds."
 }

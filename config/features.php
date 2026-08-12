@@ -18,4 +18,10 @@ return [
 
     'adiwiyata' => (bool) env('ADIWIYATA_ENABLED', false),
 
+    /*
+    | PIN bersama untuk menyimpan penilaian Adiwiyata. Kosong = halaman jadi
+    | baca-saja, tidak ada yang bisa mengubah. Bagikan hanya ke tim Adiwiyata.
+    */
+    'adiwiyata_pin' => (string) env('ADIWIYATA_PIN', ''),
+
 ];

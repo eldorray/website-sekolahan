@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdiwiyataController;
 use App\Http\Controllers\PpdbDocumentController;
 use App\Http\Controllers\SitemapController;
 use App\Livewire\Admin;
@@ -23,18 +24,13 @@ Route::get('/berita', Public\NewsIndex::class)->name('news.index');
 Route::get('/berita/{slug}', Public\NewsShow::class)->name('news.show');
 Route::get('/tim-guru', Public\Teachers::class)->name('teachers.index');
 // Adiwiyata — hanya untuk unit yang menyalakan ADIWIYATA_ENABLED di .env-nya.
-// Route tetap terdaftar (route() tidak meledak, route:cache aman); flag dicek saat request.
-Route::get('/adiwiyata', function () {
-    abort_unless(config('features.adiwiyata'), 404);
-
-    return view('adiwiyata');
-})->name('adiwiyata');
-
-Route::get('/adiwiyata/data', function () {
-    abort_unless(config('features.adiwiyata'), 404);
-
-    return response()->file(resource_path('data/adiwiyata-tree.json'));
-})->name('adiwiyata.data');
+// Route tetap terdaftar (route() tidak meledak, route:cache aman); flag dicek di controller.
+Route::get('/adiwiyata', [AdiwiyataController::class, 'index'])->name('adiwiyata');
+Route::get('/adiwiyata/data', [AdiwiyataController::class, 'data'])->name('adiwiyata.data');
+Route::post('/adiwiyata/unlock', [AdiwiyataController::class, 'unlock'])->name('adiwiyata.unlock');
+Route::post('/adiwiyata/lock', [AdiwiyataController::class, 'lock'])->name('adiwiyata.lock');
+Route::post('/adiwiyata/save', [AdiwiyataController::class, 'save'])->name('adiwiyata.save');
+Route::post('/adiwiyata/reset', [AdiwiyataController::class, 'reset'])->name('adiwiyata.reset');
 Route::get('/galeri/{slug}', Public\AlbumShow::class)->name('gallery.album');
 Route::get('/kontak', Public\Contact::class)->name('contact');
 Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');
