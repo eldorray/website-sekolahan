@@ -14,11 +14,9 @@ class SitemapController extends Controller
         $urls = [];
 
         // Static pages.
+        // Adiwiyata sengaja tidak masuk: halamannya terkunci PIN, crawler cuma
+        // akan menemukan layar kunci.
         $static = ['home', 'about', 'programs.index', 'news.index', 'teachers.index', 'contact', 'ppdb.create'];
-
-        if (config('features.adiwiyata')) {
-            $static[] = 'adiwiyata';
-        }
 
         foreach ($static as $name) {
             $urls[] = ['loc' => route($name), 'lastmod' => null];

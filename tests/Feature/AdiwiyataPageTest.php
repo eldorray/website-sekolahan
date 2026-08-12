@@ -11,51 +11,67 @@ beforeEach(function () {
     RateLimiter::clear('adiwiyata-unlock|127.0.0.1');
 });
 
-test('page renders and is linked from the public nav when enabled', function () {
+function unlockAdiwiyata($test)
+{
+    return $test->post(route('adiwiyata.unlock'), ['pin' => '246810']);
+}
+
+test('visiting without a PIN shows only the lock screen', function () {
+    AdiwiyataAssessment::create(['folder_key' => 'A / B', 'status' => 'ok', 'note' => 'rahasia']);
+
     $this->get(route('adiwiyata'))
         ->assertOk()
-        ->assertSee('Monitoring Kelengkapan Dokumen Adiwiyata')
-        // @json() escapes slashes, so compare against the encoded form.
-        ->assertSee(json_encode(route('adiwiyata.data')), false);
+        ->assertSee('Masukkan PIN dari admin')
+        ->assertSee('noindex', false)
+        // Tidak ada isi halaman yang bocor: pohon, catatan, maupun URL datanya.
+        ->assertDontSee('Progres Kelengkapan Folder')
+        ->assertDontSee('rahasia')
+        ->assertDontSee(json_encode(route('adiwiyata.data')), false);
 
-    $this->get(route('adiwiyata.data'))->assertOk();
-    $this->get(route('home'))->assertSee(route('adiwiyata'), false);
-    $this->get(route('sitemap'))->assertSee(route('adiwiyata'), false);
+    $this->get(route('adiwiyata.data'))->assertForbidden();
 });
 
-test('everything adiwiyata is unreachable when the feature is off', function () {
-    config(['features.adiwiyata' => false]);
+test('the correct PIN opens the real page', function () {
+    unlockAdiwiyata($this)->assertRedirect(route('adiwiyata'));
 
-    $this->get(route('adiwiyata'))->assertNotFound();
-    $this->get(route('adiwiyata.data'))->assertNotFound();
-    $this->post(route('adiwiyata.unlock'), ['pin' => '246810'])->assertNotFound();
-    $this->get(route('home'))->assertDontSee(route('adiwiyata'), false);
-    $this->get(route('sitemap'))->assertDontSee(route('adiwiyata'), false);
+    $this->get(route('adiwiyata'))
+        ->assertOk()
+        ->assertSee('Progres Kelengkapan Folder')
+        ->assertSee(json_encode(route('adiwiyata.data')), false)
+        ->assertDontSee('Masukkan PIN dari admin');
+
+    $this->get(route('adiwiyata.data'))->assertOk();
+});
+
+test('a wrong PIN keeps the page shut', function () {
+    $this->post(route('adiwiyata.unlock'), ['pin' => '000000'])
+        ->assertSessionHasErrors('pin');
+
+    $this->get(route('adiwiyata'))->assertSee('Masukkan PIN dari admin');
+    $this->get(route('adiwiyata.data'))->assertForbidden();
+});
+
+test('locking again closes the page', function () {
+    unlockAdiwiyata($this);
+    $this->get(route('adiwiyata'))->assertSee('Progres Kelengkapan Folder');
+
+    $this->post(route('adiwiyata.lock'))->assertRedirect();
+
+    $this->get(route('adiwiyata'))->assertSee('Masukkan PIN dari admin');
+    $this->get(route('adiwiyata.data'))->assertForbidden();
 });
 
 test('saving is refused without the PIN', function () {
-    $this->postJson(route('adiwiyata.save'), [
-        'folder_key' => 'A / B',
-        'status' => 'ok',
-    ])->assertForbidden();
+    $this->postJson(route('adiwiyata.save'), ['folder_key' => 'A / B', 'status' => 'ok'])
+        ->assertForbidden();
 
     $this->postJson(route('adiwiyata.reset'))->assertForbidden();
 
     expect(AdiwiyataAssessment::count())->toBe(0);
 });
 
-test('a wrong PIN does not unlock', function () {
-    $this->post(route('adiwiyata.unlock'), ['pin' => '000000'])
-        ->assertSessionHasErrors('pin');
-
-    $this->postJson(route('adiwiyata.save'), [
-        'folder_key' => 'A / B',
-        'status' => 'ok',
-    ])->assertForbidden();
-});
-
-test('the correct PIN unlocks saving, and the result is shared across browsers', function () {
-    $this->post(route('adiwiyata.unlock'), ['pin' => '246810'])->assertRedirect();
+test('assessments saved in one session are visible in another', function () {
+    unlockAdiwiyata($this);
 
     $this->postJson(route('adiwiyata.save'), [
         'folder_key' => '2026 / 3. Data Penggunaan air',
@@ -63,8 +79,9 @@ test('the correct PIN unlocks saving, and the result is shared across browsers',
         'note' => 'sudah diunggah',
     ])->assertOk()->assertJsonPath('status', 'ok');
 
-    // Sesi baru = browser/perangkat lain. Harus melihat penilaian yang sama.
+    // Sesi baru = browser/perangkat lain.
     $this->flushSession();
+    unlockAdiwiyata($this);
 
     $this->get(route('adiwiyata'))
         ->assertOk()
@@ -78,24 +95,40 @@ test('brute forcing the PIN is rate limited', function () {
             ->assertSessionHasErrors('pin');
     }
 
-    $this->post(route('adiwiyata.unlock'), ['pin' => '246810'])
-        ->assertSessionHasErrors('pin');
-
-    $this->postJson(route('adiwiyata.save'), [
-        'folder_key' => 'A / B',
-        'status' => 'ok',
-    ])->assertForbidden();
+    unlockAdiwiyata($this)->assertSessionHasErrors('pin');
+    $this->get(route('adiwiyata'))->assertSee('Masukkan PIN dari admin');
 });
 
-test('saving is impossible when no PIN is configured', function () {
+test('without a configured PIN nobody can get in', function () {
     config(['features.adiwiyata_pin' => '']);
 
+    $this->get(route('adiwiyata'))
+        ->assertOk()
+        ->assertSee('Belum ada PIN yang diatur')
+        ->assertDontSee('name="pin"', false);
+
     $this->post(route('adiwiyata.unlock'), ['pin' => ''])->assertNotFound();
-    $this->get(route('adiwiyata'))->assertOk()->assertDontSee('name="pin"', false);
+});
+
+test('everything adiwiyata is unreachable when the feature is off', function () {
+    config(['features.adiwiyata' => false]);
+
+    $this->get(route('adiwiyata'))->assertNotFound();
+    $this->get(route('adiwiyata.data'))->assertNotFound();
+    $this->post(route('adiwiyata.unlock'), ['pin' => '246810'])->assertNotFound();
+    $this->get(route('home'))->assertDontSee(route('adiwiyata'), false);
+});
+
+test('the locked page is kept out of the sitemap', function () {
+    $this->get(route('sitemap'))->assertDontSee(route('adiwiyata'), false);
+});
+
+test('the nav still links to it so people can reach the lock screen', function () {
+    $this->get(route('home'))->assertSee(route('adiwiyata'), false);
 });
 
 test('save input is validated', function () {
-    $this->post(route('adiwiyata.unlock'), ['pin' => '246810']);
+    unlockAdiwiyata($this);
 
     $this->postJson(route('adiwiyata.save'), ['folder_key' => 'A', 'status' => 'ngawur'])
         ->assertJsonValidationErrors('status');

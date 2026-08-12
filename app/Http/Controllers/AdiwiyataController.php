@@ -33,20 +33,25 @@ class AdiwiyataController extends Controller
     {
         $this->ensureEnabled();
 
+        // Belum membuka PIN: tidak ada isi halaman yang dikirim sama sekali,
+        // cuma layar kunci.
+        if (! $this->unlocked()) {
+            return view('adiwiyata-lock', ['pinConfigured' => $this->pin() !== '']);
+        }
+
         return view('adiwiyata', [
             'assessments' => (object) AdiwiyataAssessment::all()
                 ->keyBy('folder_key')
                 ->map(fn (AdiwiyataAssessment $a): array => $this->present($a))
                 ->all(),
-            'canSave' => $this->unlocked(),
-            'pinConfigured' => $this->pin() !== '',
         ]);
     }
 
-    /** Snapshot hasil pemindaian Drive. Ikut dijaga flag fitur, jadi unit lain tidak bisa mengambilnya. */
+    /** Snapshot hasil pemindaian Drive. Ikut terkunci — tanpa PIN tidak bisa diambil. */
     public function data(): BinaryFileResponse
     {
         $this->ensureEnabled();
+        $this->ensureUnlocked();
 
         return response()->file(resource_path('data/adiwiyata-tree.json'));
     }
@@ -84,7 +89,7 @@ class AdiwiyataController extends Controller
         $request->session()->regenerate();
         $request->session()->put(self::SESSION_KEY, true);
 
-        return back();
+        return redirect()->route('adiwiyata');
     }
 
     public function lock(Request $request): RedirectResponse

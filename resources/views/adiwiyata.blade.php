@@ -194,65 +194,6 @@
                 }
 
                 /* Kontrol */
-                .lockbar {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    flex-wrap: wrap;
-                    background: var(--surface);
-                    border: 1px solid var(--gray-300);
-                    border-radius: var(--radius);
-                    padding: 12px 14px;
-                    margin-bottom: 14px;
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: var(--gray-700);
-                }
-
-                .lockbar.open {
-                    background: var(--green-50);
-                    border-color: var(--green-100);
-                    color: var(--green-800);
-                }
-
-                .lockbar span {
-                    flex: 1;
-                    min-width: 180px;
-                }
-
-                .lockbar form {
-                    display: contents;
-                }
-
-                .pin {
-                    width: 120px;
-                    padding: 8px 12px;
-                    border: 1px solid var(--gray-300);
-                    border-radius: 99px;
-                    font-family: inherit;
-                    font-size: 14px;
-                    letter-spacing: 3px;
-                    background: var(--surface);
-                    color: var(--gray-900);
-                }
-
-                .pin:focus {
-                    outline: none;
-                    border-color: var(--green-600);
-                    box-shadow: 0 0 0 3px rgba(22, 163, 74, .12);
-                }
-
-                .lockerr {
-                    flex-basis: 100%;
-                    color: var(--red-700);
-                    font-size: 12px;
-                }
-
-                .rad.locked {
-                    cursor: not-allowed;
-                    opacity: .75;
-                }
-
                 .controls {
                     display: flex;
                     gap: 8px;
@@ -682,6 +623,7 @@
                     justify-content: center;
                     flex-wrap: wrap;
                     margin-top: 12px;
+                    align-items: center;
                 }
             }
 
@@ -798,31 +740,6 @@
             </div>
         </div>
 
-        @if ($canSave)
-            <div class="lockbar open">
-                <span>🔓 {{ __('Mode ubah aktif. Penilaian tersimpan di server dan terlihat oleh semua orang.') }}</span>
-                <form method="POST" action="{{ route('adiwiyata.lock') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-ghost">{{ __('Kunci lagi') }}</button>
-                </form>
-            </div>
-        @elseif ($pinConfigured)
-            <form method="POST" action="{{ route('adiwiyata.unlock') }}" class="lockbar">
-                @csrf
-                <span>🔒 {{ __('Masukkan PIN untuk mengubah penilaian') }}</span>
-                <input type="password" name="pin" class="pin" autocomplete="off" inputmode="numeric"
-                    aria-label="{{ __('PIN') }}" required>
-                <button type="submit" class="btn btn-save">{{ __('Buka') }}</button>
-                @error('pin')
-                    <span class="lockerr">{{ $message }}</span>
-                @enderror
-            </form>
-        @else
-            <div class="lockbar">
-                <span>🔒 {{ __('Halaman ini baca-saja. Penyimpanan penilaian belum diaktifkan.') }}</span>
-            </div>
-        @endif
-
         <div class="controls">
             <input class="search" id="adSearch" type="search"
                 placeholder="🔍 {{ __('Cari folder / kriteria...') }}" aria-label="{{ __('Cari folder / kriteria...') }}">
@@ -842,10 +759,12 @@
             <div class="foot-actions">
                 <button type="button" class="btn btn-ghost" id="btnExport">⬇️
                     {{ __('Unduh hasil penilaian (JSON)') }}</button>
-                @if ($canSave)
-                    <button type="button" class="btn btn-ghost" id="btnReset">🗑️
-                        {{ __('Kosongkan penilaian') }}</button>
-                @endif
+                <button type="button" class="btn btn-ghost" id="btnReset">🗑️
+                    {{ __('Kosongkan penilaian') }}</button>
+                <form method="POST" action="{{ route('adiwiyata.lock') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-ghost">🔒 {{ __('Kunci halaman') }}</button>
+                </form>
             </div>
             <div style="margin-top:10px">{{ __('Sistem Monitoring Bukti Kegiatan PBLHS') }} ·
                 {{ __('tersimpan di server, sama untuk semua perangkat') }}</div>
@@ -861,7 +780,6 @@
                 const DATA_URL = @json(route('adiwiyata.data'));
                 const SAVE_URL = @json(route('adiwiyata.save'));
                 const RESET_URL = @json(route('adiwiyata.reset'));
-                const CAN_SAVE = @json($canSave);
                 const CSRF = document.querySelector('meta[name="csrf-token"]').content;
                 const LOCALE = @json(str_replace('_', '-', app()->getLocale()));
 
@@ -1046,13 +964,9 @@
                     const grp = "st_" + Math.abs(hash(n._key));
                     const k = esc(n._key);
 
-                    /* Terkunci: status & catatan tetap terlihat, tapi tidak bisa diubah.
-                       Server tetap menolak simpan tanpa session PIN — ini cuma lapisan UI. */
-                    const off = CAN_SAVE ? "" : " disabled";
-
                     const radios = OPTIONS.map(([v, label]) =>
-                        `<label class="rad ${v}${cur===v?" checked":""}${CAN_SAVE?"":" locked"}">
-                           <input type="radio" name="${grp}" value="${v}" data-key="${k}"${cur===v?" checked":""}${off}>
+                        `<label class="rad ${v}${cur===v?" checked":""}">
+                           <input type="radio" name="${grp}" value="${v}" data-key="${k}"${cur===v?" checked":""}>
                            <span>${esc(label)}</span>
                          </label>`).join("");
 
@@ -1066,10 +980,10 @@
                         <div class="ed-label">${esc(T.statusLabel)}</div>
                         <div class="radios">${radios}</div>
                         <div class="ed-label">${esc(T.noteLabel)}</div>
-                        <textarea class="note" data-key="${k}" placeholder="${esc(T.notePlaceholder)}"${off}>${esc(note)}</textarea>
+                        <textarea class="note" data-key="${k}" placeholder="${esc(T.notePlaceholder)}">${esc(note)}</textarea>
                         <div class="ed-actions">
                           <a class="btn btn-drive${n._exact?"":" approx"}" href="${esc(driveUrl(n))}" target="_blank" rel="noopener" title="${esc(driveTitle(n))}">📂 ${esc(n._exact?T.openDrive:T.openDriveParent)}</a>
-                          ${CAN_SAVE?`<button type="button" class="btn btn-save" data-key="${k}">💾 ${esc(T.save)}</button>`:""}
+                          <button type="button" class="btn btn-save" data-key="${k}">💾 ${esc(T.save)}</button>
                           ${state}
                         </div>
                       </div>`;
@@ -1326,31 +1240,28 @@
 
                 document.getElementById("btnExport").addEventListener("click", exportJson);
 
-                const btnReset = document.getElementById("btnReset");
-                if (btnReset) {
-                    btnReset.addEventListener("click", async () => {
-                        const n = Object.keys(overrides).length;
-                        if (!n) {
-                            toast(T.noAssessment);
-                            return;
-                        }
-                        if (!confirm(t("confirmReset", {
-                                n
-                            }))) return;
-                        try {
-                            await post(RESET_URL);
-                        } catch (e) {
-                            toast(t("saveFailed", {
-                                error: e.message
-                            }));
-                            return;
-                        }
-                        overrides = {};
-                        drafts = {};
-                        render();
-                        toast(T.resetDone);
-                    });
-                }
+                document.getElementById("btnReset").addEventListener("click", async () => {
+                    const n = Object.keys(overrides).length;
+                    if (!n) {
+                        toast(T.noAssessment);
+                        return;
+                    }
+                    if (!confirm(t("confirmReset", {
+                            n
+                        }))) return;
+                    try {
+                        await post(RESET_URL);
+                    } catch (e) {
+                        toast(t("saveFailed", {
+                            error: e.message
+                        }));
+                        return;
+                    }
+                    overrides = {};
+                    drafts = {};
+                    render();
+                    toast(T.resetDone);
+                });
 
                 /* ---------- Mulai ---------- */
                 (async function init() {
