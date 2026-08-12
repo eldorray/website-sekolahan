@@ -22,6 +22,19 @@ Route::get('/program/{slug}', Public\ProgramShow::class)->name('programs.show');
 Route::get('/berita', Public\NewsIndex::class)->name('news.index');
 Route::get('/berita/{slug}', Public\NewsShow::class)->name('news.show');
 Route::get('/tim-guru', Public\Teachers::class)->name('teachers.index');
+// Adiwiyata — hanya untuk unit yang menyalakan ADIWIYATA_ENABLED di .env-nya.
+// Route tetap terdaftar (route() tidak meledak, route:cache aman); flag dicek saat request.
+Route::get('/adiwiyata', function () {
+    abort_unless(config('features.adiwiyata'), 404);
+
+    return view('adiwiyata');
+})->name('adiwiyata');
+
+Route::get('/adiwiyata/data', function () {
+    abort_unless(config('features.adiwiyata'), 404);
+
+    return response()->file(resource_path('data/adiwiyata-tree.json'));
+})->name('adiwiyata.data');
 Route::get('/galeri/{slug}', Public\AlbumShow::class)->name('gallery.album');
 Route::get('/kontak', Public\Contact::class)->name('contact');
 Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');

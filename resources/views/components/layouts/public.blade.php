@@ -231,6 +231,9 @@
                             ['name' => __('Beranda'), 'route' => 'home'],
                             ['name' => __('Tentang Kami'), 'route' => 'about'],
                             ['name' => __('Program'), 'route' => 'programs.index'],
+                            ...(config('features.adiwiyata')
+                                ? [['name' => __('Adiwiyata'), 'route' => 'adiwiyata']]
+                                : []),
                             ['name' => __('Berita'), 'route' => 'news.index'],
                             ['name' => __('Guru'), 'route' => 'teachers.index'],
                             ['name' => __('Kontak'), 'route' => 'contact'],

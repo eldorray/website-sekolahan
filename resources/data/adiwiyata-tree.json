@@ -1,0 +1,3040 @@
+{
+ "folder_name": "2026_Contoh Folder Bukti Kegiatan Adiwiyata",
+ "generated": "2026-08-11 13:05",
+ "root": {
+  "n": "2026_Contoh Folder Bukti Kegiatan Adiwiyata",
+  "t": "d",
+  "st": "partial",
+  "r": 7,
+  "p": 278,
+  "c": [
+   {
+    "n": "1. Dokumen Administrasi CSA",
+    "t": "d",
+    "st": "empty",
+    "r": 0,
+    "p": 5,
+    "c": [
+     {
+      "n": "1. Sertifikat Level 1 di SIDIA (Khusus CSAP)",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 1,
+      "c": [
+       {
+        "n": "Sertifikat Level 1.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1NfCVHLEbvogD7AdDlSKpCckulNdWnxUq"
+     },
+     {
+      "n": "2. SK dan Piagam Penghargaan SAP atau SAN (Khusus CSAN dan CSAM)",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 2,
+      "c": [
+       {
+        "n": "Piagam SAP atau SAN.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "SK SAP atau SAN.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1q-u8XKkdKHMplc8-YUiC7opgU_BLdm9D"
+     },
+     {
+      "n": "3. Data Penggunaan listrik dan air",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 2,
+      "c": [
+       {
+        "n": "1. Data Penggunaan listrik.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "2. Data Penggunaan air.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1cUiZ0ghoPdnYCvvbjrCw5MqJfzzq9KB0"
+     },
+     {
+      "n": "desktop.ini",
+      "t": "f",
+      "k": "junk"
+     }
+    ],
+    "id": "1NVfxagWpL2JahtWIsuHvtIIJwT8zY6-J"
+   },
+   {
+    "n": "2. Dokumen Administrasi Sekolah Binaan (Khusus CSAM)",
+    "t": "d",
+    "st": "empty",
+    "r": 0,
+    "p": 6,
+    "c": [
+     {
+      "n": "1. SK Menteri tentang Penetapan SAN",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 1,
+      "c": [
+       {
+        "n": "SK Penetapan SAN.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1DXn8hm4zaz6xQb9nVHmNc4Kqiry-7upc"
+     },
+     {
+      "n": "2. SK Daftar Sekolah Binaan",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 1,
+      "c": [
+       {
+        "n": "SK Daftar Sekolah Binaan.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1WZOXq0MSUyDJo4t5KMfACg8Xtufwtmi2"
+     },
+     {
+      "n": "3. SK Sekolah Binaan (SEBELUM DIBINA)",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 2,
+      "c": [
+       {
+        "n": "1. SK Sekolah A SEBELUM DIBINA",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "SK Adiwiyata SEBELUM DIBINA.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. SK Sekolah B SEBELUM DIBINA",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "SK Adiwiyata SEBELUM DIBINA.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "dst",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 0,
+        "c": []
+       }
+      ]
+     },
+     {
+      "n": "4. SK Sekolah Binaan (SESUDAH DIBINA)",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 2,
+      "c": [
+       {
+        "n": "1. SK Sekolah A SETELAH DIBINA",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "SK Adiwiyata SETELAH DIBINA.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. SK Sekolah B SETELAH DIBINA",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "SK Adiwiyata SETELAH DIBINA.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "dst",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 0,
+        "c": []
+       }
+      ],
+      "id": "1ebb4Oqi5Ra3eS2C_OKJ61yY36zgou68M"
+     },
+     {
+      "n": "5. Laporan Pembinaan CSAM",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 0,
+      "c": [
+       {
+        "n": "1. Laporan Pembinaan Sekolah A",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 0,
+        "c": [
+         {
+          "n": "1. Jadwal Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "2. Surat Undangan Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "3. Daftar Hadir Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "4. Notulensi Kegiatan Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "5. Materi Pembinaan ke Sekolah Binaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "6. Dokumentasi Kegiatan Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         }
+        ]
+       },
+       {
+        "n": "2. Laporan Pembinaan Sekolah B",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 0,
+        "c": [
+         {
+          "n": "1. Jadwal Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "2. Surat Undangan Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "3. Daftar Hadir Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "4. Notulensi Kegiatan Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "5. Materi Pembinaan ke Sekolah Binaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         },
+         {
+          "n": "6. Dokumentasi Kegiatan Pembinaan",
+          "t": "d",
+          "st": "empty",
+          "r": 0,
+          "p": 0,
+          "c": []
+         }
+        ]
+       },
+       {
+        "n": "dst",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 0,
+        "c": []
+       }
+      ]
+     },
+     {
+      "n": "desktop.ini",
+      "t": "f",
+      "k": "junk"
+     }
+    ],
+    "id": "1sOCeWx2_XunWK0ww8r09YfZDbqz6neSP"
+   },
+   {
+    "n": "3. Dokumen Pemenuhan Kriteria",
+    "t": "d",
+    "st": "partial",
+    "r": 7,
+    "p": 266,
+    "c": [
+     {
+      "n": "1. Dokumen KSP yang memuat aspek LH",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 4,
+      "c": [
+       {
+        "n": "Dokumen KSP TA 20xx-20xx.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Misi.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Tujuan.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Visi.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1UhSYgbA8x6dxc5uelIP3i2Rcg1HwKvkt"
+     },
+     {
+      "n": "10. Aspek LH yang terintegrasi dalam program non rutin_insidentil",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 15,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Insidentil.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "11. Jumlah Kegiatan Kampanye dan Publikasi Adiwiyata",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 21,
+      "c": [
+       {
+        "n": "1. Pemberitaan Aksi_Kreasi_Inovasi melalui Medsos_Media Masa",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Sosialisasi Program Kepada Warga Sekolah dan Pihak Terkait",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Sosialisasi.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan Sosialisasi.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Kampanye Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Kampanye.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan Kampanye.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Pameran Aksi_Kreasi_Inovasi Program",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Kampanye Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Kampanye.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan Kampanye.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. Kampanye Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Kampanye.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan Kampanye.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "7. Kegiatan Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Undangan_Brosur_Leaflet_Publikasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "12. Jumlah Media Publikasi Program Adiwiyata",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 14,
+      "c": [
+       {
+        "n": "1. Majalah Dinding",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi Mading.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Buletin_Majalah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen Buletin_Majalah.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Buletin_Majalah.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Pameran",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Pameran.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Kegiatan Pameran.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Poster_Slogan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi Poster_Slogan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Media Elektronik",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Media Elektronik.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Tautan Media Elektronik.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. Media Sosial",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Media Sosial.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Tautan Media Sosial.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "7. Media Cetak",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Media Cetak.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Salinan Media Cetak.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "8. Webiste_Blog Sekolah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Website Blog Sekolah.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Tautan Website Blog Sekolah.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "9. Media Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 0,
+        "c": []
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "13. Persentase Jumlah Kader Adiwiyata",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 4,
+      "c": [
+       {
+        "n": "Daftar Jumlah Kader Adiwiyata.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Dokumentasi Pembentukan Kader Adiwiyata.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Profil Sekolah_Jumlah Peserta Didik.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Template SK KADER ADIWIYATA.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ]
+     },
+     {
+      "n": "14. Jumlah Kegiatan Pemberdayaan Kader Adiwiyata",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 17,
+      "c": [
+       {
+        "n": "1. Kampanye Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Kampanye Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Kampanye Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Aksi Bersih-Bersih Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Pembuatan Kompos",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. Pemeliharaan Saluran Drainase",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "7. Penanaman dan Pemeliharaan Pohon_Tanaman",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "8. Kegiatan Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi Kegiatan Pemberdayaan Kader.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Notulen_atau Laporan Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       },
+       {
+        "n": "Rencana Kerja Kader Adiwiyata.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ]
+     },
+     {
+      "n": "15. Jumlah Kegiatan LH di Luar Sekolah yang diinsiasi sekolah",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 20,
+      "c": [
+       {
+        "n": "1. Bersih-bersih di pantai dan tempat umum lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Daftar Hadir.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Notulensi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Surat Tugas_Surat Permohonan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Penanaman dan pemeliharaan pohon di luar sekolah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Daftar Hadir.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Notulensi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Surat Tugas_Surat Permohonan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Kampanye tentang pengelolaan sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Daftar Hadir.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Notulensi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Surat Tugas_Surat Permohonan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Kampanye tentang Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Daftar Hadir.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Notulensi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Surat Tugas_Surat Permohonan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Kampanye tentang Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Daftar Hadir.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Notulensi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Surat Undangan_Surat Tugas_Surat Permohonan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ],
+      "id": "1rZ4-dd3Za5iX2PQW_kdaSJXJSIib3Jez"
+     },
+     {
+      "n": "16. Kerjasama atau Komitmen LH dengan pihak lain",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 14,
+      "c": [
+       {
+        "n": "1. Forum Adiwiyata melalui medsos",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Kerjasama dengan komite sekolah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Kerjasama dengan instansi LH",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Pertemuan rutin sekolah adiwiyata",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Kerjasama dengan bank sampah setempat",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. Kerjasama dengan instansi kesehatan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "7. Kerjasama lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dok Kerjasama_MoU_atau PKS_dengan pihak lain.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "17. Aspek LH yang menggunakan SarPras sekolah sebagai pembelajaran",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 10,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi penggunaan sarpras pada pembelajaran.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi penggunaan sarpras pada pembelajaran.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi penggunaan sarpras pada pembelajaran.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi penggunaan sarpras pada pembelajaran.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi penggunaan sarpras pada pembelajaran.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "18. Jumlah SarPras Sanitasi Sekolah",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 6,
+      "c": [
+       {
+        "n": "1. Ketersediaan Air Bersih",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Toilet Terpisah yang bersih",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Sarana Cuci Tangan yang bersih",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Saluran Pembuangan Air Limbah atau Drainase Berfungsi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Septic Tank berfungsi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. SarPras Sanitasi lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "19. Jumlah SarPras Pengelolaan Sampah Sekolah",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 4,
+      "c": [
+       {
+        "n": "1. Tempat Sampah Terpilah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Tempat Pengomposan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Bank Sampah dan lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. SarPras lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "2. Keputusan KS atau Tata Tertib yang memuat aspek LH",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 5,
+      "c": [
+       {
+        "n": "Keputusan KS atau TaTib terkait Keanekaragaman Hayati.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Keputusan KS atau TaTib terkait Kebersihan dan Sanitasi.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Keputusan KS atau TaTib terkait Pengelolaan Sampah.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Keputusan KS atau TaTib terkait Penghematan Air.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Keputusan KS atau TaTib terkait Penghematan Energi.txt",
+        "t": "f",
+        "k": "placeholder"
+       }
+      ],
+      "id": "1tsMQSFbOfdCqvNk13jbIr6mxNF9gWGch"
+     },
+     {
+      "n": "20. Persentase Jumlah Pengurangan Timbulan Sampah",
+      "t": "d",
+      "st": "partial",
+      "r": 1,
+      "p": 2,
+      "c": [
+       {
+        "n": "Profil Sekolah_Jumlah Warga Sekolah_SEBELUM ADIWIYATA.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Profil Sekolah_Jumlah Warga Sekolah_SETELAH ADIWIYATA.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Template Data Timbulan Sampah Sekolah.xlsx",
+        "t": "f",
+        "k": "real"
+       }
+      ],
+      "id": "1qxcPy8NhPMIYMoPrQcZtMoOtwmA0Wzlj"
+     },
+     {
+      "n": "21. Jumlah SarPras Keanekaragaman Hayati Sekolah",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 6,
+      "c": [
+       {
+        "n": "1. Toga",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Ekosistem Buatan_atau_Alami",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Kebun Pangan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Tanaman",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Pohon",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. Sarpras Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "22. Jumlah Pohon_Tanaman yang dipelihara sekolah",
+      "t": "d",
+      "st": "partial",
+      "r": 1,
+      "p": 3,
+      "c": [
+       {
+        "n": "Buku Pemeliharaan_Penanaman Pohon.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Dokumentasi Kondisi Pohon_Tanaman.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Profil Sekolah_Jumlah Warga Sekolah.txt",
+        "t": "f",
+        "k": "placeholder"
+       },
+       {
+        "n": "Template Rekapitulasi Jumlah Pohon Tanaman Sekolah.xlsx",
+        "t": "f",
+        "k": "real"
+       }
+      ],
+      "id": "1HyPUP-rZi0rcs8rINMNj6TWxl6m6sY45"
+     },
+     {
+      "n": "23. Jumlah SarPras Penghematan dan Konservasi Energi",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 4,
+      "c": [
+       {
+        "n": "1. Lampu Hemat Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Peralatan Elektronik Hemat Energi Sekolah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Pencahayaan dan Ventilasi Alami Sekolah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Sarpras Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ],
+      "id": "18SUwvueYYY4AENmwR4XlvmcN3652J_mB"
+     },
+     {
+      "n": "24. Jumlah SarPras Penghematan dan Konservasi Air",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 5,
+      "c": [
+       {
+        "n": "1. Lubang Biopori_atau_Sumur Resapan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Penampungan Pemanfaatan Air Hujan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Daur Ulang Air (Pemanfaatan Bekas Air Wudhu, Cuci Tangan dan Sisa Air)",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Sarana Penghematan Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. SarPras Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumentasi kondisi SarPras terawat dan berfungsi.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ],
+      "id": "1BoVvvvlzvle70hHaEsWsoXyI7ofg5c7O"
+     },
+     {
+      "n": "3. Kebijakan LH yang diedukasikan melalui media informasi",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 25,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 5,
+        "c": [
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Flyer.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Poster.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Spanduk.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Stiker.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Tulisan.docx",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 5,
+        "c": [
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Flyer.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Poster.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Spanduk.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Stiker.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Tulisan.docx",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 5,
+        "c": [
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Flyer.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Poster.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Spanduk.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Stiker.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Tulisan.docx",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 5,
+        "c": [
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Flyer.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Poster.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Spanduk.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Stiker.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Tulisan.docx",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 5,
+        "c": [
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Flyer.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Poster.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Spanduk.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Stiker.docx",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kebijakan LH KS di Media Tulisan.docx",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ],
+      "id": "1aITsxcZykavnqvvL-kwf4q4sAtJdLg4G"
+     },
+     {
+      "n": "4. RPP yang memuat aspek LH",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 5,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ],
+      "id": "1D91tqg3Qlz3O_qsnIxoexGMcZeuD5Tah"
+     },
+     {
+      "n": "5. Persentase RPP yang memuat aspek LH",
+      "t": "d",
+      "st": "ok",
+      "r": 1,
+      "p": 0,
+      "c": [
+       {
+        "n": "Format daftar RPP yang memuat aspek LH.xlsx",
+        "t": "f",
+        "k": "real"
+       }
+      ],
+      "id": "1u-y7yY-myd_WETD1_m3jogvKJkj1AKOS"
+     },
+     {
+      "n": "6. Aspek LH yang diintegrasikan dalam ekstrakurikuler",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 10,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumen RPP TA 20xx-20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan kegiatan ekstrakurikuler TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi kegiatan ekstrakurikuler.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan kegiatan ekstrakurikuler TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi kegiatan ekstrakurikuler.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan kegiatan ekstrakurikuler TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi kegiatan ekstrakurikuler.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan kegiatan ekstrakurikuler TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 2,
+        "c": [
+         {
+          "n": "Dokumentasi kegiatan ekstrakurikuler.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan kegiatan ekstrakurikuler TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ]
+     },
+     {
+      "n": "7. Hasil Karya Siswa yang memuat Aspek LH",
+      "t": "d",
+      "st": "empty",
+      "r": 0,
+      "p": 5,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Poster_Tulisan_atau_Karya Seni Siswa TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Poster_Tulisan_atau_Karya Seni Siswa TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Poster_Tulisan_atau_Karya Seni Siswa TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Poster_Tulisan_atau_Karya Seni Siswa TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 1,
+        "c": [
+         {
+          "n": "Poster_Tulisan_atau_Karya Seni Siswa TA 20xx - 20xx.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       }
+      ],
+      "id": "1INE8BklOnPSF0_iv4MoDoMOOANJJXcVW"
+     },
+     {
+      "n": "8. Aspek LH yang terintegrasi dalam program rutin sekolah",
+      "t": "d",
+      "st": "partial",
+      "r": 2,
+      "p": 15,
+      "c": [
+       {
+        "n": "1. Kebersihan dan Sanitasi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "2. Pengelolaan Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Keanekaragaman Hayati",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Penghematan dan Konservasi Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penghematan dan Konservasi Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 3,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       },
+       {
+        "n": "Template Rencana Program Adiwiyata 4 Tahunan.xls",
+        "t": "f",
+        "k": "real"
+       },
+       {
+        "n": "Template Rencana Program Adiwiyata Tahunan.xls",
+        "t": "f",
+        "k": "real"
+       }
+      ]
+     },
+     {
+      "n": "9. Jumlah Program Rutin Aspek LH",
+      "t": "d",
+      "st": "partial",
+      "r": 2,
+      "p": 52,
+      "c": [
+       {
+        "n": "1. Piket Kebersihan Kelas dan Lingkungan Sekolah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "10. Gerakan Hemat Energi",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "11. Penggunaan Alat Makan dan Minum Guna Ulang",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "12. Kegiatan Ekstrakurikuler_atau_Kegiatan Duta LH",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "13. Kegiatan Lainnya",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ],
+        "id": "15eQfErSSVgZyZoJZH-NLu_-O205U3K46"
+       },
+       {
+        "n": "2. Pengelolaan Bank Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "3. Hari Bebas Sampah",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "4. Gerakan Hemat Air",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "5. Penanaman dan Perawatan Pohon_Tanaman Bersama",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "6. Pemanfaatan Kebun Sekolah_atau_Hidroponik",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "7. Hari Khusus Kegiatan Kebersihan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "8. Pemilahan Sampah Organik dan Anorganik",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": "9. Kampanye dan Sosialisasi Aspek Lingkungan",
+        "t": "d",
+        "st": "empty",
+        "r": 0,
+        "p": 4,
+        "c": [
+         {
+          "n": "Buku Monitoring_Ceklis_Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dok Kerjasama_MoU_PKS_dengan pihak lain (jika ada kerjasama).txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Dokumentasi Kegiatan.txt",
+          "t": "f",
+          "k": "placeholder"
+         },
+         {
+          "n": "Laporan Pelaksanaan Kegiatan Rutin.txt",
+          "t": "f",
+          "k": "placeholder"
+         }
+        ]
+       },
+       {
+        "n": ".DS_Store",
+        "t": "f",
+        "k": "junk"
+       },
+       {
+        "n": "Template Rencana Program Adiwiyata 4 Tahunan.xls",
+        "t": "f",
+        "k": "real"
+       },
+       {
+        "n": "Template Rencana Program Adiwiyata Tahunan.xls",
+        "t": "f",
+        "k": "real"
+       }
+      ],
+      "id": "16_jfNLetRFyFXsXEnBz077pyRMqzfYhV"
+     },
+     {
+      "n": ".DS_Store",
+      "t": "f",
+      "k": "junk"
+     }
+    ],
+    "id": "1NsfRsocHI1U46SEWpN6qDWTwZNRUY9Ay"
+   },
+   {
+    "n": ".DS_Store",
+    "t": "f",
+    "k": "junk"
+   },
+   {
+    "n": "MOHON DIBACA.txt",
+    "t": "f",
+    "k": "placeholder"
+   }
+  ],
+  "id": "1ONugotH0JacxfICXXLlzkDKc4K7J9jqa"
+ }
+}

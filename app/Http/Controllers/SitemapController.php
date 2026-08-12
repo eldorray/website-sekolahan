@@ -14,7 +14,13 @@ class SitemapController extends Controller
         $urls = [];
 
         // Static pages.
-        foreach (['home', 'about', 'programs.index', 'news.index', 'teachers.index', 'contact', 'ppdb.create'] as $name) {
+        $static = ['home', 'about', 'programs.index', 'news.index', 'teachers.index', 'contact', 'ppdb.create'];
+
+        if (config('features.adiwiyata')) {
+            $static[] = 'adiwiyata';
+        }
+
+        foreach ($static as $name) {
             $urls[] = ['loc' => route($name), 'lastmod' => null];
         }
 
