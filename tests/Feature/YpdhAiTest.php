@@ -295,3 +295,16 @@ test('the desktop sidebar is not killed by the !important hide class', function 
     expect($classes)->toContain('lg:flex')
         ->and(explode(' ', $classes))->not->toContain('hide');
 });
+
+test('the answer toolbar can export to Word, PDF and Excel', function () {
+    unlockYpdh($this);
+
+    $this->get(route('ypdh-ai'))
+        ->assertOk()
+        // Ekspor berjalan di peramban dari HTML jawaban; ini menjaga ketiga
+        // jalurnya tidak terhapus tanpa sengaja.
+        ->assertSee('application/msword', false)
+        ->assertSee('application/vnd.ms-excel', false)
+        ->assertSee('@page{size:A4', false)
+        ->assertSee('function cetak(', false);
+});

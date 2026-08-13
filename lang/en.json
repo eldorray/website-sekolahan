@@ -312,5 +312,8 @@
     "Hapus percakapan": "Delete conversation",
     "Hapus percakapan \":judul\"?": "Delete the conversation \":judul\"?",
     "[:n gambar tidak ikut disimpan di riwayat]": "[:n images were not kept in history]",
-    "Penyimpanan peramban penuh — percakapan terlama dibuang.": "Browser storage is full — the oldest conversations were dropped."
+    "Penyimpanan peramban penuh — percakapan terlama dibuang.": "Browser storage is full — the oldest conversations were dropped.",
+    "Word": "Word",
+    "PDF": "PDF",
+    "Excel": "Excel"
 }

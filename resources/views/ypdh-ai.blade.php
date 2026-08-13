@@ -506,6 +506,9 @@
                     'drawing' => __('Menggambar…'),
                     'drawn' => __(':n gambar dibuat.'),
                     'download' => __('Unduh'),
+                    'word' => __('Word'),
+                    'pdf' => __('PDF'),
+                    'excel' => __('Excel'),
                     'error' => __('Gagal: :message'),
                     'noHistory' => __('Belum ada percakapan tersimpan.'),
                     'untitled' => __('Tanpa judul'),
@@ -768,7 +771,7 @@
                 paper.innerHTML = '';
                 riwayat.forEach(m => {
                     const b = tambahPesan(m.role === 'user' ? 'me' : 'ai', m.content);
-                    if (m.role === 'assistant') tombolSalin(b, () => m.content);
+                    if (m.role === 'assistant') alatPesan(b, () => m.content);
                 });
                 gambarSesi();
                 bukaMenu(false);
@@ -972,13 +975,81 @@
                 return b;
             }
 
-            function tombolSalin(bubble, ambil) {
-                const b = document.createElement('button');
-                b.type = 'button';
-                b.className =
-                    'mt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 underline underline-offset-4 hover:text-blue-600';
-                b.textContent = T.copy;
-                b.onclick = async () => {
+            /* --------- Ekspor jawaban jadi berkas ----------------------------
+               Jawaban AI sudah berbentuk markdown (judul, tabel, daftar), jadi
+               HTML hasil render itulah yang dibungkus. Word dan Excel dibuka
+               dari HTML berlabel MIME Office — cara yang didukung kedua program
+               dan tidak menambah pustaka apa pun. Untuk PDF dipakai dialog
+               cetak peramban: hasilnya paling rapi dan tidak perlu pustaka. */
+            const NAMA_TAK_AMAN = /[\\/:*?"<>|]+/g;
+
+            function namaBerkas(bubble, ext) {
+                const h = bubble.querySelector('h2, h3');
+                const dasar = (h?.textContent || bubble.textContent || 'ypdh-ai')
+                    .replace(/\s+/g, ' ').trim().slice(0, 50).replace(NAMA_TAK_AMAN, '-');
+                return (dasar || 'ypdh-ai') + '.' + ext;
+            }
+
+            // Times New Roman 12pt: lazim untuk dokumen sekolah di Indonesia.
+            function dokumen(isi) {
+                return '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+                    'xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8">' +
+                    '<style>' +
+                    '@page{size:A4;margin:2.5cm 2cm}' +
+                    'body{font-family:"Times New Roman",serif;font-size:12pt;line-height:1.5;color:#000}' +
+                    'h2{font-size:14pt;margin:18pt 0 6pt}h3{font-size:12.5pt;margin:14pt 0 5pt}' +
+                    'p{margin:0 0 10pt}ul,ol{margin:0 0 10pt;padding-left:22pt}li{margin:0 0 4pt}' +
+                    'table{border-collapse:collapse;width:100%;margin:0 0 12pt}' +
+                    'th,td{border:1px solid #000;padding:5pt 7pt;text-align:left;vertical-align:top}' +
+                    'th{background:#eee;font-weight:bold}' +
+                    'pre{font-family:Consolas,monospace;font-size:10pt;background:#f4f4f4;padding:8pt;' +
+                    'border:1px solid #ddd;white-space:pre-wrap}' +
+                    'code{font-family:Consolas,monospace;font-size:10.5pt}' +
+                    '</style></head><body>' + isi + '</body></html>';
+            }
+
+            function unduh(nama, isi, mime) {
+                // BOM supaya Word/Excel membaca UTF-8 (huruf beraksen tidak rusak).
+                const url = URL.createObjectURL(new Blob(['﻿' + isi], {
+                    type: mime
+                }));
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nama;
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 2000);
+            }
+
+            function cetak(isi) {
+                const f = document.createElement('iframe');
+                f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+                document.body.appendChild(f);
+                f.srcdoc = dokumen(isi);
+                f.onload = () => {
+                    const w = f.contentWindow;
+                    w.onafterprint = () => f.remove();
+                    w.focus();
+                    w.print();
+                    setTimeout(() => f.isConnected && f.remove(), 60000);
+                };
+            }
+
+            function alatPesan(bubble, ambil) {
+                const bar = document.createElement('div');
+                bar.className = 'mt-2 flex flex-wrap items-center gap-x-3 gap-y-1';
+
+                const tombol = (teks, aksi) => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className =
+                        'text-[10px] font-bold uppercase tracking-wider text-slate-400 underline underline-offset-4 transition hover:text-blue-600';
+                    b.textContent = teks;
+                    b.onclick = () => aksi(b);
+                    bar.appendChild(b);
+                    return b;
+                };
+
+                tombol(T.copy, async b => {
                     try {
                         await navigator.clipboard.writeText(ambil());
                         b.textContent = T.copied;
@@ -986,8 +1057,22 @@
                         b.textContent = T.copyManual;
                     }
                     setTimeout(() => b.textContent = T.copy, 1600);
-                };
-                bubble.parentElement.appendChild(b);
+                });
+
+                tombol(T.word, () => unduh(namaBerkas(bubble, 'doc'), dokumen(bubble.innerHTML),
+                    'application/msword'));
+
+                tombol(T.pdf, () => cetak(bubble.innerHTML));
+
+                // Excel hanya berguna kalau jawabannya memang punya tabel.
+                const tabel = bubble.querySelectorAll('table');
+                if (tabel.length) {
+                    tombol(T.excel, () => unduh(namaBerkas(bubble, 'xls'),
+                        dokumen([...tabel].map(t => t.outerHTML).join('<br>')),
+                        'application/vnd.ms-excel'));
+                }
+
+                bubble.parentElement.appendChild(bar);
             }
 
             async function kirimPesan() {
@@ -1048,7 +1133,7 @@
                             role: 'assistant',
                             content: hasil
                         });
-                        tombolSalin(bubble, () => hasil);
+                        alatPesan(bubble, () => hasil);
                         simpanSesi();
                     }
                 } catch (e) {
