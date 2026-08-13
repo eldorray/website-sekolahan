@@ -153,15 +153,17 @@
         $kategori = ['semua' => 'Semua', 'mengajar' => 'Mengajar', 'penilaian' => 'Penilaian', 'administrasi' => 'Administrasi'];
     @endphp
 
-    <div class="flex h-full">
+    {{-- Gutter luar hanya diatur di sini; anak-anaknya tidak menambah padding
+         sendiri supaya jarak ke tiap tepi layar sama. --}}
+    <div class="flex h-full gap-4 p-3 sm:p-4">
 
         {{-- ═══════════ SIDEBAR ═══════════ --}}
         <div id="tirai" class="hide fixed inset-0 z-30 bg-slate-900/40 lg:hidden"></div>
 
         <aside id="sidebar"
-            class="hide fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto glass lg:bg-transparent lg:backdrop-blur-none">
+            class="hide fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto lg:p-0 glass lg:bg-transparent lg:backdrop-blur-none">
 
-            <div class="flex items-center gap-3 px-2 py-1">
+            <div class="flex items-center gap-3 px-3 py-1">
                 <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-500/30">
                     🖋️</div>
                 <div class="min-w-0">
@@ -223,9 +225,9 @@
         </aside>
 
         {{-- ═══════════ UTAMA ═══════════ --}}
-        <main class="flex min-w-0 flex-1 flex-col p-3 sm:p-4 lg:pl-0">
+        <main class="flex min-w-0 flex-1 flex-col gap-3">
 
-            <div class="mb-3 flex items-center gap-3 px-1">
+            <div class="flex items-center gap-3">
                 <button type="button" id="btnMenu"
                     class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 ring-1 ring-white/80 lg:hidden">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -248,7 +250,7 @@
                 <section id="view-chat" class="view flex min-w-0 flex-1 flex-col">
                     <div class="glass flex min-h-0 flex-1 flex-col rounded-3xl border border-white/80 shadow-sm">
 
-                        <div id="paper" class="scroll-thin min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-8">
+                        <div id="paper" class="scroll-thin min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-7">
                             <div id="kosong" class="flex h-full flex-col items-center justify-center text-center">
                                 <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl shadow-xl shadow-blue-500/30">
                                     🖋️</div>
@@ -272,7 +274,7 @@
                             </div>
                         </div>
 
-                        <div class="border-t border-white/70 p-3 sm:p-4">
+                        <div class="border-t border-white/70 px-5 py-4 sm:px-7">
                             <div id="lampiran" class="mb-2 flex flex-wrap gap-2 empty:hidden"></div>
 
                             <div class="flex items-end gap-2 rounded-3xl bg-white/90 p-2 pl-3 shadow-sm ring-1 ring-white/90 focus-within:ring-2 focus-within:ring-blue-400">
@@ -289,7 +291,7 @@
                                     <span id="kirimLabel">{{ __('Kirim') }}</span>
                                 </button>
                             </div>
-                            <p class="mt-2 px-1 text-[11px] font-medium text-slate-400">
+                            <p class="mt-2 text-[11px] font-medium text-slate-400">
                                 {{ __('Enter kirim · Shift+Enter baris baru · PDF, DOCX, TXT, CSV, dan gambar didukung') }}</p>
                             <input type="file" id="inputFile" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.json,image/*">
                         </div>
@@ -299,7 +301,7 @@
                 {{-- ── Kolom gambar ── --}}
                 @if ($imageReady)
                     <section id="view-gambar" class="view hide min-w-0 flex-1">
-                        <div class="glass scroll-thin h-full overflow-y-auto rounded-3xl border border-white/80 p-5 shadow-sm sm:p-8">
+                        <div class="glass scroll-thin h-full overflow-y-auto rounded-3xl border border-white/80 p-5 shadow-sm sm:p-7">
                             <div class="mx-auto max-w-2xl">
                                 <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
                                     for="prompt">{{ __('Deskripsi gambar') }}</label>
@@ -346,8 +348,8 @@
 
                 {{-- ── Panel kanan: pemantik ── --}}
                 <aside class="hidden w-80 shrink-0 xl:block">
-                    <div class="glass flex h-full flex-col rounded-3xl border border-white/80 p-4 shadow-sm">
-                        <h2 class="px-1 pb-3 text-base font-extrabold text-slate-900">{{ __('Pemantik') }}</h2>
+                    <div class="glass flex h-full flex-col rounded-3xl border border-white/80 p-5 shadow-sm">
+                        <h2 class="pb-3 text-base font-extrabold text-slate-900">{{ __('Pemantik') }}</h2>
 
                         <div class="flex flex-wrap gap-1.5 pb-3">
                             @foreach ($kategori as $slug => $label)
