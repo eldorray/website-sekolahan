@@ -283,9 +283,16 @@
                 </button>
             </nav>
 
+            {{-- Riwayat: tersimpan di peramban ini saja, tidak dikirim ke server. --}}
+            <div class="rail-hide mt-4 flex min-h-0 flex-1 flex-col">
+                <div class="px-2.5 pb-1.5 text-[9.5px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                    {{ __('Riwayat') }}</div>
+                <div id="daftarSesi" class="scroll-thin -mr-1 min-h-0 flex-1 space-y-0.5 overflow-y-auto pr-1"></div>
+            </div>
+
             {{-- Nama model sengaja tidak diulang di sini: header area percakapan
                  sudah menampilkannya. --}}
-            <div class="mt-auto pt-4">
+            <div class="mt-auto pt-3">
                 <div class="rail-stack flex gap-1.5">
                     <a href="{{ route('home') }}" title="{{ __('Beranda') }}"
                         class="rail-row flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-semibold text-slate-500 transition hover:bg-white/60 hover:text-slate-900">
@@ -500,6 +507,12 @@
                     'drawn' => __(':n gambar dibuat.'),
                     'download' => __('Unduh'),
                     'error' => __('Gagal: :message'),
+                    'noHistory' => __('Belum ada percakapan tersimpan.'),
+                    'untitled' => __('Tanpa judul'),
+                    'deleteChat' => __('Hapus percakapan'),
+                    'confirmDelete' => __('Hapus percakapan ":judul"?'),
+                    'imgDropped' => __('[:n gambar tidak ikut disimpan di riwayat]'),
+                    'full' => __('Penyimpanan peramban penuh — percakapan terlama dibuang.'),
                 ];
             @endphp
             const T = @json($strings);
@@ -615,7 +628,172 @@
                 bukaMenu(false);
             });
 
-            $('#btnBaru').onclick = () => location.reload();
+            /* --------- Riwayat percakapan -----------------------------------
+               Disimpan di localStorage peramban ini saja. Server tidak pernah
+               menyimpan isi percakapan, jadi riwayat guru tidak tercampur —
+               kecuali mereka memakai profil peramban yang sama. */
+            const SESI_KEY = 'ypdh_ai_sesi_v1';
+            const MAKS_SESI = 30;
+            const daftarSesi = $('#daftarSesi');
+            let sesiAktif = null;
+
+            const bacaSesi = () => {
+                try {
+                    return JSON.parse(localStorage.getItem(SESI_KEY) || '[]');
+                } catch (e) {
+                    return [];
+                }
+            };
+
+            function tulisSesi(list) {
+                try {
+                    localStorage.setItem(SESI_KEY, JSON.stringify(list));
+                    return true;
+                } catch (e) {
+                    // Kuota penuh: buang yang terlama lalu coba sekali lagi.
+                    try {
+                        localStorage.setItem(SESI_KEY, JSON.stringify(list.slice(0, Math.max(1, list.length - 5))));
+                        return true;
+                    } catch (e2) {
+                        return false;
+                    }
+                }
+            }
+
+            /* Gambar disimpan sebagai base64 dan cepat memenuhi kuota peramban,
+               jadi yang masuk riwayat hanya teksnya. */
+            function ringkas(m) {
+                if (typeof m.content === 'string') return {
+                    role: m.role,
+                    content: m.content
+                };
+                const teks = m.content.filter(p => p.type === 'text').map(p => p.text).join('\n');
+                const n = m.content.filter(p => p.type === 'image_url').length;
+                return {
+                    role: m.role,
+                    content: teks + (n ? '\n\n' + t('imgDropped', {
+                        n
+                    }) : '')
+                };
+            }
+
+            function judulDari(pesan) {
+                const p = pesan.find(m => m.role === 'user');
+                const teks = p ? (typeof p.content === 'string' ? p.content :
+                    (p.content.find(x => x.type === 'text')?.text || '')) : '';
+                const bersih = teks.replace(/\s+/g, ' ').trim();
+                return bersih ? bersih.slice(0, 48) : T.untitled;
+            }
+
+            function simpanSesi() {
+                if (!riwayat.length) return;
+                if (!sesiAktif) sesiAktif = 'p' + Date.now();
+                const list = bacaSesi().filter(s => s.id !== sesiAktif);
+                list.unshift({
+                    id: sesiAktif,
+                    judul: judulDari(riwayat),
+                    waktu: Date.now(),
+                    pesan: riwayat.map(ringkas)
+                });
+                if (!tulisSesi(list.slice(0, MAKS_SESI))) console.warn(T.full);
+                gambarSesi();
+            }
+
+            function waktuSingkat(ms) {
+                const d = new Date(ms),
+                    lewat = (Date.now() - ms) / 60000;
+                if (lewat < 1) return 'baru saja';
+                if (lewat < 60) return Math.floor(lewat) + ' mnt';
+                if (lewat < 1440) return Math.floor(lewat / 60) + ' jam';
+                return d.toLocaleDateString(@json(str_replace('_', '-', app()->getLocale())), {
+                    day: '2-digit',
+                    month: 'short'
+                });
+            }
+
+            function gambarSesi() {
+                const list = bacaSesi();
+                daftarSesi.innerHTML = '';
+                if (!list.length) {
+                    const p = document.createElement('p');
+                    p.className = 'px-2.5 py-1 text-[11px] leading-snug text-slate-400';
+                    p.textContent = T.noHistory;
+                    daftarSesi.appendChild(p);
+                    return;
+                }
+                list.forEach(s => {
+                    const row = document.createElement('div');
+                    row.className = 'group flex items-center gap-1 rounded-xl pr-1 transition ' +
+                        (s.id === sesiAktif ? 'bg-white shadow-sm' : 'hover:bg-white/60');
+
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'min-w-0 flex-1 px-2.5 py-2 text-left';
+                    b.onclick = () => bukaSesi(s.id);
+                    const j = document.createElement('span');
+                    j.className = 'block truncate text-[12px] font-semibold text-slate-700';
+                    j.textContent = s.judul;
+                    const w = document.createElement('span');
+                    w.className = 'block text-[10px] font-medium text-slate-400';
+                    w.textContent = waktuSingkat(s.waktu);
+                    b.append(j, w);
+
+                    const x = document.createElement('button');
+                    x.type = 'button';
+                    x.title = T.deleteChat;
+                    x.setAttribute('aria-label', T.deleteChat);
+                    x.className =
+                        'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-slate-300 opacity-0 transition hover:bg-red-50 hover:text-red-600 focus:opacity-100 group-hover:opacity-100';
+                    x.innerHTML =
+                        '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>';
+                    x.onclick = e => {
+                        e.stopPropagation();
+                        hapusSesi(s.id, s.judul);
+                    };
+
+                    row.append(b, x);
+                    daftarSesi.appendChild(row);
+                });
+            }
+
+            function bukaSesi(id) {
+                simpanSesi();
+                const s = bacaSesi().find(x => x.id === id);
+                if (!s) return;
+                sesiAktif = s.id;
+                riwayat = s.pesan.map(m => ({
+                    role: m.role,
+                    content: m.content
+                }));
+                paper.innerHTML = '';
+                riwayat.forEach(m => {
+                    const b = tambahPesan(m.role === 'user' ? 'me' : 'ai', m.content);
+                    if (m.role === 'assistant') tombolSalin(b, () => m.content);
+                });
+                gambarSesi();
+                bukaMenu(false);
+            }
+
+            function hapusSesi(id, judul) {
+                if (!confirm(t('confirmDelete', {
+                        judul
+                    }))) return;
+                tulisSesi(bacaSesi().filter(s => s.id !== id));
+                if (id === sesiAktif) mulaiBaru(true);
+                else gambarSesi();
+            }
+
+            function mulaiBaru(lewatiSimpan) {
+                if (!lewatiSimpan) simpanSesi();
+                riwayat = [];
+                sesiAktif = null;
+                paper.innerHTML = kosongHtml;
+                gambarSesi();
+                bukaMenu(false);
+                tulis.focus();
+            }
+
+            $('#btnBaru').onclick = () => mulaiBaru();
 
             /* --------- Pemantik & penyaring kategori ------------------------- */
             document.querySelectorAll('.pil').forEach(pil => pil.onclick = () => {
@@ -749,7 +927,15 @@
             let riwayat = [],
                 jalan = false;
 
-            document.querySelectorAll('.kartu').forEach(k => k.onclick = () => {
+            // Disimpan utuh supaya layar sambutan bisa dipasang lagi saat
+            // "Percakapan baru" ditekan.
+            const kosongHtml = $('#kosong')?.outerHTML || '';
+
+            // Delegasi: kartu pemantik di layar sambutan lahir ulang tiap kali
+            // percakapan direset, jadi jangan diikat satu per satu.
+            document.addEventListener('click', e => {
+                const k = e.target.closest('.kartu');
+                if (!k) return;
                 tulis.value = k.dataset.isi;
                 tulis.focus();
                 tumbuh();
@@ -863,6 +1049,7 @@
                             content: hasil
                         });
                         tombolSalin(bubble, () => hasil);
+                        simpanSesi();
                     }
                 } catch (e) {
                     riwayat.pop(); // buang pesan gagal supaya tidak terkirim ulang
@@ -935,6 +1122,7 @@
                 };
             }
 
+            gambarSesi();
             tulis.focus();
         })();
     </script>

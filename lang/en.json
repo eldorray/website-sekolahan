@@ -305,5 +305,12 @@
     "Kunci halaman": "Lock page",
     "PIN salah.": "Wrong PIN.",
     "Terlalu banyak percobaan. Coba lagi dalam :seconds detik.": "Too many attempts. Try again in :seconds seconds.",
-    "Lebarkan / ciutkan sidebar": "Expand / collapse sidebar"
+    "Lebarkan / ciutkan sidebar": "Expand / collapse sidebar",
+    "Riwayat": "History",
+    "Belum ada percakapan tersimpan.": "No saved conversations yet.",
+    "Tanpa judul": "Untitled",
+    "Hapus percakapan": "Delete conversation",
+    "Hapus percakapan \":judul\"?": "Delete the conversation \":judul\"?",
+    "[:n gambar tidak ikut disimpan di riwayat]": "[:n images were not kept in history]",
+    "Penyimpanan peramban penuh — percakapan terlama dibuang.": "Browser storage is full — the oldest conversations were dropped."
 }
