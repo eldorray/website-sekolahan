@@ -6,6 +6,7 @@ use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\EventTheme;
 use App\Models\Setting;
+use App\Services\TintaGateway;
 use App\Support\ColorPalette;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -92,15 +93,22 @@ class Settings extends Component
         'tiktok' => 'TikTok URL',
         'ppdb_year' => 'PPDB - Tahun',
         'footer_about' => 'Footer - Deskripsi',
-        'ypdh_ai_base_url' => 'YPDH AI - Base URL gateway',
-        'ypdh_ai_key' => 'YPDH AI - API key',
-        'ypdh_ai_model' => 'YPDH AI - Model chat',
-        'ypdh_ai_model_image' => 'YPDH AI - Model gambar (opsional)',
-        'ypdh_ai_system' => 'YPDH AI - Peran asisten',
     ];
 
-    /** Ditampilkan sebagai input password supaya tidak terbaca dari balik bahu. */
-    public array $secretKeys = ['ypdh_ai_key'];
+    /**
+     * Pengaturan YPDH AI dipisah dari $fields: punya kartu dan tombol simpan
+     * sendiri, supaya tidak tertukar dengan form lain di halaman ini.
+     *
+     * @var array<string, string>
+     */
+    public array $ypdh = [];
+
+    /** @var array<int, string> Hasil "Ambil daftar model" dari gateway. */
+    public array $ypdhModels = [];
+
+    public string $ypdhStatus = '';
+
+    public bool $ypdhStatusOk = false;
 
     public function mount(): void
     {
@@ -108,6 +116,60 @@ class Settings extends Component
             $this->data[$key] = Setting::get($key, '');
         }
         $this->brandColor = Setting::get('brand_color', '#65ad36');
+
+        foreach (['base_url', 'key', 'model', 'model_image', 'system'] as $key) {
+            $this->ypdh[$key] = (string) Setting::get('ypdh_ai_'.$key, '');
+        }
+
+        if ($this->ypdh['base_url'] === '') {
+            $this->ypdh['base_url'] = TintaGateway::baseUrl();
+        }
+
+        if ($this->ypdh['system'] === '') {
+            $this->ypdh['system'] = TintaGateway::systemPrompt();
+        }
+    }
+
+    public function saveYpdhAi(): void
+    {
+        $this->validate([
+            'ypdh.base_url' => ['required', 'url', 'starts_with:http://,https://', 'max:255'],
+            'ypdh.key' => ['nullable', 'string', 'max:255'],
+            'ypdh.model' => ['nullable', 'string', 'max:120'],
+            'ypdh.model_image' => ['nullable', 'string', 'max:120'],
+            'ypdh.system' => ['nullable', 'string', 'max:2000'],
+        ], [], [
+            'ypdh.base_url' => 'base URL',
+            'ypdh.key' => 'API key',
+            'ypdh.model' => 'model chat',
+            'ypdh.model_image' => 'model gambar',
+            'ypdh.system' => 'peran asisten',
+        ]);
+
+        foreach ($this->ypdh as $key => $value) {
+            Setting::set('ypdh_ai_'.$key, (string) $value);
+        }
+
+        $this->ypdhStatus = '';
+        $this->notifySuccess('Pengaturan YPDH AI berhasil disimpan.');
+    }
+
+    /** Tanya gateway model apa saja yang tersedia, memakai isi form saat ini. */
+    public function loadYpdhModels(): void
+    {
+        try {
+            $this->ypdhModels = TintaGateway::models($this->ypdh['base_url'] ?? '', $this->ypdh['key'] ?? '');
+            $this->ypdhStatusOk = true;
+            $this->ypdhStatus = count($this->ypdhModels).' model tersedia — klik kolom model untuk memilih.';
+
+            if (($this->ypdh['model'] ?? '') === '') {
+                $this->ypdh['model'] = $this->ypdhModels[0];
+            }
+        } catch (\Throwable $e) {
+            $this->ypdhModels = [];
+            $this->ypdhStatusOk = false;
+            $this->ypdhStatus = $e->getMessage();
+        }
     }
 
     public function applyPreset(string $hex): void

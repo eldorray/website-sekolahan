@@ -70,6 +70,49 @@ class TintaGateway
     }
 
     /**
+     * Daftar model yang disediakan gateway. Base URL & key boleh dioper langsung
+     * supaya admin bisa mencoba sebelum menyimpan.
+     *
+     * @return array<int, string>
+     */
+    public static function models(?string $baseUrl = null, ?string $key = null): array
+    {
+        // `??`, bukan `?:` — kolom yang sengaja dikosongkan admin harus tetap
+        // dianggap kosong, jangan diam-diam jatuh ke nilai tersimpan.
+        $baseUrl = rtrim(trim($baseUrl ?? self::baseUrl()), '/');
+        $key = trim($key ?? self::key());
+
+        if (! preg_match('#^https?://#i', $baseUrl)) {
+            throw new RuntimeException('Base URL harus diawali http:// atau https://');
+        }
+
+        if ($key === '') {
+            throw new RuntimeException('Isi API key dulu sebelum mengambil daftar model.');
+        }
+
+        $response = Http::withToken($key)->timeout(30)->acceptJson()->get($baseUrl.'/models');
+
+        self::guardWith($key, $response->status(), $response->body());
+
+        $json = $response->json();
+        $models = [];
+
+        foreach ((array) (data_get($json, 'data') ?: data_get($json, 'models') ?: []) as $item) {
+            if ($name = data_get($item, 'id') ?: data_get($item, 'name')) {
+                $models[] = (string) $name;
+            }
+        }
+
+        sort($models);
+
+        if ($models === []) {
+            throw new RuntimeException('Gateway tidak mengembalikan daftar model.');
+        }
+
+        return $models;
+    }
+
+    /**
      * @param  array<int, array{role: string, content: mixed}>  $messages
      */
     public static function chat(array $messages): string
@@ -146,11 +189,15 @@ class TintaGateway
      */
     private static function guard(int $status, string $body): void
     {
+        self::guardWith(self::key(), $status, $body);
+    }
+
+    private static function guardWith(string $key, int $status, string $body): void
+    {
         if ($status < 400) {
             return;
         }
 
-        $key = self::key();
         $clean = strip_tags($body);
 
         if ($key !== '') {

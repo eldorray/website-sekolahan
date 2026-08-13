@@ -1,6 +1,8 @@
 <?php
 
+use App\Livewire\Admin\Settings;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
@@ -172,4 +174,85 @@ test('the nav shows a More menu holding both internal tools', function () {
 
 test('the assistant is kept out of the sitemap', function () {
     $this->get(route('sitemap'))->assertDontSee(route('ypdh-ai'), false);
+});
+
+test('admin can save the YPDH AI settings on their own card', function () {
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    Livewire\Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'https://gateway.test/v1')
+        ->set('ypdh.key', 'sk-baru')
+        ->set('ypdh.model', 'model-baru')
+        ->set('ypdh.system', 'Jadilah asisten guru.')
+        ->call('saveYpdhAi')
+        ->assertHasNoErrors();
+
+    expect(Setting::get('ypdh_ai_key'))->toBe('sk-baru')
+        ->and(Setting::get('ypdh_ai_model'))->toBe('model-baru')
+        ->and(Setting::get('ypdh_ai_system'))->toBe('Jadilah asisten guru.');
+});
+
+test('a bad base URL is rejected before saving', function () {
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin2@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    Livewire\Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'bukan-url')
+        ->call('saveYpdhAi')
+        ->assertHasErrors('ypdh.base_url');
+});
+
+test('the model list button fetches models from the gateway', function () {
+    Http::fake(['gateway.test/*' => Http::response(['data' => [['id' => 'z-model'], ['id' => 'a-model']]])]);
+
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin3@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    Livewire\Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'https://gateway.test/v1')
+        ->set('ypdh.key', 'sk-uji')
+        ->set('ypdh.model', '')
+        ->call('loadYpdhModels')
+        ->assertSet('ypdhModels', ['a-model', 'z-model'])   // urut
+        ->assertSet('ypdh.model', 'a-model')                // kolom kosong diisikan
+        ->assertSet('ypdhStatusOk', true);
+
+    Http::assertSent(fn ($r) => $r->url() === 'https://gateway.test/v1/models'
+        && $r->header('Authorization')[0] === 'Bearer sk-uji');
+});
+
+test('a failing model fetch reports the reason without leaking the key', function () {
+    Http::fake(['gateway.test/*' => Http::response('key sk-bocor invalid', 401)]);
+
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin4@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    $c = Livewire\Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'https://gateway.test/v1')
+        ->set('ypdh.key', 'sk-bocor')
+        ->call('loadYpdhModels')
+        ->assertSet('ypdhStatusOk', false);
+
+    expect($c->get('ypdhStatus'))->toContain('HTTP 401')->not->toContain('sk-bocor');
+});
+
+test('the model button refuses an empty key instead of calling out', function () {
+    Http::fake();
+
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin5@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    Livewire\Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'https://gateway.test/v1')
+        ->set('ypdh.key', '')
+        ->call('loadYpdhModels')
+        ->assertSet('ypdhStatusOk', false);
+
+    Http::assertNothingSent();
 });

@@ -327,8 +327,6 @@
                             :value="$data[$key] ?? ''"
                             placeholder="Tulis {{ strtolower($label) }}…"
                         />
-                    @elseif (in_array($key, $secretKeys))
-                        <input type="password" autocomplete="off" wire:model="data.{{ $key }}" class="input">
                     @else
                         <input wire:model="data.{{ $key }}" class="input">
                     @endif
@@ -342,6 +340,85 @@
             <span wire:loading.remove wire:target="save">Simpan Pengaturan</span>
             <span wire:loading wire:target="save">Menyimpan…</span>
         </button>
+    </div>
+
+    {{-- YPDH AI: kartu & tombol simpan sendiri, terpisah dari form lain --}}
+    <div class="card">
+        <h2 class="font-bold text-slate-900 mb-1">YPDH AI — Asisten Guru</h2>
+        <p class="text-sm text-slate-500 mb-4">
+            API key disimpan di server dan tidak pernah dikirim ke browser guru.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+                <label class="label">Base URL gateway</label>
+                <input wire:model="ypdh.base_url" class="input" placeholder="https://api.kryptonlab.web.id/v1">
+                <p class="mt-1 text-xs text-slate-500">Jalur <code>/chat/completions</code>,
+                    <code>/images/generations</code>, dan <code>/models</code> ditambahkan otomatis.</p>
+                @error('ypdh.base_url')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="sm:col-span-2">
+                <label class="label">API key</label>
+                <input type="password" autocomplete="off" wire:model="ypdh.key" class="input" placeholder="sk-…">
+                @error('ypdh.key')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="sm:col-span-2 flex flex-wrap items-center gap-3">
+                <button type="button" wire:click="loadYpdhModels" class="btn-secondary">
+                    <span wire:loading.remove wire:target="loadYpdhModels">Ambil daftar model</span>
+                    <span wire:loading wire:target="loadYpdhModels">Mengambil…</span>
+                </button>
+                @if ($ypdhStatus)
+                    <span class="text-xs font-semibold {{ $ypdhStatusOk ? 'text-emerald-600' : 'text-red-600' }}">
+                        {{ $ypdhStatus }}
+                    </span>
+                @endif
+            </div>
+
+            <datalist id="ypdhModelList">
+                @foreach ($ypdhModels as $m)
+                    <option value="{{ $m }}"></option>
+                @endforeach
+            </datalist>
+
+            <div>
+                <label class="label">Model chat</label>
+                <input wire:model="ypdh.model" list="ypdhModelList" class="input" placeholder="deepseek-v4-flash">
+                @error('ypdh.model')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label class="label">Model gambar (opsional)</label>
+                <input wire:model="ypdh.model_image" list="ypdhModelList" class="input"
+                    placeholder="kosongkan untuk menyembunyikan tab gambar">
+                @error('ypdh.model_image')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="sm:col-span-2">
+                <label class="label">Peran asisten</label>
+                <textarea wire:model="ypdh.system" rows="3" class="input"></textarea>
+                <p class="mt-1 text-xs text-slate-500">Instruksi tetap yang dikirim di awal setiap percakapan.</p>
+                @error('ypdh.system')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="button" wire:click="saveYpdhAi" class="btn-primary">
+                <span wire:loading.remove wire:target="saveYpdhAi">Simpan Pengaturan YPDH AI</span>
+                <span wire:loading wire:target="saveYpdhAi">Menyimpan…</span>
+            </button>
+        </div>
     </div>
     <x-confirm-delete title="Hapus Tema Event?" description="Tema ini akan dihapus permanen." :show="(bool) $confirmingDeleteId"
         :label="$confirmingDeleteLabel" />
