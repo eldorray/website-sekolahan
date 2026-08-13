@@ -87,6 +87,19 @@
             }
         }
 
+        /* Dialog bawaan browser: modal, jebakan fokus, dan tombol Esc sudah ada
+           sendiri. Hanya latar dan bingkainya yang perlu diatur. */
+        #dlgHapus {
+            border: 0;
+            padding: 0;
+            background: transparent
+        }
+
+        #dlgHapus::backdrop {
+            background: rgb(15 23 42 / .45);
+            backdrop-filter: blur(2px)
+        }
+
         .scroll-thin::-webkit-scrollbar {
             width: 6px
         }
@@ -223,6 +236,22 @@
     {{-- Gutter luar hanya diatur di sini; anak-anaknya tidak menambah padding
          sendiri supaya jarak ke tiap tepi layar sama. --}}
     <div class="flex h-full gap-4 p-3 sm:p-4">
+
+        {{-- Dialog konfirmasi hapus --}}
+        <dialog id="dlgHapus" aria-labelledby="dlgJudul">
+            <form method="dialog" class="w-[min(24rem,90vw)] rounded-3xl bg-white p-5 shadow-2xl">
+                <h2 id="dlgJudul" class="text-base font-bold text-slate-900">{{ __('Hapus percakapan') }}</h2>
+                <p id="dlgPesan" class="mt-1.5 text-[13px] leading-relaxed text-slate-500"></p>
+                <div class="mt-5 flex justify-end gap-2">
+                    <button value="batal" autofocus
+                        class="rounded-xl px-4 py-2 text-[13px] font-semibold text-slate-500 transition hover:bg-slate-100">
+                        {{ __('Batal') }}</button>
+                    <button value="hapus"
+                        class="rounded-xl bg-red-600 px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-red-700">
+                        {{ __('Hapus') }}</button>
+                </div>
+            </form>
+        </dialog>
 
         {{-- ═══════════ SIDEBAR ═══════════ --}}
         <div id="tirai" class="fixed inset-0 z-30 bg-slate-900/40"></div>
@@ -794,8 +823,26 @@
                 bukaMenu(false);
             }
 
-            function hapusSesi(id, judul) {
-                if (!confirm(t('confirmDelete', {
+            /* Dialog bawaan: Esc dan tombol Batal sama-sama menutup tanpa nilai,
+               jadi apa pun selain "hapus" dianggap batal. */
+            const dlgHapus = $('#dlgHapus');
+            dlgHapus.addEventListener('click', e => {
+                if (e.target === dlgHapus) dlgHapus.close();
+            });
+
+            function konfirmasiHapus(pesan) {
+                return new Promise(resolve => {
+                    $('#dlgPesan').textContent = pesan;
+                    dlgHapus.returnValue = '';
+                    dlgHapus.addEventListener('close', () => resolve(dlgHapus.returnValue === 'hapus'), {
+                        once: true
+                    });
+                    dlgHapus.showModal();
+                });
+            }
+
+            async function hapusSesi(id, judul) {
+                if (!await konfirmasiHapus(t('confirmDelete', {
                         judul
                     }))) return;
                 tulisSesi(bacaSesi().filter(s => s.id !== id));

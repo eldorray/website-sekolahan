@@ -335,3 +335,15 @@ test('closing HTML tags inside page scripts are slash-escaped', function () {
         ->and($html)->not->toContain("'</style>")
         ->and($html)->not->toContain("'</body>");
 });
+
+test('deleting a conversation asks through a real dialog, not window.confirm', function () {
+    unlockYpdh($this);
+
+    $html = $this->get(route('ypdh-ai'))->getContent();
+
+    expect($html)->toContain('<dialog id="dlgHapus"')
+        ->and($html)->toContain('value="hapus"')
+        ->and($html)->toContain('value="batal"')
+        // confirm() memblokir dan tampil di luar gaya halaman.
+        ->and($html)->not->toContain('confirm(');
+});
