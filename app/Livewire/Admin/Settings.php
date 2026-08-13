@@ -10,6 +10,7 @@ use App\Services\TintaGateway;
 use App\Support\ColorPalette;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -106,6 +107,9 @@ class Settings extends Component
     /** @var array<int, string> Hasil "Ambil daftar model" dari gateway. */
     public array $ypdhModels = [];
 
+    /** @var array<int, string> Daftar sama, tapi kandidat model gambar didahulukan. */
+    public array $ypdhImageModels = [];
+
     public string $ypdhStatus = '';
 
     public bool $ypdhStatusOk = false;
@@ -159,6 +163,7 @@ class Settings extends Component
     {
         try {
             $this->ypdhModels = TintaGateway::models($this->ypdh['base_url'] ?? '', $this->ypdh['key'] ?? '');
+            $this->ypdhImageModels = $this->rankImageModels($this->ypdhModels);
             $this->ypdhStatusOk = true;
             $this->ypdhStatus = count($this->ypdhModels).' model tersedia — klik kolom model untuk memilih.';
 
@@ -167,9 +172,28 @@ class Settings extends Component
             }
         } catch (\Throwable $e) {
             $this->ypdhModels = [];
+            $this->ypdhImageModels = [];
             $this->ypdhStatusOk = false;
             $this->ypdhStatus = $e->getMessage();
         }
+    }
+
+    /**
+     * Endpoint /models tidak memberi tahu model mana yang bisa menggambar, jadi
+     * nama model dicocokkan ke kata kunci yang lazim dan didahulukan di daftar.
+     * Hanya urutan — semua model tetap bisa dipilih, dan gateway tetap penentu.
+     *
+     * @param  array<int, string>  $models
+     * @return array<int, string>
+     */
+    private function rankImageModels(array $models): array
+    {
+        $hints = ['image', 'img', 'dall-e', 'dalle', 'flux', 'stable-diffusion', 'sdxl', 'sd3',
+            'imagen', 'ideogram', 'recraft', 'seedream', 'kolors', 'playground', 'hidream', 'diffusion'];
+
+        $likely = array_filter($models, fn (string $m): bool => Str::contains(Str::lower($m), $hints));
+
+        return array_values(array_unique([...$likely, ...$models]));
     }
 
     public function applyPreset(string $hex): void

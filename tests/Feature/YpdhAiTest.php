@@ -256,3 +256,29 @@ test('the model button refuses an empty key instead of calling out', function ()
 
     Http::assertNothingSent();
 });
+
+test('likely image models are put first in the image model list', function () {
+    Http::fake(['gateway.test/*' => Http::response(['data' => [
+        ['id' => 'amanai/minimax-m3'],
+        ['id' => 'black-forest/flux-schnell'],
+        ['id' => 'deepseek-v4-flash'],
+        ['id' => 'stability/stable-diffusion-3'],
+    ]])]);
+
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin6@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    $c = Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'https://gateway.test/v1')
+        ->set('ypdh.key', 'sk-uji')
+        ->call('loadYpdhModels');
+
+    $image = $c->get('ypdhImageModels');
+
+    // Kandidat gambar naik ke atas, model teks tetap ada di bawah.
+    expect(array_slice($image, 0, 2))
+        ->toBe(['black-forest/flux-schnell', 'stability/stable-diffusion-3'])
+        ->and($image)->toContain('amanai/minimax-m3')
+        ->and($image)->toHaveCount(4);
+});

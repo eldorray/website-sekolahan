@@ -386,6 +386,12 @@
                 @endforeach
             </datalist>
 
+            <datalist id="ypdhImageModelList">
+                @foreach ($ypdhImageModels as $m)
+                    <option value="{{ $m }}"></option>
+                @endforeach
+            </datalist>
+
             <div>
                 <label class="label">Model chat</label>
                 <input wire:model="ypdh.model" list="ypdhModelList" class="input" placeholder="deepseek-v4-flash">
@@ -396,8 +402,13 @@
 
             <div>
                 <label class="label">Model gambar (opsional)</label>
-                <input wire:model="ypdh.model_image" list="ypdhModelList" class="input"
+                <input wire:model="ypdh.model_image" list="ypdhImageModelList" class="input"
                     placeholder="kosongkan untuk menyembunyikan tab gambar">
+                <p class="mt-1 text-xs text-slate-500">
+                    Harus model <b>penghasil gambar</b> (mis. flux, stable-diffusion, dall-e). Model chat seperti
+                    <code>minimax</code> atau <code>deepseek</code> akan ditolak gateway. Kandidat gambar
+                    ditaruh di urutan atas daftar, tapi gateway tetap penentunya.
+                </p>
                 @error('ypdh.model_image')
                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                 @enderror
