@@ -92,7 +92,15 @@ class Settings extends Component
         'tiktok' => 'TikTok URL',
         'ppdb_year' => 'PPDB - Tahun',
         'footer_about' => 'Footer - Deskripsi',
+        'ypdh_ai_base_url' => 'YPDH AI - Base URL gateway',
+        'ypdh_ai_key' => 'YPDH AI - API key',
+        'ypdh_ai_model' => 'YPDH AI - Model chat',
+        'ypdh_ai_model_image' => 'YPDH AI - Model gambar (opsional)',
+        'ypdh_ai_system' => 'YPDH AI - Peran asisten',
     ];
+
+    /** Ditampilkan sebagai input password supaya tidak terbaca dari balik bahu. */
+    public array $secretKeys = ['ypdh_ai_key'];
 
     public function mount(): void
     {

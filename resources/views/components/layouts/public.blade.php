@@ -231,13 +231,17 @@
                             ['name' => __('Beranda'), 'route' => 'home'],
                             ['name' => __('Tentang Kami'), 'route' => 'about'],
                             ['name' => __('Program'), 'route' => 'programs.index'],
-                            ...(config('features.adiwiyata')
-                                ? [['name' => __('Adiwiyata'), 'route' => 'adiwiyata']]
-                                : []),
                             ['name' => __('Berita'), 'route' => 'news.index'],
                             ['name' => __('Guru'), 'route' => 'teachers.index'],
                             ['name' => __('Kontak'), 'route' => 'contact'],
                         ];
+                        // Alat internal: hanya muncul di unit yang menyalakannya.
+                        $moreLinks = array_values(
+                            array_filter([
+                                config('features.adiwiyata') ? ['name' => __('Adiwiyata'), 'route' => 'adiwiyata'] : null,
+                                config('features.ypdh_ai') ? ['name' => __('YPDH AI'), 'route' => 'ypdh-ai'] : null,
+                            ]),
+                        );
                     @endphp
                     @foreach ($links as $link)
                         @php $active = str_starts_with($current ?? '', explode('.', $link['route'])[0]) || $current === $link['route']; @endphp
@@ -246,6 +250,31 @@
                             {{ $link['name'] }}
                         </a>
                     @endforeach
+
+                    @if ($moreLinks)
+                        <div x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false"
+                            class="relative">
+                            <button type="button" @click="open = !open" :aria-expanded="open ? 'true' : 'false'"
+                                aria-haspopup="true"
+                                class="flex items-center gap-1.5 px-5 py-2 rounded-full transition hover:bg-white/60">
+                                {{ __('Lainnya') }}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 transition-transform"
+                                    :class="open && 'rotate-180'">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition:enter="ease-ios duration-200"
+                                x-transition:enter-start="opacity-0 -translate-y-2"
+                                x-transition:enter-end="opacity-100 translate-y-0"
+                                class="absolute right-0 mt-2 w-52 liquid-glass rounded-2xl p-2 shadow-lg border border-white/80 z-50">
+                                @foreach ($moreLinks as $link)
+                                    <a href="{{ route($link['route']) }}" @click="open = false"
+                                        class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-white/70 transition">{{ $link['name'] }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </nav>
 
                 <div class="flex items-center gap-3">
@@ -284,6 +313,16 @@
                     <a href="{{ route($link['route']) }}" wire:navigate @click="open = false"
                         class="block rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-white/60 transition">{{ $link['name'] }}</a>
                 @endforeach
+                @if ($moreLinks)
+                    <div class="mt-3 pt-3 border-t border-white/60">
+                        <div class="px-4 pb-1 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                            {{ __('Lainnya') }}</div>
+                        @foreach ($moreLinks as $link)
+                            <a href="{{ route($link['route']) }}" @click="open = false"
+                                class="block rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-white/60 transition">{{ $link['name'] }}</a>
+                        @endforeach
+                    </div>
+                @endif
                 <a href="{{ route('ppdb.create') }}" wire:navigate @click="open = false"
                     class="block mt-2 rounded-xl bg-brand-500 px-4 py-3 text-sm font-semibold text-white text-center shadow-md">PPDB
                     {{ \App\Models\Setting::get('ppdb_year', '2026') }}</a>
@@ -337,6 +376,10 @@
                         <ul class="space-y-3 text-[13px] text-slate-600 font-medium">
                             @foreach ($links as $link)
                                 <li><a href="{{ route($link['route']) }}" wire:navigate
+                                        class="hover:text-brand-600 transition">{{ $link['name'] }}</a></li>
+                            @endforeach
+                            @foreach ($moreLinks as $link)
+                                <li><a href="{{ route($link['route']) }}"
                                         class="hover:text-brand-600 transition">{{ $link['name'] }}</a></li>
                             @endforeach
                         </ul>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdiwiyataController;
 use App\Http\Controllers\PpdbDocumentController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\YpdhAiController;
 use App\Livewire\Admin;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
@@ -31,6 +32,13 @@ Route::post('/adiwiyata/unlock', [AdiwiyataController::class, 'unlock'])->name('
 Route::post('/adiwiyata/lock', [AdiwiyataController::class, 'lock'])->name('adiwiyata.lock');
 Route::post('/adiwiyata/save', [AdiwiyataController::class, 'save'])->name('adiwiyata.save');
 Route::post('/adiwiyata/reset', [AdiwiyataController::class, 'reset'])->name('adiwiyata.reset');
+
+// YPDH AI — asisten guru. Sama seperti Adiwiyata: dikunci PIN, per-unit lewat .env.
+Route::get('/ypdh-ai', [YpdhAiController::class, 'index'])->name('ypdh-ai');
+Route::post('/ypdh-ai/unlock', [YpdhAiController::class, 'unlock'])->name('ypdh-ai.unlock');
+Route::post('/ypdh-ai/lock', [YpdhAiController::class, 'lock'])->name('ypdh-ai.lock');
+Route::post('/ypdh-ai/chat', [YpdhAiController::class, 'chat'])->name('ypdh-ai.chat');
+Route::post('/ypdh-ai/image', [YpdhAiController::class, 'image'])->name('ypdh-ai.image');
 Route::get('/galeri/{slug}', Public\AlbumShow::class)->name('gallery.album');
 Route::get('/kontak', Public\Contact::class)->name('contact');
 Route::get('/ppdb', Public\Ppdb::class)->name('ppdb.create');

@@ -24,4 +24,12 @@ return [
     */
     'adiwiyata_pin' => (string) env('ADIWIYATA_PIN', ''),
 
+    'ypdh_ai' => (bool) env('YPDH_AI_ENABLED', false),
+
+    /*
+    | PIN bersama untuk membuka YPDH AI. Kosong = tidak ada yang bisa masuk.
+    | Tiap panggilan AI keluar biaya, jadi jangan dibagikan sembarangan.
+    */
+    'ypdh_ai_pin' => (string) env('YPDH_AI_PIN', ''),
+
 ];

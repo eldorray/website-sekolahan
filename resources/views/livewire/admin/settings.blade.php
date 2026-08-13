@@ -327,6 +327,8 @@
                             :value="$data[$key] ?? ''"
                             placeholder="Tulis {{ strtolower($label) }}…"
                         />
+                    @elseif (in_array($key, $secretKeys))
+                        <input type="password" autocomplete="off" wire:model="data.{{ $key }}" class="input">
                     @else
                         <input wire:model="data.{{ $key }}" class="input">
                     @endif

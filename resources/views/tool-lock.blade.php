@@ -7,7 +7,7 @@
     {{-- Halaman terkunci: jangan diindeks mesin pencari. --}}
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ __('Monitoring Adiwiyata') }}</title>
+    <title>{{ $heading }}</title>
     @if ($favicon = \App\Models\Setting::imageUrl('favicon'))
         <link rel="icon" href="{{ $favicon }}">
     @endif
@@ -158,13 +158,13 @@
 
 <body>
     <div class="box">
-        <div class="logo">🌿</div>
-        <h1>{{ __('Monitoring Adiwiyata') }}</h1>
+        <div class="logo">{{ $icon }}</div>
+        <h1>{{ $heading }}</h1>
 
         @if ($pinConfigured)
             <p class="sub">{{ __('Masukkan PIN dari admin untuk membuka halaman ini.') }}</p>
 
-            <form method="POST" action="{{ route('adiwiyata.unlock') }}">
+            <form method="POST" action="{{ $action }}">
                 @csrf
                 <input type="password" name="pin" class="pin" placeholder="{{ __('PIN') }}"
                     aria-label="{{ __('PIN') }}" inputmode="numeric" autocomplete="off" autofocus required>
