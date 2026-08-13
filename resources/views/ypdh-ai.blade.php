@@ -195,10 +195,10 @@
     <div class="flex h-full gap-4 p-3 sm:p-4">
 
         {{-- ═══════════ SIDEBAR ═══════════ --}}
-        <div id="tirai" class="hide fixed inset-0 z-30 bg-slate-900/40 lg:hidden"></div>
+        <div id="tirai" class="hidden fixed inset-0 z-30 bg-slate-900/40 lg:hidden"></div>
 
         <aside id="sidebar"
-            class="hide fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto lg:p-0 glass lg:bg-transparent lg:backdrop-blur-none">
+            class="hidden fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto lg:p-0 glass lg:bg-transparent lg:backdrop-blur-none">
 
             <div class="rail-row flex items-center gap-3 px-3 py-1">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-500/30">
@@ -555,11 +555,13 @@
             /* --------- Sidebar & tab ---------------------------------------- */
             const sidebar = $('#sidebar'),
                 tirai = $('#tirai');
+            // `hidden` (utility Tailwind), bukan `.hide` — `.hide` memakai !important
+            // dan akan mengalahkan `lg:flex`, sehingga sidebar ikut hilang di desktop.
             const bukaMenu = on => {
-                sidebar.classList.toggle('hide', !on);
-                tirai.classList.toggle('hide', !on);
+                sidebar.classList.toggle('hidden', !on);
+                tirai.classList.toggle('hidden', !on);
             };
-            $('#btnMenu').onclick = () => bukaMenu(sidebar.classList.contains('hide'));
+            $('#btnMenu').onclick = () => bukaMenu(sidebar.classList.contains('hidden'));
             tirai.onclick = () => bukaMenu(false);
 
             /* Ciutkan/lebarkan sidebar di layar lebar; pilihannya diingat. */

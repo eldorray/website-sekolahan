@@ -282,3 +282,16 @@ test('likely image models are put first in the image model list', function () {
         ->and($image)->toContain('amanai/minimax-m3')
         ->and($image)->toHaveCount(4);
 });
+
+test('the desktop sidebar is not killed by the !important hide class', function () {
+    unlockYpdh($this);
+
+    $html = $this->get(route('ypdh-ai'))->getContent();
+    preg_match('/<aside id="sidebar"\s+class="([^"]+)"/', $html, $m);
+    $classes = $m[1] ?? '';
+
+    // `.hide` di blok <style> halaman ini tidak berlapis dan memakai !important,
+    // sehingga mengalahkan `lg:flex` dan menyembunyikan sidebar di semua layar.
+    expect($classes)->toContain('lg:flex')
+        ->and(explode(' ', $classes))->not->toContain('hide');
+});
