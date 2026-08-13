@@ -12,363 +12,107 @@
     @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css'])
     <style>
-        :root {
-            --kertas: #FCFBF6;
-            --kertas-2: #F2F0E6;
-            --garis: #CBD9EA;
-            --tinta: #14284D;
-            --tinta-2: #55658A;
-            --koreksi: #B6362B;
-            --stabilo: #F7E259;
-            --hijau: #2F6B4F;
-            --radius: 10px;
-            --display: "Zilla Slab", Georgia, serif;
-            --body: "Karla", system-ui, -apple-system, sans-serif;
-            --mono: "IBM Plex Mono", ui-monospace, monospace;
+        [x-cloak],
+        .hide {
+            display: none !important
         }
 
-        * {
-            box-sizing: border-box
+        .scroll-thin::-webkit-scrollbar {
+            width: 6px
         }
 
-        html,
-        body {
-            height: 100%
+        .scroll-thin::-webkit-scrollbar-thumb {
+            background: rgb(148 163 184 / .45);
+            border-radius: 99px
         }
 
-        body {
-            margin: 0;
-            font-family: var(--body);
-            color: var(--tinta);
-            background: var(--kertas);
-            -webkit-font-smoothing: antialiased;
+        .glass {
+            background: rgb(255 255 255 / .72);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
         }
 
-        button {
-            font-family: inherit;
-            cursor: pointer
-        }
-
-        :focus-visible {
-            outline: 2px solid var(--koreksi);
-            outline-offset: 2px
-        }
-
-        /* ---------- Kerangka ---------- */
-        .app {
-            max-width: 940px;
-            margin: 0 auto;
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid var(--garis);
-            border-right: 1px solid var(--garis);
-            background: var(--kertas)
-        }
-
-        header {
-            padding: 18px 22px 14px;
-            border-bottom: 1px solid var(--garis);
-            display: flex;
-            align-items: flex-end;
-            gap: 16px;
-            flex-wrap: wrap;
-            background: var(--kertas);
-            position: sticky;
-            top: 0;
-            z-index: 20
-        }
-
-        .brand {
-            flex: 1;
-            min-width: 180px
-        }
-
-        .eyebrow {
-            font-family: var(--mono);
-            font-size: 10.5px;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            color: var(--tinta-2);
-            margin: 0 0 2px
-        }
-
-        h1 {
-            font-family: var(--display);
-            font-weight: 700;
-            font-size: 30px;
-            letter-spacing: -.01em;
-            margin: 0;
-            line-height: 1
-        }
-
-        h1 .dot {
-            color: var(--koreksi)
-        }
-
-        .head-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px
-        }
-
-        .head-actions form {
-            display: contents
-        }
-
-        .chip {
-            font-family: var(--mono);
-            font-size: 11px;
-            color: var(--tinta-2);
-            background: var(--kertas-2);
-            border: 1px solid var(--garis);
-            border-radius: 999px;
-            padding: 5px 11px;
-            max-width: 210px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap
-        }
-
-        .icon-btn {
-            background: none;
-            border: 1px solid var(--garis);
-            border-radius: var(--radius);
-            padding: 7px 12px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--tinta);
-            text-decoration: none;
-            display: inline-block;
-            transition: background .15s, border-color .15s
-        }
-
-        .icon-btn:hover {
-            background: var(--kertas-2);
-            border-color: var(--tinta-2)
-        }
-
-        /* ---------- Tab ---------- */
-        nav {
-            display: flex;
-            gap: 4px;
-            padding: 10px 22px 0;
-            border-bottom: 1px solid var(--garis)
-        }
-
-        .tab {
-            position: relative;
-            background: none;
-            border: 0;
-            padding: 8px 4px 12px;
-            margin-right: 20px;
+        /* Jawaban AI dirender dari markdown; beri jarak baca yang wajar. */
+        .prosa {
             font-size: 15px;
-            font-weight: 600;
-            color: var(--tinta-2)
+            line-height: 1.75
         }
 
-        .tab span {
-            position: relative;
-            z-index: 1
+        .prosa p {
+            margin: 0 0 .9rem
         }
 
-        .tab.on {
-            color: var(--tinta)
-        }
-
-        .tab.on span::after {
-            content: "";
-            position: absolute;
-            left: -4px;
-            right: -4px;
-            bottom: -1px;
-            height: 9px;
-            background: var(--stabilo);
-            z-index: -1;
-            border-radius: 2px
-        }
-
-        .tab.on::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 20px;
-            bottom: -1px;
-            height: 2px;
-            background: var(--tinta)
-        }
-
-        /* ---------- Panel percakapan: kertas bergaris ---------- */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 0
-        }
-
-        .view {
-            flex: 1;
-            display: none;
-            flex-direction: column;
-            min-height: 0
-        }
-
-        .view.on {
-            display: flex
-        }
-
-        .paper {
-            flex: 1;
-            overflow-y: auto;
-            padding: 26px 22px 30px 60px;
-            position: relative;
-            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--garis) 31px, var(--garis) 32px);
-            background-position: 0 26px
-        }
-
-        .paper::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 44px;
-            width: 1px;
-            background: var(--koreksi);
-            opacity: .45
-        }
-
-        /* ---------- Pesan ---------- */
-        .msg {
-            margin: 0 0 22px;
-            max-width: 74ch
-        }
-
-        .who {
-            font-family: var(--mono);
-            font-size: 10.5px;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--tinta-2);
-            margin-bottom: 5px
-        }
-
-        .msg.me .bubble {
-            background: var(--kertas-2);
-            border-left: 3px solid var(--koreksi);
-            padding: 11px 14px;
-            border-radius: 0 var(--radius) var(--radius) 0
-        }
-
-        .bubble {
-            font-size: 15.5px;
-            line-height: 32px
-        }
-
-        .bubble p {
-            margin: 0 0 32px
-        }
-
-        .bubble p:last-child {
+        .prosa p:last-child {
             margin-bottom: 0
         }
 
-        .bubble h2,
-        .bubble h3 {
-            font-family: var(--display);
-            font-size: 18px;
-            margin: 32px 0 0;
-            line-height: 32px
+        .prosa h2,
+        .prosa h3 {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin: 1.2rem 0 .5rem
         }
 
-        .bubble ul,
-        .bubble ol {
-            margin: 0 0 32px;
-            padding-left: 22px
+        .prosa ul,
+        .prosa ol {
+            margin: 0 0 .9rem;
+            padding-left: 1.3rem
         }
 
-        .bubble li {
-            line-height: 32px
+        .prosa ul {
+            list-style: disc
         }
 
-        .bubble code {
-            font-family: var(--mono);
-            font-size: 13.5px;
-            background: var(--kertas-2);
-            padding: 1px 5px;
-            border-radius: 4px
+        .prosa ol {
+            list-style: decimal
         }
 
-        .bubble pre {
-            background: #101E36;
-            color: #E8EEF7;
-            padding: 14px 16px;
-            border-radius: var(--radius);
+        .prosa li {
+            margin: .2rem 0
+        }
+
+        .prosa code {
+            background: rgb(241 245 249);
+            padding: .1rem .35rem;
+            border-radius: .35rem;
+            font-size: .85em
+        }
+
+        .prosa pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: .9rem 1rem;
+            border-radius: .9rem;
             overflow-x: auto;
-            line-height: 1.55;
-            margin: 0 0 32px
+            margin: 0 0 .9rem
         }
 
-        .bubble pre code {
+        .prosa pre code {
             background: none;
             color: inherit;
-            padding: 0;
-            font-size: 13px
+            padding: 0
         }
 
-        .bubble strong {
-            font-weight: 700
-        }
-
-        .bubble table {
+        .prosa table {
             border-collapse: collapse;
-            margin: 0 0 32px;
-            font-size: 14px
+            margin: 0 0 .9rem;
+            font-size: .9em;
+            display: block;
+            overflow-x: auto
         }
 
-        .bubble th,
-        .bubble td {
-            border: 1px solid var(--garis);
-            padding: 6px 10px;
-            line-height: 1.5;
+        .prosa th,
+        .prosa td {
+            border: 1px solid rgb(226 232 240);
+            padding: .4rem .6rem;
             text-align: left
         }
 
-        .bubble th {
-            background: var(--kertas-2)
-        }
-
-        .msg-tools {
-            margin-top: 6px
-        }
-
-        .mini {
-            background: none;
-            border: 0;
-            padding: 2px 0;
-            font-family: var(--mono);
-            font-size: 10.5px;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--tinta-2);
-            text-decoration: underline;
-            text-underline-offset: 3px
-        }
-
-        .mini:hover {
-            color: var(--koreksi)
-        }
-
-        .caret {
-            display: inline-block;
-            width: 8px;
-            height: 17px;
-            background: var(--tinta);
-            vertical-align: -3px;
-            animation: blink 1s steps(2) infinite
+        .prosa th {
+            background: rgb(248 250 252)
         }
 
         @keyframes blink {
@@ -377,325 +121,13 @@
             }
         }
 
-        /* ---------- Layar kosong / pemantik ---------- */
-        .kosong {
-            max-width: 70ch
-        }
-
-        .kosong h2 {
-            font-family: var(--display);
-            font-weight: 600;
-            font-size: 23px;
-            margin: 0 0 6px;
-            line-height: 32px
-        }
-
-        .kosong p {
-            font-size: 15px;
-            line-height: 32px;
-            color: var(--tinta-2);
-            margin: 0 0 24px
-        }
-
-        .pemantik {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-            gap: 10px
-        }
-
-        .kartu {
-            text-align: left;
-            background: var(--kertas);
-            border: 1px solid var(--garis);
-            border-radius: var(--radius);
-            padding: 12px 14px;
-            transition: border-color .15s, transform .15s
-        }
-
-        .kartu:hover {
-            border-color: var(--tinta);
-            transform: translateY(-2px)
-        }
-
-        .kartu b {
-            display: block;
-            font-family: var(--display);
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 2px
-        }
-
-        .kartu i {
-            font-style: normal;
-            font-size: 12.5px;
-            color: var(--tinta-2);
-            line-height: 1.45;
-            display: block
-        }
-
-        /* ---------- Composer ---------- */
-        .composer {
-            border-top: 1px solid var(--garis);
-            padding: 12px 22px 18px;
-            background: var(--kertas)
-        }
-
-        .lampiran {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px
-        }
-
-        .lampiran:empty {
-            display: none
-        }
-
-        .file-chip {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            background: var(--kertas-2);
-            border: 1px solid var(--garis);
-            border-radius: 999px;
-            padding: 4px 6px 4px 11px;
-            font-size: 12.5px;
-            max-width: 100%
-        }
-
-        .file-chip em {
-            font-style: normal;
-            font-family: var(--mono);
-            font-size: 10px;
-            color: var(--tinta-2)
-        }
-
-        .file-chip button {
-            background: none;
-            border: 0;
-            font-size: 15px;
-            line-height: 1;
-            color: var(--tinta-2);
-            padding: 0 4px
-        }
-
-        .file-chip button:hover {
-            color: var(--koreksi)
-        }
-
-        .baris {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            border: 1px solid var(--tinta-2);
-            border-radius: var(--radius);
-            padding: 8px 8px 8px 12px;
-            background: var(--kertas);
-            transition: box-shadow .15s
-        }
-
-        .baris:focus-within {
-            box-shadow: 0 0 0 3px rgba(20, 40, 77, .12)
-        }
-
-        textarea {
-            flex: 1;
-            border: 0;
-            background: none;
-            resize: none;
-            font-family: inherit;
-            font-size: 15.5px;
-            line-height: 1.5;
-            color: var(--tinta);
-            max-height: 180px;
-            padding: 4px 0
-        }
-
-        textarea:focus {
-            outline: none
-        }
-
-        .kirim {
-            background: var(--tinta);
-            color: var(--kertas);
-            border: 0;
-            border-radius: 8px;
-            padding: 9px 16px;
-            font-size: 14px;
-            font-weight: 700
-        }
-
-        .kirim:hover {
-            background: var(--koreksi)
-        }
-
-        .kirim:disabled {
-            background: var(--tinta-2);
-            opacity: .5;
-            cursor: not-allowed
-        }
-
-        .hint {
-            font-family: var(--mono);
-            font-size: 10.5px;
-            color: var(--tinta-2);
-            margin-top: 8px;
-            letter-spacing: .04em
-        }
-
-        /* ---------- Gambar ---------- */
-        .gambar-view {
-            padding: 26px 22px;
-            overflow-y: auto
-        }
-
-        .lebar {
-            max-width: 70ch
-        }
-
-        label.f {
-            display: block;
-            font-family: var(--mono);
-            font-size: 10.5px;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--tinta-2);
-            margin: 0 0 6px
-        }
-
-        input[type=text],
-        select {
-            width: 100%;
-            font-family: var(--body);
-            font-size: 14.5px;
-            color: var(--tinta);
-            background: var(--kertas);
-            border: 1px solid var(--garis);
-            border-radius: var(--radius);
-            padding: 10px 12px
-        }
-
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--tinta)
-        }
-
-        .dua {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px
-        }
-
-        .hasil {
-            margin-top: 22px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 14px
-        }
-
-        .hasil figure {
-            margin: 0;
-            border: 1px solid var(--garis);
-            border-radius: var(--radius);
-            overflow: hidden;
-            background: var(--kertas-2)
-        }
-
-        .hasil img {
-            width: 100%;
-            display: block
-        }
-
-        .hasil figcaption {
-            padding: 9px 11px;
-            font-size: 12.5px;
-            line-height: 1.45;
-            color: var(--tinta-2);
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            align-items: flex-start
-        }
-
-        .hasil figcaption a {
-            color: var(--tinta);
-            font-weight: 700;
-            text-decoration: none;
-            white-space: nowrap
-        }
-
-        .aksi {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap
-        }
-
-        .status {
-            font-family: var(--mono);
-            font-size: 11.5px;
-            color: var(--tinta-2)
-        }
-
-        .status.ok {
-            color: var(--hijau)
-        }
-
-        .status.bad {
-            color: var(--koreksi)
-        }
-
-        .galat {
-            border-left: 3px solid var(--koreksi);
-            background: #FDF2F0;
-            padding: 11px 14px;
-            font-size: 14px;
-            line-height: 1.55;
-            border-radius: 0 var(--radius) var(--radius) 0;
-            max-width: 70ch
-        }
-
-        .galat b {
-            display: block;
-            margin-bottom: 2px
-        }
-
-        @media (max-width:640px) {
-            header {
-                padding: 14px 16px 12px
-            }
-
-            h1 {
-                font-size: 25px
-            }
-
-            nav {
-                padding: 8px 16px 0
-            }
-
-            .paper {
-                padding: 20px 16px 24px 44px;
-                background-position: 0 20px
-            }
-
-            .paper::before {
-                left: 30px
-            }
-
-            .composer,
-            .gambar-view {
-                padding-left: 16px;
-                padding-right: 16px
-            }
-
-            .dua {
-                grid-template-columns: 1fr
-            }
-
-            .chip {
-                display: none
-            }
+        .caret {
+            display: inline-block;
+            width: 7px;
+            height: 16px;
+            background: rgb(59 130 246);
+            vertical-align: -3px;
+            animation: blink 1s steps(2) infinite
         }
 
         @media (prefers-reduced-motion:reduce) {
@@ -707,123 +139,254 @@
     </style>
 </head>
 
-<body>
-    <div class="app">
-        <header>
-            <div class="brand">
-                <p class="eyebrow">{{ __('Asisten AI ruang guru') }}</p>
-                <h1>{{ __('YPDH AI') }}<span class="dot">.</span></h1>
-            </div>
-            <div class="head-actions">
-                <span class="chip">{{ $model ?: __('model belum diatur') }}</span>
-                <a class="icon-btn" href="{{ route('home') }}">{{ __('Beranda') }}</a>
-                <form method="POST" action="{{ route('ypdh-ai.lock') }}">
-                    @csrf
-                    <button type="submit" class="icon-btn">🔒 {{ __('Kunci') }}</button>
-                </form>
-            </div>
-        </header>
+<body class="h-screen overflow-hidden bg-gradient-to-br from-slate-200 via-blue-50 to-blue-200 font-sans text-slate-800 antialiased">
 
-        <nav>
-            <button class="tab on" data-view="chat"><span>{{ __('Ngobrol') }}</span></button>
-            @if ($imageReady)
-                <button class="tab" data-view="gambar"><span>{{ __('Buat gambar') }}</span></button>
-            @endif
-        </nav>
+    @php
+        $pemantik = [
+            ['mengajar', 'Susun soal', 'Pilihan ganda + kunci + pembahasan', 'Buatkan 10 soal pilihan ganda beserta kunci jawaban dan pembahasan singkat untuk materi '],
+            ['mengajar', 'Modul ajar', 'Satu pertemuan, lengkap dengan asesmen', 'Buatkan modul ajar satu pertemuan (45 menit) sesuai Kurikulum Merdeka untuk mata pelajaran '],
+            ['mengajar', 'Sederhanakan materi', 'Ubah jadi bahasa yang ramah siswa', "Ringkas materi berikut menjadi bahasa yang mudah dipahami siswa SMP kelas 7, maksimal 200 kata:\n\n"],
+            ['mengajar', 'Ide kegiatan', 'Aktivitas kelas tanpa biaya besar', 'Berikan 5 ide kegiatan pembelajaran yang menyenangkan tanpa alat mahal untuk topik '],
+            ['penilaian', 'Umpan balik rapor', 'Catatan perkembangan yang membangun', "Bantu saya menulis catatan perkembangan dan umpan balik rapor untuk siswa dengan kondisi berikut:\n\n"],
+            ['administrasi', 'Surat & administrasi', 'Draf surat resmi, notula, pengumuman', 'Buatkan draf surat resmi sekolah untuk keperluan '],
+        ];
+        $kategori = ['semua' => 'Semua', 'mengajar' => 'Mengajar', 'penilaian' => 'Penilaian', 'administrasi' => 'Administrasi'];
+    @endphp
 
-        <main>
-            {{-- ============ NGOBROL ============ --}}
-            <section class="view on" id="view-chat">
-                <div class="paper" id="paper">
-                    <div class="kosong" id="kosong">
-                        <h2>{{ __('Selamat datang, Bu/Pak Guru.') }}</h2>
-                        <p>{{ __('Tanya apa saja, atau lampirkan berkas (PDF, Word, teks, gambar) untuk dibaca dan diolah. Pilih salah satu pemantik di bawah untuk memulai.') }}
-                        </p>
-                        @unless ($chatReady)
-                            <div class="galat" style="margin-bottom:24px">
-                                <b>{{ __('Pengaturan AI belum lengkap') }}</b>
-                                {{ __('Admin perlu mengisi API key dan model chat di Admin → Settings.') }}
+    <div class="flex h-full">
+
+        {{-- ═══════════ SIDEBAR ═══════════ --}}
+        <div id="tirai" class="hide fixed inset-0 z-30 bg-slate-900/40 lg:hidden"></div>
+
+        <aside id="sidebar"
+            class="hide fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto glass lg:bg-transparent lg:backdrop-blur-none">
+
+            <div class="flex items-center gap-3 px-2 py-1">
+                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-500/30">
+                    🖋️</div>
+                <div class="min-w-0">
+                    <div class="truncate text-sm font-extrabold text-slate-900">{{ __('YPDH AI') }}</div>
+                    <div class="truncate text-[11px] font-medium text-slate-500">{{ __('Asisten Guru') }}</div>
+                </div>
+            </div>
+
+            <nav class="mt-6 space-y-1">
+                <button type="button" data-view="chat"
+                    class="tab on flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm3.75 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm3.75 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 0 1-2.555-.337A5.97 5.97 0 0 1 5.41 20.97a5.97 5.97 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                    </svg>
+                    {{ __('Ngobrol') }}
+                </button>
+
+                @if ($imageReady)
+                    <button type="button" data-view="gambar"
+                        class="tab flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                        </svg>
+                        {{ __('Buat gambar') }}
+                    </button>
+                @endif
+
+                <button type="button" id="btnBaru"
+                    class="mt-2 flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-white/70">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-slate-200">
+                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </span>
+                    {{ __('Percakapan baru') }}
+                </button>
+            </nav>
+
+            <div class="mt-auto space-y-2 pt-4">
+                <div class="rounded-2xl bg-white/70 px-3 py-2.5 ring-1 ring-white/80">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Model') }}</div>
+                    <div class="truncate text-xs font-semibold text-slate-700">
+                        {{ $model ?: __('belum diatur') }}</div>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{{ route('home') }}"
+                        class="flex-1 rounded-2xl bg-white/70 px-3 py-2 text-center text-xs font-semibold text-slate-600 ring-1 ring-white/80 transition hover:bg-white">
+                        {{ __('Beranda') }}</a>
+                    <form method="POST" action="{{ route('ypdh-ai.lock') }}" class="flex-1">
+                        @csrf
+                        <button type="submit"
+                            class="w-full rounded-2xl bg-white/70 px-3 py-2 text-xs font-semibold text-slate-600 ring-1 ring-white/80 transition hover:bg-white">
+                            🔒 {{ __('Kunci') }}</button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        {{-- ═══════════ UTAMA ═══════════ --}}
+        <main class="flex min-w-0 flex-1 flex-col p-3 sm:p-4 lg:pl-0">
+
+            <div class="mb-3 flex items-center gap-3 px-1">
+                <button type="button" id="btnMenu"
+                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 ring-1 ring-white/80 lg:hidden">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+                <div class="min-w-0">
+                    <h1 class="truncate text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+                        {{ __('Asisten AI untuk Guru') }}</h1>
+                    <p class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                        <span class="h-2 w-2 rounded-full {{ $chatReady ? 'bg-emerald-500' : 'bg-amber-500' }}"></span>
+                        {{ $chatReady ? __('Terhubung ke :model', ['model' => $model]) : __('Pengaturan AI belum lengkap') }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex min-h-0 flex-1 gap-4">
+
+                {{-- ── Kolom percakapan ── --}}
+                <section id="view-chat" class="view flex min-w-0 flex-1 flex-col">
+                    <div class="glass flex min-h-0 flex-1 flex-col rounded-3xl border border-white/80 shadow-sm">
+
+                        <div id="paper" class="scroll-thin min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-8">
+                            <div id="kosong" class="flex h-full flex-col items-center justify-center text-center">
+                                <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl shadow-xl shadow-blue-500/30">
+                                    🖋️</div>
+                                <h2 class="text-2xl font-light leading-snug text-slate-700 sm:text-3xl">
+                                    {{ __('Mau dibantu apa') }}<br>{{ __('hari ini, Bu/Pak Guru?') }}</h2>
+                                @unless ($chatReady)
+                                    <p class="mt-5 max-w-sm rounded-2xl bg-amber-50 px-4 py-3 text-xs font-medium text-amber-800 ring-1 ring-amber-200">
+                                        {{ __('Admin perlu mengisi API key dan model chat di Admin → Settings.') }}</p>
+                                @endunless
+
+                                {{-- Pemantik untuk layar kecil; layar lebar memakai panel kanan --}}
+                                <div class="mt-7 grid w-full max-w-lg gap-2 sm:grid-cols-2 xl:hidden">
+                                    @foreach (array_slice($pemantik, 0, 4) as [$kat, $judul, $ket, $isi])
+                                        <button type="button" class="kartu rounded-2xl bg-white/80 p-3 text-left ring-1 ring-white/90 transition hover:ring-blue-300"
+                                            data-isi="{{ $isi }}">
+                                            <b class="block text-sm font-bold text-slate-800">{{ __($judul) }}</b>
+                                            <i class="block text-[11px] not-italic text-slate-500">{{ __($ket) }}</i>
+                                        </button>
+                                    @endforeach
+                                </div>
                             </div>
-                        @endunless
-                        @php
-                            $pemantik = [
-                                ['Susun soal', 'Pilihan ganda + kunci + pembahasan', 'Buatkan 10 soal pilihan ganda beserta kunci jawaban dan pembahasan singkat untuk materi '],
-                                ['Modul ajar', 'Satu pertemuan, lengkap dengan asesmen', 'Buatkan modul ajar satu pertemuan (45 menit) sesuai Kurikulum Merdeka untuk mata pelajaran '],
-                                ['Sederhanakan materi', 'Ubah jadi bahasa yang ramah siswa', "Ringkas materi berikut menjadi bahasa yang mudah dipahami siswa SMP kelas 7, maksimal 200 kata:\n\n"],
-                                ['Surat & administrasi', 'Draf surat resmi, notula, pengumuman', 'Buatkan draf surat resmi sekolah untuk keperluan '],
-                                ['Ide kegiatan', 'Aktivitas kelas tanpa biaya besar', 'Berikan 5 ide kegiatan pembelajaran yang menyenangkan tanpa alat mahal untuk topik '],
-                                ['Umpan balik rapor', 'Catatan perkembangan yang membangun', "Bantu saya menulis catatan perkembangan dan umpan balik rapor untuk siswa dengan kondisi berikut:\n\n"],
-                            ];
-                        @endphp
-                        <div class="pemantik">
-                            @foreach ($pemantik as [$judul, $ket, $isi])
-                                <button class="kartu" data-isi="{{ $isi }}">
-                                    <b>{{ __($judul) }}</b><i>{{ __($ket) }}</i>
+                        </div>
+
+                        <div class="border-t border-white/70 p-3 sm:p-4">
+                            <div id="lampiran" class="mb-2 flex flex-wrap gap-2 empty:hidden"></div>
+
+                            <div class="flex items-end gap-2 rounded-3xl bg-white/90 p-2 pl-3 shadow-sm ring-1 ring-white/90 focus-within:ring-2 focus-within:ring-blue-400">
+                                <button type="button" id="btnFile" title="{{ __('Lampirkan berkas') }}"
+                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                </button>
+                                <textarea id="tulis" rows="1" placeholder="{{ __('Tulis pertanyaan…') }}"
+                                    class="max-h-40 flex-1 resize-none border-0 bg-transparent py-2 text-[15px] leading-relaxed text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-0"></textarea>
+                                <button type="button" id="btnKirim"
+                                    class="flex h-10 shrink-0 items-center gap-2 rounded-2xl bg-slate-900 px-4 text-sm font-bold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-400">
+                                    <span id="kirimLabel">{{ __('Kirim') }}</span>
+                                </button>
+                            </div>
+                            <p class="mt-2 px-1 text-[11px] font-medium text-slate-400">
+                                {{ __('Enter kirim · Shift+Enter baris baru · PDF, DOCX, TXT, CSV, dan gambar didukung') }}</p>
+                            <input type="file" id="inputFile" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.json,image/*">
+                        </div>
+                    </div>
+                </section>
+
+                {{-- ── Kolom gambar ── --}}
+                @if ($imageReady)
+                    <section id="view-gambar" class="view hide min-w-0 flex-1">
+                        <div class="glass scroll-thin h-full overflow-y-auto rounded-3xl border border-white/80 p-5 shadow-sm sm:p-8">
+                            <div class="mx-auto max-w-2xl">
+                                <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                                    for="prompt">{{ __('Deskripsi gambar') }}</label>
+                                <input type="text" id="prompt"
+                                    class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400"
+                                    placeholder="{{ __('Ilustrasi siklus air untuk poster kelas 5, gaya kartun sederhana') }}">
+
+                                <div class="mt-3 grid gap-3 sm:grid-cols-2">
+                                    <div>
+                                        <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                                            for="ukuran">{{ __('Ukuran') }}</label>
+                                        <select id="ukuran"
+                                            class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400">
+                                            <option value="1024x1024">{{ __('Kotak') }} · 1024×1024</option>
+                                            <option value="1024x1792">{{ __('Tegak') }} · 1024×1792</option>
+                                            <option value="1792x1024">{{ __('Melebar') }} · 1792×1024</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                                            for="jumlah">{{ __('Jumlah') }}</label>
+                                        <select id="jumlah"
+                                            class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 flex flex-wrap items-center gap-3">
+                                    <button type="button" id="btnGambar"
+                                        class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-400">
+                                        {{ __('Buat gambar') }}</button>
+                                    <span id="statusGambar" class="text-xs font-semibold"></span>
+                                </div>
+
+                                <div id="hasilGambar" class="mt-6 grid gap-4 sm:grid-cols-2"></div>
+                            </div>
+                        </div>
+                    </section>
+                @endif
+
+                {{-- ── Panel kanan: pemantik ── --}}
+                <aside class="hidden w-80 shrink-0 xl:block">
+                    <div class="glass flex h-full flex-col rounded-3xl border border-white/80 p-4 shadow-sm">
+                        <h2 class="px-1 pb-3 text-base font-extrabold text-slate-900">{{ __('Pemantik') }}</h2>
+
+                        <div class="flex flex-wrap gap-1.5 pb-3">
+                            @foreach ($kategori as $slug => $label)
+                                <button type="button" data-kat="{{ $slug }}"
+                                    class="pil rounded-full px-3 py-1.5 text-xs font-semibold transition {{ $loop->first ? 'bg-blue-600 text-white' : 'bg-white/80 text-slate-600 hover:bg-white' }}">
+                                    {{ __($label) }}</button>
+                            @endforeach
+                        </div>
+
+                        <div class="scroll-thin min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
+                            @foreach ($pemantik as [$kat, $judul, $ket, $isi])
+                                <button type="button"
+                                    class="kartu w-full rounded-2xl bg-white/85 p-3 text-left ring-1 ring-white/90 transition hover:-translate-y-0.5 hover:ring-blue-300"
+                                    data-kat="{{ $kat }}" data-isi="{{ $isi }}">
+                                    <b class="block text-sm font-bold text-slate-800">{{ __($judul) }}</b>
+                                    <i class="mt-0.5 block text-[11px] not-italic leading-snug text-slate-500">{{ __($ket) }}</i>
                                 </button>
                             @endforeach
                         </div>
-                    </div>
-                </div>
 
-                <div class="composer">
-                    <div class="lampiran" id="lampiran"></div>
-                    <div class="baris">
-                        <textarea id="tulis" rows="1" placeholder="{{ __('Tulis pertanyaan…') }}"></textarea>
-                        <button class="icon-btn" id="btnFile" title="{{ __('Lampirkan berkas') }}">{{ __('Berkas') }}</button>
-                        <button class="kirim" id="btnKirim">{{ __('Kirim') }}</button>
+                        <p class="pt-3 text-center text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                            {{ __('YPDH AI') }}</p>
                     </div>
-                    <p class="hint">{{ __('Enter kirim · Shift+Enter baris baru · PDF, DOCX, TXT, CSV, dan gambar didukung') }}</p>
-                    <input type="file" id="inputFile" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.json,image/*">
-                </div>
-            </section>
-
-            {{-- ============ GAMBAR ============ --}}
-            @if ($imageReady)
-                <section class="view gambar-view" id="view-gambar">
-                    <div class="lebar">
-                        <label class="f" for="prompt">{{ __('Deskripsi gambar') }}</label>
-                        <input type="text" id="prompt"
-                            placeholder="{{ __('Ilustrasi siklus air untuk poster kelas 5, gaya kartun sederhana') }}">
-                        <div class="dua" style="margin-top:12px">
-                            <div>
-                                <label class="f" for="ukuran">{{ __('Ukuran') }}</label>
-                                <select id="ukuran">
-                                    <option value="1024x1024">{{ __('Kotak') }} · 1024×1024</option>
-                                    <option value="1024x1792">{{ __('Tegak') }} · 1024×1792</option>
-                                    <option value="1792x1024">{{ __('Melebar') }} · 1792×1024</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="f" for="jumlah">{{ __('Jumlah') }}</label>
-                                <select id="jumlah">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="aksi" style="margin-top:14px">
-                            <button class="kirim" id="btnGambar">{{ __('Buat gambar') }}</button>
-                            <span class="status" id="statusGambar"></span>
-                        </div>
-                        <div class="hasil" id="hasilGambar"></div>
-                    </div>
-                </section>
-            @endif
+                </aside>
+            </div>
         </main>
     </div>
 
     <script>
         /* =====================================================================
            YPDH AI — asisten untuk guru.
-           Bedanya dengan prototipe: tidak ada API key di sini. Halaman ini hanya
-           bicara ke Laravel, Laravel yang memanggil gateway.
+           Tidak ada API key di sini: halaman hanya bicara ke Laravel, Laravel
+           yang memanggil gateway.
            ===================================================================== */
         (function() {
             const CHAT_URL = @json(route('ypdh-ai.chat'));
             const IMAGE_URL = @json(route('ypdh-ai.image'));
             const CSRF = document.querySelector('meta[name="csrf-token"]').content;
+
             @php
                 $strings = [
                     'guru' => __('Guru'),
@@ -867,18 +430,20 @@
                 "'": '&#39;'
             } [c]));
 
-            /* --------- Markdown ringan -------------------------------------- */
+            /* --------- Markdown ringan --------------------------------------
+               Blok kode disimpan sementara sebagai token teks biasa (bukan byte
+               kontrol) supaya berkas ini tetap teks murni. */
             function markdown(src) {
                 const blok = [];
                 let t = esc(src).replace(/```(\w*)\n?([\s\S]*?)```/g, (_, l, c) => {
                     blok.push('<pre><code>' + c.replace(/\n$/, '') + '</code></pre>');
-                    return '\u0000' + (blok.length - 1) + '\u0000';
+                    return '@@BLOK' + (blok.length - 1) + '@@';
                 });
                 t = t.replace(/^\|(.+)\|[ \t]*$\n^\|[ :\-|]+\|[ \t]*$\n((?:^\|.*\|[ \t]*$\n?)*)/gm, (_, h, b) => {
                     const sel = r => r.split('|').slice(1, -1).map(c => c.trim());
                     const th = sel(h).map(c => '<th>' + c + '</th>').join('');
-                    const tr = b.trim().split('\n').map(r => '<tr>' + sel(r).map(c => '<td>' + c + '</td>').join(
-                        '') + '</tr>').join('');
+                    const tr = b.trim().split('\n').map(r => '<tr>' + sel(r).map(c => '<td>' + c + '</td>')
+                        .join('') + '</tr>').join('');
                     return '<table><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table>';
                 });
                 t = t.replace(/^###?\s+(.+)$/gm, '<h3>$1</h3>')
@@ -887,25 +452,26 @@
                     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
                     .replace(/(^|[\s(])\*([^*\n]+)\*/g, '$1<em>$2</em>');
                 t = t.replace(/(?:^[ \t]*\d+[.)]\s+.+$\n?)+/gm, m =>
-                    '<ol>' + m.trim().split('\n').map(l => '<li>' + l.replace(/^[ \t]*\d+[.)]\s+/, '') + '</li>')
-                    .join('') + '</ol>');
+                    '<ol>' + m.trim().split('\n').map(l => '<li>' + l.replace(/^[ \t]*\d+[.)]\s+/, '') +
+                        '</li>').join('') + '</ol>');
                 t = t.replace(/(?:^[ \t]*[-*+]\s+.+$\n?)+/gm, m =>
-                    '<ul>' + m.trim().split('\n').map(l => '<li>' + l.replace(/^[ \t]*[-*+]\s+/, '') + '</li>')
-                    .join('') + '</ul>');
-                t = t.split(/\n{2,}/).map(p => /^\s*<(h2|h3|ul|ol|pre|table|\u0000)/.test(p) || p.includes('\u0000') ?
+                    '<ul>' + m.trim().split('\n').map(l => '<li>' + l.replace(/^[ \t]*[-*+]\s+/, '') +
+                        '</li>').join('') + '</ul>');
+                t = t.split(/\n{2,}/).map(p => /^\s*<(h2|h3|ul|ol|pre|table)/.test(p) || p.includes('@@BLOK') ?
                     p : (p.trim() ? '<p>' + p.replace(/\n/g, '<br>') + '</p>' : '')).join('');
-                return t.replace(/\u0000(\d+)\u0000/g, (_, i) => blok[i]);
+                return t.replace(/@@BLOK(\d+)@@/g, (_, i) => blok[i]);
             }
 
             function galat(judul, isi) {
                 const d = document.createElement('div');
-                d.className = 'galat';
-                d.innerHTML = '<b>' + esc(judul) + '</b>' + esc(isi);
+                d.className =
+                    'rounded-2xl bg-red-50 px-4 py-3 text-sm leading-relaxed text-red-800 ring-1 ring-red-200';
+                d.innerHTML = '<b class="block font-bold">' + esc(judul) + '</b>' + esc(isi);
                 return d;
             }
 
-            /* Kirim ke Laravel. Pesan galat dari server dipakai apa adanya —
-               server sudah memotongnya dan tidak pernah menyertakan API key. */
+            /* Pesan galat dari server dipakai apa adanya — server sudah
+               memotongnya dan menyensor API key. */
             async function post(url, body) {
                 const r = await fetch(url, {
                     method: 'POST',
@@ -924,11 +490,43 @@
                 return j;
             }
 
-            /* --------- Tab --------------------------------------------------- */
+            /* --------- Sidebar & tab ---------------------------------------- */
+            const sidebar = $('#sidebar'),
+                tirai = $('#tirai');
+            const bukaMenu = on => {
+                sidebar.classList.toggle('hide', !on);
+                tirai.classList.toggle('hide', !on);
+            };
+            $('#btnMenu').onclick = () => bukaMenu(sidebar.classList.contains('hide'));
+            tirai.onclick = () => bukaMenu(false);
+
+            const TAB_ON = ['bg-white', 'text-slate-900', 'shadow-sm', 'ring-1', 'ring-white'];
             document.querySelectorAll('.tab').forEach(tab => tab.onclick = () => {
-                document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === tab));
+                document.querySelectorAll('.tab').forEach(x => {
+                    const aktif = x === tab;
+                    x.classList.toggle('on', aktif);
+                    TAB_ON.forEach(c => x.classList.toggle(c, aktif));
+                });
                 document.querySelectorAll('.view').forEach(v =>
-                    v.classList.toggle('on', v.id === 'view-' + tab.dataset.view));
+                    v.classList.toggle('hide', v.id !== 'view-' + tab.dataset.view));
+                bukaMenu(false);
+            });
+            document.querySelector('.tab.on')?.classList.add(...TAB_ON);
+
+            $('#btnBaru').onclick = () => location.reload();
+
+            /* --------- Pemantik & penyaring kategori ------------------------- */
+            document.querySelectorAll('.pil').forEach(pil => pil.onclick = () => {
+                const kat = pil.dataset.kat;
+                document.querySelectorAll('.pil').forEach(x => {
+                    const aktif = x === pil;
+                    x.classList.toggle('bg-blue-600', aktif);
+                    x.classList.toggle('text-white', aktif);
+                    x.classList.toggle('bg-white/80', !aktif);
+                    x.classList.toggle('text-slate-600', !aktif);
+                });
+                document.querySelectorAll('.kartu[data-kat]').forEach(k =>
+                    k.classList.toggle('hide', kat !== 'semua' && k.dataset.kat !== kat));
             });
 
             /* --------- Lampiran berkas -------------------------------------- */
@@ -939,12 +537,17 @@
                 daftar.innerHTML = '';
                 berkas.forEach((f, i) => {
                     const c = document.createElement('div');
-                    c.className = 'file-chip';
+                    c.className =
+                        'flex max-w-full items-center gap-2 rounded-full bg-white/90 py-1 pl-3 pr-1 text-xs ring-1 ring-white/90';
                     const jenis = f.jenis === 'gambar' ? T.image : t('chars', {
                         n: f.isi.length.toLocaleString('id-ID')
                     });
-                    c.innerHTML = '<span>' + esc(f.nama) + '</span><em>' + esc(jenis) + '</em>';
+                    c.innerHTML = '<span class="truncate font-medium text-slate-700">' + esc(f.nama) +
+                        '</span><em class="not-italic text-[10px] text-slate-400">' + esc(jenis) + '</em>';
                     const x = document.createElement('button');
+                    x.type = 'button';
+                    x.className =
+                        'flex h-5 w-5 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600';
                     x.textContent = '×';
                     x.title = T.removeAttachment;
                     x.onclick = () => {
@@ -1039,7 +642,8 @@
             /* --------- Percakapan ------------------------------------------- */
             const paper = $('#paper'),
                 tulis = $('#tulis'),
-                kirim = $('#btnKirim');
+                kirim = $('#btnKirim'),
+                kirimLabel = $('#kirimLabel');
             let riwayat = [],
                 jalan = false;
 
@@ -1064,14 +668,16 @@
             kirim.onclick = kirimPesan;
 
             function tambahPesan(peran, teks) {
-                const kosong = $('#kosong');
-                if (kosong) kosong.remove();
+                $('#kosong')?.remove();
+                const aku = peran === 'me';
                 const d = document.createElement('div');
-                d.className = 'msg' + (peran === 'me' ? ' me' : '');
-                d.innerHTML = '<div class="who">' + esc(peran === 'me' ? T.guru : T.asisten) + '</div>' +
-                    '<div class="bubble"></div>';
-                const b = d.querySelector('.bubble');
-                if (peran === 'me') b.textContent = teks;
+                d.className = 'mb-6 ' + (aku ? 'flex justify-end' : '');
+                d.innerHTML = aku ?
+                    '<div class="max-w-[85%] rounded-3xl rounded-br-lg bg-blue-600 px-4 py-3 text-[15px] leading-relaxed text-white whitespace-pre-wrap"></div>' :
+                    '<div class="max-w-[92%]"><div class="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">' +
+                    esc(T.asisten) + '</div><div class="prosa text-slate-700"></div></div>';
+                const b = d.querySelector(aku ? 'div' : '.prosa');
+                if (aku) b.textContent = teks;
                 else b.innerHTML = markdown(teks || '');
                 paper.appendChild(d);
                 paper.scrollTop = paper.scrollHeight;
@@ -1079,10 +685,10 @@
             }
 
             function tombolSalin(bubble, ambil) {
-                const w = document.createElement('div');
-                w.className = 'msg-tools';
                 const b = document.createElement('button');
-                b.className = 'mini';
+                b.type = 'button';
+                b.className =
+                    'mt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 underline underline-offset-4 hover:text-blue-600';
                 b.textContent = T.copy;
                 b.onclick = async () => {
                     try {
@@ -1093,8 +699,7 @@
                     }
                     setTimeout(() => b.textContent = T.copy, 1600);
                 };
-                w.appendChild(b);
-                bubble.parentElement.appendChild(w);
+                bubble.parentElement.appendChild(b);
             }
 
             async function kirimPesan() {
@@ -1135,7 +740,7 @@
 
                 jalan = true;
                 kirim.disabled = true;
-                kirim.textContent = T.writing;
+                kirimLabel.textContent = T.writing;
                 const bubble = tambahPesan('ai', '');
                 bubble.innerHTML = '<span class="caret"></span>';
 
@@ -1158,13 +763,13 @@
                         tombolSalin(bubble, () => hasil);
                     }
                 } catch (e) {
-                    riwayat.pop(); // buang pesan yang gagal supaya tidak terkirim ulang
+                    riwayat.pop(); // buang pesan gagal supaya tidak terkirim ulang
                     bubble.innerHTML = '';
                     bubble.appendChild(galat(T.failed, e.message));
                 } finally {
                     jalan = false;
                     kirim.disabled = false;
-                    kirim.textContent = T.send;
+                    kirimLabel.textContent = T.send;
                     paper.scrollTop = paper.scrollHeight;
                 }
             }
@@ -1175,12 +780,14 @@
                 btnGambar.onclick = async () => {
                     const s = $('#statusGambar'),
                         p = $('#prompt').value.trim();
+                    const warna = ok => s.className = 'text-xs font-semibold ' + (ok ? 'text-emerald-600' :
+                        'text-red-600');
                     if (!p) {
-                        s.className = 'status bad';
+                        warna(false);
                         s.textContent = T.needPrompt;
                         return;
                     }
-                    s.className = 'status';
+                    s.className = 'text-xs font-semibold text-slate-500';
                     s.textContent = T.drawing;
                     btnGambar.disabled = true;
                     try {
@@ -1191,26 +798,32 @@
                         });
                         (j.images || []).forEach((url, i) => {
                             const f = document.createElement('figure');
+                            f.className =
+                                'overflow-hidden rounded-2xl bg-white/90 ring-1 ring-white/90';
                             const img = document.createElement('img');
                             img.alt = p;
                             img.src = url;
+                            img.className = 'w-full';
                             const cap = document.createElement('figcaption');
+                            cap.className =
+                                'flex items-start justify-between gap-3 px-3 py-2 text-[11px] text-slate-500';
                             const span = document.createElement('span');
-                            span.textContent = p.slice(0, 70);
+                            span.textContent = p.slice(0, 60);
                             const a = document.createElement('a');
                             a.href = url;
                             a.download = 'ypdh-ai-' + i + '.png';
+                            a.className = 'shrink-0 font-bold text-blue-600 hover:underline';
                             a.textContent = T.download;
                             cap.append(span, a);
                             f.append(img, cap);
                             $('#hasilGambar').prepend(f);
                         });
-                        s.className = 'status ok';
+                        warna(true);
                         s.textContent = t('drawn', {
                             n: (j.images || []).length
                         });
                     } catch (e) {
-                        s.className = 'status bad';
+                        warna(false);
                         s.textContent = t('error', {
                             message: e.message
                         });

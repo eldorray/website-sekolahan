@@ -36,7 +36,7 @@ test('without a PIN only the lock screen is served', function () {
         ->assertOk()
         ->assertSee('Masukkan PIN dari admin')
         ->assertSee('noindex', false)
-        ->assertDontSee('Selamat datang, Bu/Pak Guru.');
+        ->assertDontSee('Mau dibantu apa');
 });
 
 test('the correct PIN opens the assistant', function () {
@@ -44,7 +44,7 @@ test('the correct PIN opens the assistant', function () {
 
     $this->get(route('ypdh-ai'))
         ->assertOk()
-        ->assertSee('Selamat datang, Bu/Pak Guru.')
+        ->assertSee('Mau dibantu apa')
         ->assertSee('deepseek-v4-flash');
 });
 
