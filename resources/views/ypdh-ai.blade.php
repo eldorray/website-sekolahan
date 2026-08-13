@@ -1022,12 +1022,12 @@
                     'pre{font-family:Consolas,monospace;font-size:10pt;background:#f4f4f4;padding:8pt;' +
                     'border:1px solid #ddd;white-space:pre-wrap}' +
                     'code{font-family:Consolas,monospace;font-size:10.5pt}' +
-                    '</style></head><body>' + isi + '</body></html>';
+                    '<\/style><\/head><body>' + isi + '<\/body><\/html>';
             }
 
             function unduh(nama, isi, mime) {
                 // BOM supaya Word/Excel membaca UTF-8 (huruf beraksen tidak rusak).
-                const url = URL.createObjectURL(new Blob(['﻿' + isi], {
+                const url = URL.createObjectURL(new Blob(['\uFEFF' + isi], {
                     type: mime
                 }));
                 const a = document.createElement('a');

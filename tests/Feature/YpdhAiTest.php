@@ -322,3 +322,16 @@ test('the mobile overlay stays hidden without the external stylesheet', function
         ->and($html)->toContain('#tirai {')
         ->and($html)->toContain('#tirai.buka {');
 });
+
+test('closing HTML tags inside page scripts are slash-escaped', function () {
+    unlockYpdh($this);
+
+    $html = $this->get(route('ypdh-ai'))->getContent();
+
+    // Penyuntik HTML (mis. browser logger Laravel Boost) mencari pola tag secara
+    // naif. Tag penutup telanjang di dalam string JS akan disisipi <script> dan
+    // merusak seluruh blok, sehingga tidak ada handler yang terpasang.
+    expect($html)->toContain('<\/style><\/head><body>')
+        ->and($html)->not->toContain("'</style>")
+        ->and($html)->not->toContain("'</body>");
+});
