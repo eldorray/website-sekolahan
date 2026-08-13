@@ -308,3 +308,17 @@ test('the answer toolbar can export to Word, PDF and Excel', function () {
         ->assertSee('@page{size:A4', false)
         ->assertSee('function cetak(', false);
 });
+
+test('the mobile overlay stays hidden without the external stylesheet', function () {
+    unlockYpdh($this);
+
+    $html = $this->get(route('ypdh-ai'))->getContent();
+    preg_match('/<div id="tirai" class="([^"]*)"/', $html, $m);
+
+    // Tirai menutupi seluruh layar. Kalau keadaan tersembunyinya bergantung pada
+    // utility Tailwind dan berkas CSS gagal termuat, tirai menutup halaman dan
+    // semua klik terblokir. Jadi harus diatur dari <style> di halaman ini.
+    expect(explode(' ', $m[1] ?? ''))->not->toContain('hidden')
+        ->and($html)->toContain('#tirai {')
+        ->and($html)->toContain('#tirai.buka {');
+});

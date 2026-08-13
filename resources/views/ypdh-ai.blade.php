@@ -70,6 +70,23 @@
             display: none !important
         }
 
+        /* Tirai menutupi seluruh layar. Keadaan tersembunyinya ditulis di sini,
+           bukan mengandalkan utility dari berkas CSS luar: kalau berkas itu
+           gagal termuat, tirai akan menutupi halaman dan SEMUA klik terblokir. */
+        #tirai {
+            display: none
+        }
+
+        #tirai.buka {
+            display: block
+        }
+
+        @media (min-width: 1024px) {
+            #tirai {
+                display: none !important
+            }
+        }
+
         .scroll-thin::-webkit-scrollbar {
             width: 6px
         }
@@ -208,7 +225,7 @@
     <div class="flex h-full gap-4 p-3 sm:p-4">
 
         {{-- ═══════════ SIDEBAR ═══════════ --}}
-        <div id="tirai" class="hidden fixed inset-0 z-30 bg-slate-900/40 lg:hidden"></div>
+        <div id="tirai" class="fixed inset-0 z-30 bg-slate-900/40"></div>
 
         <aside id="sidebar"
             class="glass hidden fixed inset-y-0 left-0 z-40 w-64 max-w-[78vw] shrink-0 flex-col p-3 lg:flex lg:static lg:z-auto lg:max-w-none lg:rounded-3xl lg:border lg:border-white/80 lg:shadow-sm">
@@ -602,7 +619,7 @@
             // dan akan mengalahkan `lg:flex`, sehingga sidebar ikut hilang di desktop.
             const bukaMenu = on => {
                 sidebar.classList.toggle('hidden', !on);
-                tirai.classList.toggle('hidden', !on);
+                tirai.classList.toggle('buka', on);
             };
             $('#btnMenu').onclick = () => bukaMenu(sidebar.classList.contains('hidden'));
             tirai.onclick = () => bukaMenu(false);
