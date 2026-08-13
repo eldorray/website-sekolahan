@@ -198,7 +198,7 @@
         <div id="tirai" class="hidden fixed inset-0 z-30 bg-slate-900/40 lg:hidden"></div>
 
         <aside id="sidebar"
-            class="hidden fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto lg:p-0 glass lg:bg-transparent lg:backdrop-blur-none">
+            class="hidden fixed inset-y-0 left-0 z-40 w-64 max-w-[78vw] shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto lg:max-w-none lg:p-0 glass lg:bg-transparent lg:backdrop-blur-none">
 
             <div class="rail-row flex items-center gap-3 px-3 py-1">
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-500/30">
@@ -207,9 +207,11 @@
                     <div class="truncate text-sm font-extrabold text-slate-900">{{ __('YPDH AI') }}</div>
                     <div class="truncate text-[11px] font-medium text-slate-500">{{ __('Asisten Guru') }}</div>
                 </div>
+                {{-- Di layar lebar tombol ini menciutkan sidebar; di layar kecil
+                     mode rail tidak berlaku, jadi ia menutup laci. --}}
                 <button type="button" id="btnRail" title="{{ __('Lebarkan / ciutkan sidebar') }}"
                     aria-label="{{ __('Lebarkan / ciutkan sidebar') }}"
-                    class="lbl hidden h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/80 text-slate-500 ring-1 ring-white transition hover:text-slate-900 lg:flex">
+                    class="lbl flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/80 text-slate-500 ring-1 ring-white transition hover:text-slate-900">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
@@ -564,8 +566,15 @@
             $('#btnMenu').onclick = () => bukaMenu(sidebar.classList.contains('hidden'));
             tirai.onclick = () => bukaMenu(false);
 
-            /* Ciutkan/lebarkan sidebar di layar lebar; pilihannya diingat. */
+            /* Ciutkan/lebarkan sidebar di layar lebar; pilihannya diingat.
+               Di layar kecil mode rail tidak berlaku (aturannya di dalam media
+               query lg), jadi tombol yang sama dipakai untuk menutup laci. */
+            const lebar = () => window.matchMedia('(min-width: 1024px)').matches;
             const railToggle = () => {
+                if (!lebar()) {
+                    bukaMenu(false);
+                    return;
+                }
                 const rail = document.documentElement.classList.toggle('rail');
                 try {
                     localStorage.setItem('ypdh_rail', rail ? '1' : '0');
