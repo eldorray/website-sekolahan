@@ -14,7 +14,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
+    {{-- Pasang keadaan rail sebelum render supaya sidebar tidak berkedip lebar
+         lalu menciut saat halaman dibuka. --}}
+    <script>
+        try {
+            if (localStorage.getItem('ypdh_rail') === '1') document.documentElement.classList.add('rail');
+        } catch (e) {}
+    </script>
     <style>
+        /* Sidebar menciut jadi rail ikon — hanya di layar lebar; di layar kecil
+           sidebar tetap laci penuh. */
+        @media (min-width: 1024px) {
+            html.rail #sidebar {
+                width: 3.5rem
+            }
+
+            html.rail #sidebar .lbl {
+                display: none
+            }
+
+            html.rail #sidebar .rail-row {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0
+            }
+
+            html.rail #sidebar .rail-hide {
+                display: none
+            }
+
+            html.rail #sidebar .rail-stack {
+                flex-direction: column
+            }
+
+            html.rail #sidebar .rail-only {
+                display: flex
+            }
+        }
+
         [x-cloak],
         .hide {
             display: none !important
@@ -163,62 +200,85 @@
         <aside id="sidebar"
             class="hide fixed inset-y-0 left-0 z-40 w-64 shrink-0 flex-col p-4 lg:flex lg:static lg:z-auto lg:p-0 glass lg:bg-transparent lg:backdrop-blur-none">
 
-            <div class="flex items-center gap-3 px-3 py-1">
-                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-500/30">
+            <div class="rail-row flex items-center gap-3 px-3 py-1">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-500/30">
                     🖋️</div>
-                <div class="min-w-0">
+                <div class="lbl min-w-0 flex-1">
                     <div class="truncate text-sm font-extrabold text-slate-900">{{ __('YPDH AI') }}</div>
                     <div class="truncate text-[11px] font-medium text-slate-500">{{ __('Asisten Guru') }}</div>
                 </div>
+                <button type="button" id="btnRail" title="{{ __('Lebarkan / ciutkan sidebar') }}"
+                    aria-label="{{ __('Lebarkan / ciutkan sidebar') }}"
+                    class="lbl hidden h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/80 text-slate-500 ring-1 ring-white transition hover:text-slate-900 lg:flex">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
             </div>
+
+            {{-- Saat rail, tombol pelebar pindah ke bawah logo agar tetap terjangkau --}}
+            <button type="button" id="btnRailBuka" title="{{ __('Lebarkan / ciutkan sidebar') }}"
+                aria-label="{{ __('Lebarkan / ciutkan sidebar') }}"
+                class="rail-only mx-auto mt-2 hidden h-7 w-7 items-center justify-center rounded-full bg-white/80 text-slate-500 ring-1 ring-white transition hover:text-slate-900">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
 
             <nav class="mt-6 space-y-1">
                 <button type="button" data-view="chat"
-                    class="tab on flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition">
+                    class="tab on rail-row flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm3.75 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm3.75 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 0 1-2.555-.337A5.97 5.97 0 0 1 5.41 20.97a5.97 5.97 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
                     </svg>
-                    {{ __('Ngobrol') }}
+                    <span class="lbl">{{ __('Ngobrol') }}</span>
                 </button>
 
                 @if ($imageReady)
                     <button type="button" data-view="gambar"
-                        class="tab flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition">
+                        class="tab rail-row flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
-                        {{ __('Buat gambar') }}
+                        <span class="lbl">{{ __('Buat gambar') }}</span>
                     </button>
                 @endif
 
                 <button type="button" id="btnBaru"
-                    class="mt-2 flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-white/70">
+                    class="rail-row mt-2 flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-white/70">
                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-slate-200">
                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                     </span>
-                    {{ __('Percakapan baru') }}
+                    <span class="lbl">{{ __('Percakapan baru') }}</span>
                 </button>
             </nav>
 
             <div class="mt-auto space-y-2 pt-4">
-                <div class="rounded-2xl bg-white/70 px-3 py-2.5 ring-1 ring-white/80">
+                <div class="rail-hide rounded-2xl bg-white/70 px-3 py-2.5 ring-1 ring-white/80">
                     <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">{{ __('Model') }}</div>
                     <div class="truncate text-xs font-semibold text-slate-700">
                         {{ $model ?: __('belum diatur') }}</div>
                 </div>
-                <div class="flex gap-2">
-                    <a href="{{ route('home') }}"
-                        class="flex-1 rounded-2xl bg-white/70 px-3 py-2 text-center text-xs font-semibold text-slate-600 ring-1 ring-white/80 transition hover:bg-white">
-                        {{ __('Beranda') }}</a>
+                <div class="rail-stack flex gap-2">
+                    <a href="{{ route('home') }}" title="{{ __('Beranda') }}"
+                        class="rail-row flex flex-1 items-center justify-center gap-1.5 rounded-2xl bg-white/70 px-3 py-2 text-xs font-semibold text-slate-600 ring-1 ring-white/80 transition hover:bg-white">
+                        <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
+                        </svg>
+                        <span class="lbl">{{ __('Beranda') }}</span>
+                    </a>
                     <form method="POST" action="{{ route('ypdh-ai.lock') }}" class="flex-1">
                         @csrf
-                        <button type="submit"
-                            class="w-full rounded-2xl bg-white/70 px-3 py-2 text-xs font-semibold text-slate-600 ring-1 ring-white/80 transition hover:bg-white">
-                            🔒 {{ __('Kunci') }}</button>
+                        <button type="submit" title="{{ __('Kunci') }}"
+                            class="rail-row flex w-full items-center justify-center gap-1.5 rounded-2xl bg-white/70 px-3 py-2 text-xs font-semibold text-slate-600 ring-1 ring-white/80 transition hover:bg-white">
+                            <span class="shrink-0">🔒</span>
+                            <span class="lbl">{{ __('Kunci') }}</span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -501,6 +561,16 @@
             };
             $('#btnMenu').onclick = () => bukaMenu(sidebar.classList.contains('hide'));
             tirai.onclick = () => bukaMenu(false);
+
+            /* Ciutkan/lebarkan sidebar di layar lebar; pilihannya diingat. */
+            const railToggle = () => {
+                const rail = document.documentElement.classList.toggle('rail');
+                try {
+                    localStorage.setItem('ypdh_rail', rail ? '1' : '0');
+                } catch (e) {}
+            };
+            $('#btnRail').onclick = railToggle;
+            $('#btnRailBuka').onclick = railToggle;
 
             const TAB_ON = ['bg-white', 'text-slate-900', 'shadow-sm', 'ring-1', 'ring-white'];
             document.querySelectorAll('.tab').forEach(tab => tab.onclick = () => {

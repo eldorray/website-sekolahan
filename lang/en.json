@@ -4,7 +4,7 @@
     "Tentang Kami": "About Us",
     "Program": "Programs",
     "Berita": "News",
-    "Guru": "Teachers",
+    "Guru": "Teacher",
     "Kontak": "Contact",
     "Tema Hari Besar": "Special Occasion",
     "Navigasi": "Navigation",
@@ -275,7 +275,6 @@
     "Tegak": "Portrait",
     "Melebar": "Landscape",
     "Jumlah": "Count",
-    "Guru": "Teacher",
     "Salin jawaban": "Copy answer",
     "Tersalin": "Copied",
     "Salin manual dari layar": "Copy manually from the screen",
@@ -305,5 +304,6 @@
     "Kembali ke beranda": "Back to home",
     "Kunci halaman": "Lock page",
     "PIN salah.": "Wrong PIN.",
-    "Terlalu banyak percobaan. Coba lagi dalam :seconds detik.": "Too many attempts. Try again in :seconds seconds."
+    "Terlalu banyak percobaan. Coba lagi dalam :seconds detik.": "Too many attempts. Try again in :seconds seconds.",
+    "Lebarkan / ciutkan sidebar": "Expand / collapse sidebar"
 }
