@@ -42,14 +42,8 @@
     @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    </noscript>
+    {{-- Variable font: one file for 400-800 instead of five static weights. --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
     @vite(['resources/css/app.css'])
     @livewireStyles
     @php
@@ -61,16 +55,16 @@
     <style>
         .liquid-glass {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
         }
 
         .liquid-glass-dark {
             background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
@@ -80,10 +74,7 @@
         }
 
         .bg-main {
-            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=2000');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-image: linear-gradient(160deg, #eef4ea 0%, #f6f8f5 45%, #e8eef4 100%);
         }
 
         @keyframes fadeUp {
@@ -100,7 +91,7 @@
 
         .animate-fade-up {
             opacity: 0;
-            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeUp .5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .delay-100 {
@@ -129,6 +120,19 @@
 
         .animate-float {
             animation: float 6s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .animate-fade-up,
+            .animate-float {
+                animation: none;
+                opacity: 1;
+            }
+
+            .apple-transition {
+                transition: none;
+            }
         }
 
         body.has-event-theme .event-background {
@@ -191,7 +195,6 @@
         .event-background-image {
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
             opacity: 0.24;
             filter: saturate(0.95) contrast(0.92);
             pointer-events: none;
@@ -206,7 +209,7 @@
 <body class="font-sans text-slate-800 antialiased min-h-screen relative {{ $eventTheme ? 'has-event-theme event-theme-'.$eventTheme->style : '' }}">
     <!-- Main Background -->
     <div class="fixed inset-0 bg-main event-background z-[-3]"></div>
-    <div class="fixed inset-0 bg-slate-100/60 backdrop-blur-xl event-background-overlay z-[-2]"></div>
+    <div class="fixed inset-0 bg-slate-100/60 event-background-overlay z-[-2]"></div>
     @if ($eventBackgroundImageUrl)
         <div class="fixed inset-0 event-background-image z-[-1]"
             style="background-image: url('{{ $eventBackgroundImageUrl }}')"></div>
@@ -354,7 +357,7 @@
         </section>
     @endif
 
-    <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 animate-fade-up delay-100">
+    <main class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="liquid-glass rounded-[2rem] p-6 sm:p-8 lg:p-10 shadow-sm border border-white/80 min-h-[60vh] mb-12">
             {{ $slot }}
         </div>

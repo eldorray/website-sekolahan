@@ -18,9 +18,12 @@
     <section class="py-12 animate-fade-up delay-100">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
             <div class="aspect-[5/4] rounded-[2rem] overflow-hidden shadow-lg border border-white/40">
-                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&auto=format&fit=crop"
-                    loading="lazy" decoding="async"
-                    class="h-full w-full object-cover transition-transform duration-700 hover:scale-105" alt="">
+                @if ($aboutImage = Setting::imageUrl('hero_image'))
+                    <img src="{{ $aboutImage }}" loading="lazy" decoding="async"
+                        class="h-full w-full object-cover transition-transform duration-700 hover:scale-105" alt="">
+                @else
+                    <div class="h-full w-full bg-gradient-to-br from-brand-200 via-brand-50 to-slate-200"></div>
+                @endif
             </div>
             <div class="liquid-glass rounded-[2rem] p-8 border border-white/80">
                 <h2 class="text-3xl font-bold text-slate-900 mb-6 relative inline-block">

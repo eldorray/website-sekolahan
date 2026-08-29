@@ -316,7 +316,8 @@ html.dark .liquid-glass-dark {
 
 /* ---------- Background image dim ---------- */
 html.dark .bg-main {
-    filter: brightness(0.25) saturate(0.8) !important;
+    /* A dark gradient beats filtering a full-screen layer every frame. */
+    background-image: linear-gradient(160deg, #0b1220 0%, #111827 45%, #0f172a 100%) !important;
 }
 
 /* ---------- Form inputs (file inputs etc.) ---------- */

@@ -34,6 +34,14 @@
                 animation: float-faster 7s ease-in-out infinite;
             }
 
+            @media (prefers-reduced-motion: reduce) {
+
+                .animate-float-1,
+                .animate-float-2 {
+                    animation: none;
+                }
+            }
+
             .google-shadow-lg {
                 box-shadow: 0 4px 4px 0 rgba(60, 64, 67, 0.30), 0 8px 12px 6px rgba(60, 64, 67, 0.15);
             }
@@ -53,7 +61,6 @@
                 transition:
                     opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
                     transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
-                will-change: opacity, transform;
             }
 
             [data-aos="zoom-out-up"].aos-show {
@@ -130,7 +137,7 @@
                 {{-- Left: Text & CTA --}}
                 <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
                     {{-- Badge --}}
-                    <div data-aos="zoom-out-up"
+                    <div
                         class="inline-flex items-center space-x-2 bg-brand-50 border border-brand-200/60 px-4 py-1.5 rounded-full text-brand-700 text-xs sm:text-sm font-semibold tracking-wide">
                         <svg class="w-4 h-4 text-brand-600 animate-pulse" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
@@ -141,7 +148,7 @@
                     </div>
 
                     {{-- Heading --}}
-                    <h1 data-aos="zoom-out-up" data-aos-delay="100"
+                    <h1
                         class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1] sm:leading-tight">
                         {{ Setting::get('hero_title_1', 'Membentuk') }}
                         <span class="text-brand-600 relative inline-block">
@@ -152,7 +159,7 @@
                     </h1>
 
                     {{-- Subtitle --}}
-                    <p data-aos="zoom-out-up" data-aos-delay="200"
+                    <p
                         class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
                         {!! Setting::get(
                             'hero_subtitle',
@@ -163,7 +170,7 @@
                     </p>
 
                     {{-- CTA Buttons --}}
-                    <div data-aos="zoom-out-up" data-aos-delay="300"
+                    <div
                         class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                         <a href="{{ route('ppdb.create') }}" wire:navigate
                             class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-semibold px-8 py-4 rounded-full text-base apple-transition hover:shadow-xl hover:shadow-brand-500/20 transform hover:-translate-y-0.5 text-center">
@@ -180,7 +187,7 @@
                     </div>
 
                     {{-- Stats Badges --}}
-                    <div data-aos="zoom-out-up" data-aos-delay="400"
+                    <div
                         class="pt-8 border-t border-slate-200/60 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
                         <div class="flex items-center space-x-2">
                             <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center text-brand-600">
@@ -227,14 +234,18 @@
 
                 {{-- Right: Hero Image Card --}}
                 <div class="lg:col-span-5 relative">
-                    <div data-aos="zoom-out-up" data-aos-delay="200" class="relative mx-auto max-w-md lg:max-w-none">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
                         {{-- Main Card --}}
                         <div
                             class="bg-white rounded-[32px] p-6 google-shadow-lg border border-slate-100 transform rotate-1 hover:rotate-0 transition-all duration-500 relative z-20">
                             <div class="relative rounded-2xl overflow-hidden aspect-square shadow-inner">
-                                <img src="{{ Setting::imageUrl('hero_image') ?? 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600' }}"
-                                    alt="{{ $school }}" fetchpriority="high" decoding="async"
-                                    class="w-full h-full object-cover">
+                                @if ($heroImage = Setting::imageUrl('hero_image'))
+                                    <img src="{{ $heroImage }}" alt="{{ $school }}" width="600" height="600"
+                                        fetchpriority="high" class="w-full h-full object-cover">
+                                @else
+                                    {{-- No hero uploaded yet: a gradient beats a third-party stock photo. --}}
+                                    <div class="w-full h-full bg-gradient-to-br from-brand-200 via-brand-50 to-slate-200"></div>
+                                @endif
                                 {{-- Glassmorphism Badge --}}
                                 <div
                                     class="absolute bottom-4 left-4 right-4 bg-white/85 backdrop-blur-md rounded-xl p-4 flex items-center justify-between border border-white/20">

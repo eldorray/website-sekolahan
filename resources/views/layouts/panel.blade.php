@@ -51,10 +51,7 @@
         }
 
         .bg-main {
-            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=2000');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-image: linear-gradient(160deg, #eef4ea 0%, #f6f8f5 45%, #e8eef4 100%);
         }
 
         /* Smooth page transition for wire:navigate */
