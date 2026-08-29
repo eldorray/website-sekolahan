@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\ImageManager;
 
 class ImageProcessor
@@ -29,24 +29,20 @@ class ImageProcessor
         Storage::disk('public')->makeDirectory($directory);
         Storage::disk('public')->makeDirectory($directory.'/thumbnails');
 
-        $extension = strtolower($file->getClientOriginalExtension() ?: 'jpg');
-        if (! in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)) {
-            $extension = 'jpg';
-        }
-
-        $name = Str::random(24).'.'.$extension;
+        // Always emit WebP: ~30% smaller than the JPEG/PNG originals we receive.
+        $name = Str::random(24).'.webp';
         $imagePath = $directory.'/'.$name;
         $thumbPath = $directory.'/thumbnails/'.$name;
 
         try {
-            $main = $manager->read($file->getRealPath());
+            $main = $manager->decodePath($file->getRealPath());
             $main->scaleDown(width: $maxWidth);
-            $mainEncoded = $main->encode(new AutoEncoder(quality: $quality));
+            $mainEncoded = $main->encode(new WebpEncoder(quality: $quality));
             Storage::disk('public')->put($imagePath, (string) $mainEncoded);
 
-            $thumb = $manager->read($file->getRealPath());
+            $thumb = $manager->decodePath($file->getRealPath());
             $thumb->scaleDown(width: $thumbWidth);
-            $thumbEncoded = $thumb->encode(new AutoEncoder(quality: $quality));
+            $thumbEncoded = $thumb->encode(new WebpEncoder(quality: $quality));
             Storage::disk('public')->put($thumbPath, (string) $thumbEncoded);
 
             return [
@@ -54,7 +50,7 @@ class ImageProcessor
                 'thumbnail' => $thumbPath,
             ];
         } catch (\Throwable $e) {
-            Log::warning('ImageProcessor failed, falling back to direct store.', [
+            Log::error('ImageProcessor failed, falling back to direct store.', [
                 'file' => $file->getClientOriginalName(),
                 'error' => $e->getMessage(),
             ]);
@@ -82,23 +78,19 @@ class ImageProcessor
 
         Storage::disk('public')->makeDirectory($directory);
 
-        $extension = strtolower($file->getClientOriginalExtension() ?: 'jpg');
-        if (! in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)) {
-            $extension = 'jpg';
-        }
-
-        $name = Str::random(24).'.'.$extension;
+        // Always emit WebP: ~30% smaller than the JPEG/PNG originals we receive.
+        $name = Str::random(24).'.webp';
         $imagePath = $directory.'/'.$name;
 
         try {
-            $image = $manager->read($file->getRealPath());
+            $image = $manager->decodePath($file->getRealPath());
             $image->scaleDown(width: $maxWidth);
-            $encoded = $image->encode(new AutoEncoder(quality: $quality));
+            $encoded = $image->encode(new WebpEncoder(quality: $quality));
             Storage::disk('public')->put($imagePath, (string) $encoded);
 
             return $imagePath;
         } catch (\Throwable $e) {
-            Log::warning('ImageProcessor compress failed, storing original.', [
+            Log::error('ImageProcessor compress failed, storing original.', [
                 'file' => $file->getClientOriginalName(),
                 'error' => $e->getMessage(),
             ]);
