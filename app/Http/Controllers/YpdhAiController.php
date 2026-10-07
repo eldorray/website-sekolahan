@@ -50,7 +50,6 @@ class YpdhAiController extends Controller
 
         if (! $this->unlocked()) {
             return view('tool-lock', [
-                'icon' => '🖋️',
                 'heading' => __('YPDH AI'),
                 'action' => route('ypdh-ai.unlock'),
                 'pinConfigured' => $this->pin() !== '',

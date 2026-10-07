@@ -37,7 +37,6 @@ class AdiwiyataController extends Controller
         // cuma layar kunci.
         if (! $this->unlocked()) {
             return view('tool-lock', [
-                'icon' => '🌿',
                 'heading' => __('Monitoring Adiwiyata'),
                 'action' => route('adiwiyata.unlock'),
                 'pinConfigured' => $this->pin() !== '',

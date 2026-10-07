@@ -27,16 +27,16 @@
     @open-global-search.window="openModal()">
 
     {{-- Trigger button --}}
-    <button type="button" @click="openModal()"
+    <button type="button" @click="openModal()" aria-label="{{ __('Cari') }}"
         class="inline-flex items-center gap-2 rounded-full bg-white/70 hover:bg-white border border-white/60 text-slate-500 hover:text-slate-700 pl-3 pr-3 sm:pr-4 py-2 text-sm font-medium shadow-sm transition apple-transition">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
             class="h-4 w-4">
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
         </svg>
-        <span class="hidden sm:inline">{{ __('Cari') }}</span>
+        <span class="hidden sm:inline xl:hidden 2xl:inline">{{ __('Cari') }}</span>
         <span
-            class="hidden lg:inline-flex items-center gap-0.5 ml-1 text-[10px] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5">
+            class="hidden lg:inline-flex xl:hidden 2xl:inline-flex items-center gap-0.5 ml-1 text-[10px] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5">
             ⌘K
         </span>
     </button>

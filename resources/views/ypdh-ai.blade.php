@@ -12,8 +12,10 @@
     @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400..800&display=swap">
     @vite(['resources/css/app.css'])
+    {{-- Warna brand sekolah dari Settings, sama seperti situs publik. --}}
+    <x-brand-styles />
     {{-- Pasang keadaan rail sebelum render supaya sidebar tidak berkedip lebar
          lalu menciut saat halaman dibuka. --}}
     <script>
@@ -27,13 +29,12 @@
         /* Keadaan aktif ditulis di sini, bukan dirakit dari daftar kelas di JS,
            supaya ikon dan teksnya berubah bersama. */
         .tab.on {
-            background: #fff;
-            color: rgb(15 23 42);
-            box-shadow: 0 1px 2px rgb(15 23 42 / .06);
+            background: var(--color-brand-50);
+            color: var(--color-brand-800);
         }
 
         .tab.on svg {
-            color: rgb(37 99 235)
+            color: var(--color-brand-700)
         }
 
         @media (min-width: 1024px) {
@@ -109,10 +110,17 @@
             border-radius: 99px
         }
 
+        /* Permukaan putih di atas latar polos: tanpa blur, karena tidak ada
+           apa pun di belakangnya untuk dikaburkan. */
         .glass {
-            background: rgb(255 255 255 / .72);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: #fff;
+            box-shadow: 0 1px 2px rgb(21 33 26 / .04), 0 16px 40px -28px rgb(21 33 26 / .22);
+        }
+
+        /* Laci terbuka di layar kecil: JS hanya mencabut `hidden`, jadi tata
+           letak kolomnya dipasang di sini agar tombol bawah tetap menempel. */
+        #sidebar:not(.hidden) {
+            display: flex
         }
 
         /* Jawaban AI dirender dari markdown; beri jarak baca yang wajar. */
@@ -205,7 +213,7 @@
             display: inline-block;
             width: 7px;
             height: 16px;
-            background: rgb(59 130 246);
+            background: var(--color-brand-500);
             vertical-align: -3px;
             animation: blink 1s steps(2) infinite
         }
@@ -219,7 +227,7 @@
     </style>
 </head>
 
-<body class="h-screen overflow-hidden bg-gradient-to-br from-slate-200 via-blue-50 to-blue-200 font-sans text-slate-800 antialiased">
+<body class="h-screen overflow-hidden bg-[#f3f5f0] font-sans text-slate-800 antialiased">
 
     @php
         $pemantik = [
@@ -244,10 +252,10 @@
                 <p id="dlgPesan" class="mt-1.5 text-[13px] leading-relaxed text-slate-500"></p>
                 <div class="mt-5 flex justify-end gap-2">
                     <button value="batal" autofocus
-                        class="rounded-xl px-4 py-2 text-[13px] font-semibold text-slate-500 transition hover:bg-slate-100">
+                        class="rounded-full px-4 py-2 text-[13px] font-semibold text-slate-600 transition hover:bg-slate-100">
                         {{ __('Batal') }}</button>
                     <button value="hapus"
-                        class="rounded-xl bg-red-600 px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-red-700">
+                        class="rounded-full bg-red-600 px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-red-700">
                         {{ __('Hapus') }}</button>
                 </div>
             </form>
@@ -257,12 +265,12 @@
         <div id="tirai" class="fixed inset-0 z-30 bg-slate-900/40"></div>
 
         <aside id="sidebar"
-            class="glass hidden fixed inset-y-0 left-0 z-40 w-64 max-w-[78vw] shrink-0 flex-col p-3 lg:flex lg:static lg:z-auto lg:max-w-none lg:rounded-3xl lg:border lg:border-white/80 lg:shadow-sm">
+            class="glass hidden fixed inset-y-0 left-0 z-40 w-64 max-w-[78vw] shrink-0 flex-col p-3 lg:flex lg:static lg:z-auto lg:max-w-none lg:rounded-[1.75rem] lg:border lg:border-slate-200/70">
 
             <div class="rail-row flex items-center gap-2.5 px-2 py-1.5">
                 {{-- Nib pena: mengikat kembali ke nama asli alatnya, "Tinta". Ikon
                      garis, bukan emoji, supaya sebaris dengan ikon navigasi. --}}
-                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-md shadow-blue-600/25">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-700 text-white">
                     <svg class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
@@ -271,14 +279,14 @@
                 <div class="lbl min-w-0 flex-1">
                     <div class="truncate text-[13px] font-bold leading-tight tracking-tight text-slate-900">
                         {{ __('YPDH AI') }}</div>
-                    <div class="truncate text-[9.5px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    <div class="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                         {{ __('Asisten Guru') }}</div>
                 </div>
                 {{-- Di layar lebar tombol ini menciutkan sidebar; di layar kecil
                      mode rail tidak berlaku, jadi ia menutup laci. --}}
                 <button type="button" id="btnRail" title="{{ __('Lebarkan / ciutkan sidebar') }}"
                     aria-label="{{ __('Lebarkan / ciutkan sidebar') }}"
-                    class="lbl flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/70 hover:text-slate-900">
+                    class="lbl flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
@@ -288,7 +296,7 @@
             {{-- Saat rail, tombol pelebar pindah ke bawah logo agar tetap terjangkau --}}
             <button type="button" id="btnRailBuka" title="{{ __('Lebarkan / ciutkan sidebar') }}"
                 aria-label="{{ __('Lebarkan / ciutkan sidebar') }}"
-                class="rail-only mx-auto mt-3 hidden h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white/70 hover:text-slate-900">
+                class="rail-only mx-auto mt-3 hidden h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                 </svg>
@@ -296,8 +304,8 @@
 
             <nav class="mt-5 space-y-0.5">
                 <button type="button" data-view="chat"
-                    class="tab on rail-row flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold text-slate-500 transition hover:bg-white/50">
-                    <svg class="h-[18px] w-[18px] shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                    class="tab on rail-row flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold text-slate-600 transition hover:bg-slate-100">
+                    <svg class="h-[18px] w-[18px] shrink-0 text-slate-500" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm3.75 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm3.75 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 0 1-2.555-.337A5.97 5.97 0 0 1 5.41 20.97a5.97 5.97 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
                     </svg>
@@ -306,8 +314,8 @@
 
                 @if ($imageReady)
                     <button type="button" data-view="gambar"
-                        class="tab rail-row flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold text-slate-500 transition hover:bg-white/50">
-                        <svg class="h-[18px] w-[18px] shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        class="tab rail-row flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold text-slate-600 transition hover:bg-slate-100">
+                        <svg class="h-[18px] w-[18px] shrink-0 text-slate-500" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
@@ -317,10 +325,10 @@
 
                 {{-- Garis rambut: "Ngobrol"/"Buat gambar" adalah moda, ini tindakan.
                      Pemisah lebih jujur daripada memberi label pada dua item. --}}
-                <div class="rail-hide my-2 border-t border-white/70"></div>
+                <div class="rail-hide my-2 border-t border-slate-200"></div>
 
                 <button type="button" id="btnBaru"
-                    class="rail-row flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold text-blue-700 transition hover:bg-white/60">
+                    class="rail-row flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-semibold text-brand-700 transition hover:bg-brand-50">
                     <svg class="h-[18px] w-[18px] shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -331,7 +339,7 @@
 
             {{-- Riwayat: tersimpan di peramban ini saja, tidak dikirim ke server. --}}
             <div class="rail-hide mt-4 flex min-h-0 flex-1 flex-col">
-                <div class="px-2.5 pb-1.5 text-[9.5px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                <div class="px-2.5 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                     {{ __('Riwayat') }}</div>
                 <div id="daftarSesi" class="scroll-thin -mr-1 min-h-0 flex-1 space-y-0.5 overflow-y-auto pr-1"></div>
             </div>
@@ -341,7 +349,7 @@
             <div class="mt-auto pt-3">
                 <div class="rail-stack flex gap-1.5">
                     <a href="{{ route('home') }}" title="{{ __('Beranda') }}"
-                        class="rail-row flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-semibold text-slate-500 transition hover:bg-white/60 hover:text-slate-900">
+                        class="rail-row flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
                         <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
@@ -351,7 +359,7 @@
                     <form method="POST" action="{{ route('ypdh-ai.lock') }}" class="flex-1">
                         @csrf
                         <button type="submit" title="{{ __('Kunci') }}"
-                            class="rail-row flex w-full items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-semibold text-slate-500 transition hover:bg-white/60 hover:text-slate-900">
+                            class="rail-row flex w-full items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">
                             <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -368,17 +376,23 @@
         <main class="flex min-w-0 flex-1 flex-col gap-3">
 
             <div class="flex items-center gap-3">
-                <button type="button" id="btnMenu"
-                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/70 ring-1 ring-white/80 lg:hidden">
+                <button type="button" id="btnMenu" aria-label="{{ __('Menu') }}"
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-slate-700 ring-1 ring-slate-200 lg:hidden">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
                 <div class="min-w-0">
-                    <h1 class="truncate text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
-                        {{ __('Asisten AI untuk Guru') }}</h1>
+                    {{-- Kata terakhir dalam serif miring, sama seperti judul di situs publik. --}}
+                    @php
+                        $judul = __('Asisten AI untuk Guru');
+                        $potong = mb_strrpos($judul, ' ') ?: 0;
+                    @endphp
+                    <h1 class="truncate text-xl font-bold tracking-[-0.02em] text-slate-900 sm:text-2xl">
+                        {{ mb_substr($judul, 0, $potong) }}
+                        <em class="accent-serif">{{ trim(mb_substr($judul, $potong)) }}</em></h1>
                     <p class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-                        <span class="h-2 w-2 rounded-full {{ $chatReady ? 'bg-emerald-500' : 'bg-amber-500' }}"></span>
+                        <span class="h-2 w-2 rounded-full {{ $chatReady ? 'bg-brand-500 ring-4 ring-brand-500/20' : 'bg-amber-500 ring-4 ring-amber-500/20' }}"></span>
                         {{ $chatReady ? __('Terhubung ke :model', ['model' => $model]) : __('Pengaturan AI belum lengkap') }}
                     </p>
                 </div>
@@ -388,14 +402,18 @@
 
                 {{-- ── Kolom percakapan ── --}}
                 <section id="view-chat" class="view flex min-w-0 flex-1 flex-col">
-                    <div class="glass flex min-h-0 flex-1 flex-col rounded-3xl border border-white/80 shadow-sm">
+                    <div class="glass flex min-h-0 flex-1 flex-col rounded-[1.75rem] border border-slate-200/70">
 
                         <div id="paper" class="scroll-thin min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-7">
                             <div id="kosong" class="flex h-full flex-col items-center justify-center text-center">
-                                <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl shadow-xl shadow-blue-500/30">
-                                    🖋️</div>
-                                <h2 class="text-2xl font-light leading-snug text-slate-700 sm:text-3xl">
-                                    {{ __('Mau dibantu apa') }}<br>{{ __('hari ini, Bu/Pak Guru?') }}</h2>
+                                <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 ring-1 ring-brand-100">
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
+                                </div>
+                                <h2 class="font-display text-[2rem] leading-[1.1] text-slate-900 sm:text-[2.75rem]">
+                                    {{ __('Mau dibantu apa') }}<br><em class="text-brand-700">{{ __('hari ini, Bu/Pak Guru?') }}</em></h2>
                                 @unless ($chatReady)
                                     <p class="mt-5 max-w-sm rounded-2xl bg-amber-50 px-4 py-3 text-xs font-medium text-amber-800 ring-1 ring-amber-200">
                                         {{ __('Admin perlu mengisi API key dan model chat di Admin → Settings.') }}</p>
@@ -404,22 +422,22 @@
                                 {{-- Pemantik untuk layar kecil; layar lebar memakai panel kanan --}}
                                 <div class="mt-7 grid w-full max-w-lg gap-2 sm:grid-cols-2 xl:hidden">
                                     @foreach (array_slice($pemantik, 0, 4) as [$kat, $judul, $ket, $isi])
-                                        <button type="button" class="kartu rounded-2xl bg-white/80 p-3 text-left ring-1 ring-white/90 transition hover:ring-blue-300"
+                                        <button type="button" class="kartu rounded-2xl bg-white p-3.5 text-left ring-1 ring-slate-200 transition hover:bg-brand-50/50 hover:ring-brand-300"
                                             data-isi="{{ $isi }}">
-                                            <b class="block text-sm font-bold text-slate-800">{{ __($judul) }}</b>
-                                            <i class="block text-[11px] not-italic text-slate-500">{{ __($ket) }}</i>
+                                            <b class="block text-sm font-semibold text-slate-900">{{ __($judul) }}</b>
+                                            <i class="mt-0.5 block text-xs not-italic leading-snug text-slate-500">{{ __($ket) }}</i>
                                         </button>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
 
-                        <div class="border-t border-white/70 px-5 py-4 sm:px-7">
+                        <div class="border-t border-slate-200/70 px-5 py-4 sm:px-7">
                             <div id="lampiran" class="mb-2 flex flex-wrap gap-2 empty:hidden"></div>
 
-                            <div class="flex items-end gap-2 rounded-3xl bg-white/90 p-2 pl-3 shadow-sm ring-1 ring-white/90 focus-within:ring-2 focus-within:ring-blue-400">
-                                <button type="button" id="btnFile" title="{{ __('Lampirkan berkas') }}"
-                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+                            <div class="flex items-end gap-2 rounded-[1.75rem] bg-white p-2 pl-3 shadow-sm ring-1 ring-slate-200 transition focus-within:ring-2 focus-within:ring-brand-400">
+                                <button type="button" id="btnFile" title="{{ __('Lampirkan berkas') }}" aria-label="{{ __('Lampirkan berkas') }}"
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-800">
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
@@ -427,11 +445,11 @@
                                 <textarea id="tulis" rows="1" placeholder="{{ __('Tulis pertanyaan…') }}"
                                     class="max-h-40 flex-1 resize-none border-0 bg-transparent py-2 text-[15px] leading-relaxed text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-0"></textarea>
                                 <button type="button" id="btnKirim"
-                                    class="flex h-10 shrink-0 items-center gap-2 rounded-2xl bg-slate-900 px-4 text-sm font-bold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-400">
+                                    class="flex h-10 shrink-0 items-center gap-2 rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition hover:bg-brand-800 active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-slate-300">
                                     <span id="kirimLabel">{{ __('Kirim') }}</span>
                                 </button>
                             </div>
-                            <p class="mt-2 text-[11px] font-medium text-slate-400">
+                            <p class="mt-2 text-[11px] font-medium text-slate-500">
                                 {{ __('Enter kirim · Shift+Enter baris baru · PDF, DOCX, TXT, CSV, dan gambar didukung') }}</p>
                             <input type="file" id="inputFile" multiple hidden accept=".pdf,.docx,.txt,.md,.csv,.json,image/*">
                         </div>
@@ -441,20 +459,20 @@
                 {{-- ── Kolom gambar ── --}}
                 @if ($imageReady)
                     <section id="view-gambar" class="view hide min-w-0 flex-1">
-                        <div class="glass scroll-thin h-full overflow-y-auto rounded-3xl border border-white/80 p-5 shadow-sm sm:p-7">
+                        <div class="glass scroll-thin h-full overflow-y-auto rounded-[1.75rem] border border-slate-200/70 p-5 sm:p-7">
                             <div class="mx-auto max-w-2xl">
-                                <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                                <label class="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500"
                                     for="prompt">{{ __('Deskripsi gambar') }}</label>
                                 <input type="text" id="prompt"
-                                    class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400"
+                                    class="w-full rounded-2xl border-0 bg-white px-4 py-3 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-400"
                                     placeholder="{{ __('Ilustrasi siklus air untuk poster kelas 5, gaya kartun sederhana') }}">
 
                                 <div class="mt-3 grid gap-3 sm:grid-cols-2">
                                     <div>
-                                        <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                                        <label class="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500"
                                             for="ukuran">{{ __('Ukuran') }}</label>
                                         <select id="ukuran"
-                                            class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400">
+                                            class="w-full rounded-2xl border-0 bg-white px-4 py-3 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-400">
                                             <option value="1024x1024">{{ __('Kotak') }} · 1024×1024</option>
                                             @unless ($amanaiGrokImage)
                                                 <option value="1024x1792">{{ __('Tegak') }} · 1024×1792</option>
@@ -463,10 +481,10 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-400"
+                                        <label class="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500"
                                             for="jumlah">{{ __('Jumlah') }}</label>
                                         <select id="jumlah"
-                                            class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400">
+                                            class="w-full rounded-2xl border-0 bg-white px-4 py-3 text-sm ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-400">
                                             <option>1</option>
                                             @unless ($amanaiGrokImage)
                                                 <option>2</option>
@@ -479,7 +497,7 @@
 
                                 <div class="mt-4 flex flex-wrap items-center gap-3">
                                     <button type="button" id="btnGambar"
-                                        class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-400">
+                                        class="rounded-full bg-brand-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-800 active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-slate-300">
                                         {{ __('Buat gambar') }}</button>
                                     <span id="statusGambar" class="text-xs font-semibold"></span>
                                 </div>
@@ -492,13 +510,13 @@
 
                 {{-- ── Panel kanan: pemantik ── --}}
                 <aside class="hidden w-80 shrink-0 xl:block">
-                    <div class="glass flex h-full flex-col rounded-3xl border border-white/80 p-5 shadow-sm">
-                        <h2 class="pb-3 text-base font-extrabold text-slate-900">{{ __('Pemantik') }}</h2>
+                    <div class="glass flex h-full flex-col rounded-[1.75rem] border border-slate-200/70 p-5">
+                        <h2 class="pb-3 text-base font-bold tracking-[-0.01em] text-slate-900">{{ __('Pemantik') }}</h2>
 
                         <div class="flex flex-wrap gap-1.5 pb-3">
                             @foreach ($kategori as $slug => $label)
                                 <button type="button" data-kat="{{ $slug }}"
-                                    class="pil rounded-full px-3 py-1.5 text-xs font-semibold transition {{ $loop->first ? 'bg-blue-600 text-white' : 'bg-white/80 text-slate-600 hover:bg-white' }}">
+                                    class="pil rounded-full px-3 py-1.5 text-xs font-semibold transition {{ $loop->first ? 'bg-brand-700 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">
                                     {{ __($label) }}</button>
                             @endforeach
                         </div>
@@ -506,10 +524,10 @@
                         <div class="scroll-thin min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
                             @foreach ($pemantik as [$kat, $judul, $ket, $isi])
                                 <button type="button"
-                                    class="kartu w-full rounded-2xl bg-white/85 p-3 text-left ring-1 ring-white/90 transition hover:-translate-y-0.5 hover:ring-blue-300"
+                                    class="kartu w-full rounded-2xl bg-white p-3.5 text-left ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:bg-brand-50/50 hover:ring-brand-300"
                                     data-kat="{{ $kat }}" data-isi="{{ $isi }}">
-                                    <b class="block text-sm font-bold text-slate-800">{{ __($judul) }}</b>
-                                    <i class="mt-0.5 block text-[11px] not-italic leading-snug text-slate-500">{{ __($ket) }}</i>
+                                    <b class="block text-sm font-semibold text-slate-900">{{ __($judul) }}</b>
+                                    <i class="mt-0.5 block text-xs not-italic leading-snug text-slate-500">{{ __($ket) }}</i>
                                 </button>
                             @endforeach
                         </div>
@@ -596,7 +614,9 @@
                 });
                 t = t.replace(/^\|(.+)\|[ \t]*$\n^\|[ :\-|]+\|[ \t]*$\n((?:^\|.*\|[ \t]*$\n?)*)/gm, (_, h, b) => {
                     const sel = r => r.split('|').slice(1, -1).map(c => c.trim());
-                    const th = sel(h).map(c => '<th>' + c + '</th>').join('');
+                    // `h` sudah tanpa pipa luar (dimakan regex); pasang lagi supaya
+                    // sel() tidak membuang kolom pertama dan terakhir.
+                    const th = sel('|' + h + '|').map(c => '<th>' + c + '</th>').join('');
                     const tr = b.trim().split('\n').map(r => '<tr>' + sel(r).map(c => '<td>' + c + '</td>')
                         .join('') + '</tr>').join('');
                     return '<table><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table>';
@@ -769,7 +789,7 @@
                 daftarSesi.innerHTML = '';
                 if (!list.length) {
                     const p = document.createElement('p');
-                    p.className = 'px-2.5 py-1 text-[11px] leading-snug text-slate-400';
+                    p.className = 'px-2.5 py-1 text-[11px] leading-snug text-slate-500';
                     p.textContent = T.noHistory;
                     daftarSesi.appendChild(p);
                     return;
@@ -777,7 +797,7 @@
                 list.forEach(s => {
                     const row = document.createElement('div');
                     row.className = 'group flex items-center gap-1 rounded-xl pr-1 transition ' +
-                        (s.id === sesiAktif ? 'bg-white shadow-sm' : 'hover:bg-white/60');
+                        (s.id === sesiAktif ? 'bg-brand-50' : 'hover:bg-slate-100');
 
                     const b = document.createElement('button');
                     b.type = 'button';
@@ -787,7 +807,7 @@
                     j.className = 'block truncate text-[12px] font-semibold text-slate-700';
                     j.textContent = s.judul;
                     const w = document.createElement('span');
-                    w.className = 'block text-[10px] font-medium text-slate-400';
+                    w.className = 'block text-[10px] font-medium text-slate-500';
                     w.textContent = waktuSingkat(s.waktu);
                     b.append(j, w);
 
@@ -796,7 +816,7 @@
                     x.title = T.deleteChat;
                     x.setAttribute('aria-label', T.deleteChat);
                     x.className =
-                        'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-slate-300 opacity-0 transition hover:bg-red-50 hover:text-red-600 focus:opacity-100 group-hover:opacity-100';
+                        'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-slate-400 opacity-0 transition hover:bg-red-50 hover:text-red-600 focus:opacity-100 group-hover:opacity-100';
                     x.innerHTML =
                         '<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>';
                     x.onclick = e => {
@@ -871,9 +891,9 @@
                 const kat = pil.dataset.kat;
                 document.querySelectorAll('.pil').forEach(x => {
                     const aktif = x === pil;
-                    x.classList.toggle('bg-blue-600', aktif);
+                    x.classList.toggle('bg-brand-700', aktif);
                     x.classList.toggle('text-white', aktif);
-                    x.classList.toggle('bg-white/80', !aktif);
+                    x.classList.toggle('bg-slate-100', !aktif);
                     x.classList.toggle('text-slate-600', !aktif);
                 });
                 document.querySelectorAll('.kartu[data-kat]').forEach(k =>
@@ -889,16 +909,16 @@
                 berkas.forEach((f, i) => {
                     const c = document.createElement('div');
                     c.className =
-                        'flex max-w-full items-center gap-2 rounded-full bg-white/90 py-1 pl-3 pr-1 text-xs ring-1 ring-white/90';
+                        'flex max-w-full items-center gap-2 rounded-full bg-slate-50 py-1 pl-3 pr-1 text-xs ring-1 ring-slate-200';
                     const jenis = f.jenis === 'gambar' ? T.image : t('chars', {
                         n: f.isi.length.toLocaleString('id-ID')
                     });
                     c.innerHTML = '<span class="truncate font-medium text-slate-700">' + esc(f.nama) +
-                        '</span><em class="not-italic text-[10px] text-slate-400">' + esc(jenis) + '</em>';
+                        '</span><em class="not-italic text-[10px] text-slate-500">' + esc(jenis) + '</em>';
                     const x = document.createElement('button');
                     x.type = 'button';
                     x.className =
-                        'flex h-5 w-5 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600';
+                        'flex h-6 w-6 items-center justify-center rounded-full text-slate-500 hover:bg-red-50 hover:text-red-600';
                     x.textContent = '×';
                     x.title = T.removeAttachment;
                     x.onclick = () => {
@@ -1032,8 +1052,8 @@
                 const d = document.createElement('div');
                 d.className = 'mb-6 ' + (aku ? 'flex justify-end' : '');
                 d.innerHTML = aku ?
-                    '<div class="max-w-[85%] rounded-3xl rounded-br-lg bg-blue-600 px-4 py-3 text-[15px] leading-relaxed text-white whitespace-pre-wrap"></div>' :
-                    '<div class="max-w-[92%]"><div class="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">' +
+                    '<div class="max-w-[85%] rounded-3xl rounded-br-lg bg-brand-700 px-4 py-3 text-[15px] leading-relaxed text-white whitespace-pre-wrap"></div>' :
+                    '<div class="max-w-[92%]"><div class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-700">' +
                     esc(T.asisten) + '</div><div class="prosa text-slate-700"></div></div>';
                 const b = d.querySelector(aku ? 'div' : '.prosa');
                 if (aku) b.textContent = teks;
@@ -1110,7 +1130,7 @@
                     const b = document.createElement('button');
                     b.type = 'button';
                     b.className =
-                        'text-[10px] font-bold uppercase tracking-wider text-slate-400 underline underline-offset-4 transition hover:text-blue-600';
+                        'text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 underline decoration-slate-300 underline-offset-4 transition hover:text-brand-700 hover:decoration-brand-300';
                     b.textContent = teks;
                     b.onclick = () => aksi(b);
                     bar.appendChild(b);
@@ -1222,7 +1242,7 @@
                 btnGambar.onclick = async () => {
                     const s = $('#statusGambar'),
                         p = $('#prompt').value.trim();
-                    const warna = ok => s.className = 'text-xs font-semibold ' + (ok ? 'text-emerald-600' :
+                    const warna = ok => s.className = 'text-xs font-semibold ' + (ok ? 'text-brand-700' :
                         'text-red-600');
                     if (!p) {
                         warna(false);
@@ -1241,7 +1261,7 @@
                         (j.images || []).forEach((url, i) => {
                             const f = document.createElement('figure');
                             f.className =
-                                'overflow-hidden rounded-2xl bg-white/90 ring-1 ring-white/90';
+                                'overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200';
                             const img = document.createElement('img');
                             img.alt = p;
                             img.src = url;
@@ -1254,7 +1274,7 @@
                             const a = document.createElement('a');
                             a.href = url;
                             a.download = 'ypdh-ai-' + i + '.png';
-                            a.className = 'shrink-0 font-bold text-blue-600 hover:underline';
+                            a.className = 'shrink-0 font-semibold text-brand-700 hover:underline';
                             a.textContent = T.download;
                             cap.append(span, a);
                             f.append(img, cap);
