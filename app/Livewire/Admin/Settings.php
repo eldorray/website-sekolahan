@@ -164,6 +164,18 @@ class Settings extends Component
         try {
             $this->ypdhModels = TintaGateway::models($this->ypdh['base_url'] ?? '', $this->ypdh['key'] ?? '');
             $this->ypdhImageModels = $this->rankImageModels($this->ypdhModels);
+            if (rtrim((string) ($this->ypdh['base_url'] ?? ''), '/') === 'https://api.amanai.dev/v1') {
+                // /models hanya memuat model chat; model media diterbitkan terpisah.
+                $this->ypdhImageModels = array_values(array_unique([
+                    'amanai/grok-imagine-image-2.0',
+                    'amanai/grok-imagine-image',
+                    'amanai/gpt-5.5-image',
+                    'amanai/gpt-5.6-sol-image',
+                    'amanai/gpt-5.6-terra-image',
+                    'amanai/gpt-5.6-luna-image',
+                    ...$this->ypdhImageModels,
+                ]));
+            }
             $this->ypdhStatusOk = true;
             $this->ypdhStatus = count($this->ypdhModels).' model tersedia — klik kolom model untuk memilih.';
 

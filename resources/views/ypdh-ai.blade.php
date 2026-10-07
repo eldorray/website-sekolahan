@@ -456,8 +456,10 @@
                                         <select id="ukuran"
                                             class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400">
                                             <option value="1024x1024">{{ __('Kotak') }} · 1024×1024</option>
-                                            <option value="1024x1792">{{ __('Tegak') }} · 1024×1792</option>
-                                            <option value="1792x1024">{{ __('Melebar') }} · 1792×1024</option>
+                                            @unless ($amanaiGrokImage)
+                                                <option value="1024x1792">{{ __('Tegak') }} · 1024×1792</option>
+                                                <option value="1792x1024">{{ __('Melebar') }} · 1792×1024</option>
+                                            @endunless
                                         </select>
                                     </div>
                                     <div>
@@ -466,9 +468,11 @@
                                         <select id="jumlah"
                                             class="w-full rounded-2xl border-0 bg-white/90 px-4 py-3 text-sm ring-1 ring-white/90 focus:ring-2 focus:ring-blue-400">
                                             <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
+                                            @unless ($amanaiGrokImage)
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                            @endunless
                                         </select>
                                     </div>
                                 </div>

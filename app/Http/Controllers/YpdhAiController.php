@@ -60,6 +60,7 @@ class YpdhAiController extends Controller
         return view('ypdh-ai', [
             'chatReady' => TintaGateway::chatReady(),
             'imageReady' => TintaGateway::imageReady(),
+            'amanaiGrokImage' => TintaGateway::amanaiGrokImage(),
             'model' => TintaGateway::chatModel(),
         ]);
     }
@@ -134,8 +135,8 @@ class YpdhAiController extends Controller
 
         $data = $request->validate([
             'prompt' => 'required|string|max:1000',
-            'count' => 'required|integer|min:1|max:4',
-            'size' => 'required|in:1024x1024,1024x1792,1792x1024',
+            'count' => TintaGateway::amanaiGrokImage() ? 'required|integer|in:1' : 'required|integer|min:1|max:4',
+            'size' => TintaGateway::amanaiGrokImage() ? 'required|in:1024x1024' : 'required|in:1024x1024,1024x1792,1792x1024',
         ]);
 
         try {

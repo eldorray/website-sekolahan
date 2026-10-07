@@ -112,6 +112,66 @@ test('image generation is proxied and validated', function () {
         ->assertJsonValidationErrors('size');
 });
 
+test('Amanai Grok image requests use the published media contract', function () {
+    Setting::set('ypdh_ai_base_url', 'https://api.amanai.dev/v1');
+    Setting::set('ypdh_ai_model_image', 'amanai/grok-imagine-image-2.0');
+    Http::fake(['api.amanai.dev/*' => Http::response(['data' => [['url' => 'https://img.test/grok.png']]])]);
+    unlockYpdh($this);
+
+    $this->postJson(route('ypdh-ai.image'), ['prompt' => 'siklus air', 'count' => 1, 'size' => '1024x1024'])
+        ->assertOk()->assertJsonPath('images.0', 'https://img.test/grok.png');
+
+    Http::assertSent(fn ($request) => $request->url() === 'https://api.amanai.dev/v1/images/generations'
+        && $request['model'] === 'amanai/grok-imagine-image-2.0'
+        && $request['size'] === '1024x1024'
+        && $request['quality'] === 'auto'
+        && $request['n'] === 1
+        && $request['output_format'] === 'png'
+        && is_string($request->header('Idempotency-Key')[0] ?? null));
+});
+
+test('Amanai Grok only offers and accepts its published square single-image format', function () {
+    Setting::set('ypdh_ai_base_url', 'https://api.amanai.dev/v1');
+    Setting::set('ypdh_ai_model_image', 'amanai/grok-imagine-image-2.0');
+    Http::fake();
+    unlockYpdh($this);
+
+    $this->get(route('ypdh-ai'))->assertOk()
+        ->assertSee('value="1024x1024"', false)
+        ->assertDontSee('value="1024x1792"', false)
+        ->assertDontSee('value="1792x1024"', false)
+        ->assertDontSee('<option>2</option>', false);
+    $this->postJson(route('ypdh-ai.image'), ['prompt' => 'siklus air', 'count' => 1, 'size' => '1024x1792'])
+        ->assertJsonValidationErrors('size');
+    $this->postJson(route('ypdh-ai.image'), ['prompt' => 'siklus air', 'count' => 2, 'size' => '1024x1024'])
+        ->assertJsonValidationErrors('count');
+    Http::assertNothingSent();
+});
+
+test('Amanai image models are suggested even though its models endpoint only lists chat models', function () {
+    Http::fake(['api.amanai.dev/*' => Http::response(['data' => [['id' => 'amanai/grok-4.7']]])]);
+    $admin = User::create([
+        'name' => 'Admin', 'email' => 'admin-image@uji.id', 'password' => bcrypt('x'), 'role' => 'admin',
+    ]);
+
+    Livewire::actingAs($admin)->test(Settings::class)
+        ->set('ypdh.base_url', 'https://api.amanai.dev/v1')
+        ->set('ypdh.key', 'sk-uji')
+        ->call('loadYpdhModels')
+        ->assertSet('ypdhImageModels.0', 'amanai/grok-imagine-image-2.0');
+});
+
+test('a plain upstream 502 explains that the image gateway is unavailable', function () {
+    Setting::set('ypdh_ai_base_url', 'https://api.amanai.dev/v1');
+    Setting::set('ypdh_ai_model_image', 'amanai/grok-imagine-image-2.0');
+    Http::fake(['api.amanai.dev/*' => Http::response('error code: 502', 502)]);
+    unlockYpdh($this);
+
+    $this->postJson(route('ypdh-ai.image'), ['prompt' => 'siklus air', 'count' => 1, 'size' => '1024x1024'])
+        ->assertStatus(502)
+        ->assertJsonPath('message', 'Gateway gambar sedang bermasalah (HTTP 502). Coba lagi nanti atau hubungi penyedia gateway.');
+});
+
 test('a gateway failure is reported without leaking the key', function () {
     // Sebagian gateway memantulkan kredensial yang diterimanya di pesan galat.
     Http::fake(['gateway.test/*' => Http::response('kunci sk-rahasia-sekali ditolak', 401)]);

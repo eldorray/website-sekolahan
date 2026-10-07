@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 /**
@@ -40,6 +41,12 @@ class TintaGateway
     public static function imageModel(): string
     {
         return trim((string) Setting::get('ypdh_ai_model_image'));
+    }
+
+    public static function amanaiGrokImage(): bool
+    {
+        return preg_match('#^https://api\.amanai\.dev/v1$#i', self::baseUrl()) === 1
+            && in_array(self::imageModel(), ['amanai/grok-imagine-image', 'amanai/grok-imagine-image-2.0'], true);
     }
 
     public static function systemPrompt(): string
@@ -153,16 +160,27 @@ class TintaGateway
             throw new RuntimeException('Model gambar belum diatur. Admin perlu mengisinya di Settings.');
         }
 
-        $response = Http::withToken(self::key())
-            ->timeout(180)
-            ->acceptJson()
-            ->post(self::endpoint('/images/generations'), [
-                'model' => self::imageModel(),
-                'prompt' => $prompt,
-                'n' => $count,
-                'size' => $size,
-            ]);
+        $amanai = self::amanaiGrokImage();
+        $payload = [
+            'model' => self::imageModel(),
+            'prompt' => $prompt,
+            'n' => $count,
+            'size' => $size,
+        ];
+        if ($amanai) {
+            $payload['quality'] = 'auto';
+            $payload['output_format'] = 'png';
+        }
 
+        $request = Http::withToken(self::key())->timeout(180)->acceptJson();
+        if ($amanai) {
+            $request = $request->withHeaders(['Idempotency-Key' => (string) Str::uuid()]);
+        }
+        $response = $request->post(self::endpoint('/images/generations'), $payload);
+
+        if ($amanai && $response->status() === 502 && trim($response->body()) === 'error code: 502') {
+            throw new RuntimeException('Gateway gambar sedang bermasalah (HTTP 502). Coba lagi nanti atau hubungi penyedia gateway.');
+        }
         self::guard($response->status(), $response->body());
 
         $images = [];
