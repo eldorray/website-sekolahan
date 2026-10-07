@@ -518,7 +518,20 @@
                     img.complete ? apply() : (img.onload = apply, img.onerror = apply);
                 },
                 next() { if (this.photos.length) this.swap((this.idx + 1) % this.photos.length); },
-                prev() { if (this.photos.length) this.swap((this.idx - 1 + this.photos.length) % this.photos.length); }
+                prev() { if (this.photos.length) this.swap((this.idx - 1 + this.photos.length) % this.photos.length); },
+                // Geser kiri/kanan untuk pindah halaman; `swiped` menahan klik yang
+                // menyusul supaya tirai tidak ikut tertutup.
+                swiped: false,
+                sx: null,
+                down(e) { this.sx = e.clientX; this.swiped = false; },
+                up(e) {
+                    if (this.sx === null) return;
+                    const dx = e.clientX - this.sx;
+                    this.sx = null;
+                    if (Math.abs(dx) < 40) return;
+                    this.swiped = true;
+                    dx < 0 ? this.next() : this.prev();
+                }
             }"
                 @keydown.escape.window="open = false" @keydown.arrow-right.window="open && next()"
                 @keydown.arrow-left.window="open && prev()">
@@ -530,7 +543,7 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
                     @foreach ($brochures as $brochure)
                         @php
                             $imgs = $brochure->images;
@@ -555,51 +568,67 @@
                             }
                         @endphp
                         <div class="flex flex-col" x-data="brochureCard(@js($payload))">
-                            <div class="relative aspect-[3/4] overflow-hidden rounded-3xl bg-slate-100 group">
+                            {{-- Brosur adalah dokumen: tampilkan utuh di atas alas, jangan dipotong.
+                                 Rasio 4:5 cukup untuk halaman tegak (A4) maupun melebar. --}}
+                            <div class="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-slate-100 sm:rounded-3xl">
                                 <template x-if="items.length">
-                                    <button type="button"
-                                        @click="$dispatch('open-brochure', { images: items, start: slide })"
-                                        class="absolute inset-0 w-full h-full">
+                                    <button type="button" aria-label="{{ __('Pratinjau penuh') }}"
+                                        @pointerdown="down($event)" @pointerup="up($event)"
+                                        @click="swiped ? (swiped = false) : $dispatch('open-brochure', { images: items, start: slide })"
+                                        :class="total > 1 ? 'pb-10' : ''"
+                                        class="absolute inset-0 h-full w-full touch-pan-y select-none p-3 sm:p-4">
                                         <img :src="items[slide].thumb" :alt="items[slide].caption" loading="lazy"
-                                            decoding="async"
-                                            class="w-full h-full object-cover transition-[opacity,transform] duration-500 ease-out group-hover:scale-[1.03]"
+                                            decoding="async" draggable="false"
+                                            class="h-full w-full object-contain drop-shadow-md transition-[opacity,transform] duration-500 ease-out group-hover:scale-[1.02]"
                                             :style="`opacity:${fade ? 1 : 0}`">
                                     </button>
                                 </template>
                                 <template x-if="!items.length">
-                                    <div
-                                        class="absolute inset-0 w-full h-full flex items-center justify-center text-slate-400 text-xs">
-                                        {{ __('Tidak ada gambar') }}
-                                    </div>
+                                    @if ($brochure->fileUrl())
+                                        <a href="{{ $brochure->fileUrl() }}" target="_blank" rel="noopener"
+                                            class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-slate-500 transition hover:text-brand-700">
+                                            <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                stroke-width="1.4" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            </svg>
+                                            <span class="text-xs font-semibold uppercase tracking-[0.14em]">PDF</span>
+                                        </a>
+                                    @else
+                                        <div class="absolute inset-0 flex items-center justify-center text-xs text-slate-500">
+                                            {{ __('Tidak ada gambar') }}
+                                        </div>
+                                    @endif
                                 </template>
 
                                 <template x-if="total > 1">
                                     <div>
-                                        <button type="button" @click.stop="prev()"
-                                            class="absolute top-1/2 left-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition active:scale-90">
+                                        {{-- Panah hanya di perangkat ber-hover; di layar sentuh: geser + titik halaman. --}}
+                                        <button type="button" @click.stop="prev()" aria-label="{{ __('Halaman sebelumnya') }}"
+                                            class="absolute left-2 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow opacity-0 transition hover:bg-white group-hover:opacity-100 active:scale-90 [@media(hover:hover)]:flex">
                                             ‹
                                         </button>
-                                        <button type="button" @click.stop="next()"
-                                            class="absolute top-1/2 right-2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition active:scale-90">
+                                        <button type="button" @click.stop="next()" aria-label="{{ __('Halaman berikutnya') }}"
+                                            class="absolute right-2 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow opacity-0 transition hover:bg-white group-hover:opacity-100 active:scale-90 [@media(hover:hover)]:flex">
                                             ›
                                         </button>
-                                        <div class="absolute bottom-2 inset-x-0 flex items-center justify-center gap-1.5">
+                                        <div class="absolute inset-x-0 bottom-1.5 flex items-center justify-center">
                                             <template x-for="(p, i) in items" :key="i">
                                                 <button type="button" @click.stop="go(i)"
-                                                    :class="slide === i ? 'bg-white w-5' : 'bg-white/60 w-1.5'"
-                                                    class="h-1.5 rounded-full transition-all duration-300"></button>
+                                                    :aria-label="`{{ __('Halaman') }} ${i + 1}`"
+                                                    :aria-current="slide === i ? 'true' : null"
+                                                    class="flex h-7 min-w-7 items-center justify-center px-0.5">
+                                                    <span :class="slide === i ? 'w-5 bg-slate-900 dark:bg-white' : 'w-1.5 bg-slate-400/70'"
+                                                        class="block h-1.5 rounded-full transition-all duration-300"></span>
+                                                </button>
                                             </template>
                                         </div>
-                                        <span
-                                            class="absolute top-2 right-2 bg-black/55 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                                            <span x-text="slide + 1"></span>/<span x-text="total"></span>
-                                        </span>
                                     </div>
                                 </template>
                             </div>
-                            <h3 class="mt-4 line-clamp-1 text-[15px] font-semibold text-slate-900">{{ $brochure->title }}</h3>
+                            <h3 class="mt-3 line-clamp-2 text-sm font-semibold leading-snug text-slate-900 sm:mt-4 sm:text-[15px]">{{ $brochure->title }}</h3>
                             @if ($brochure->subtitle)
-                                <p class="line-clamp-1 text-sm text-slate-500">{{ $brochure->subtitle }}</p>
+                                <p class="line-clamp-1 text-xs text-slate-500 sm:text-sm">{{ $brochure->subtitle }}</p>
                             @endif
                             @if ($brochure->fileUrl())
                                 <a href="{{ $brochure->fileUrl() }}" target="_blank" rel="noopener"
@@ -616,30 +645,36 @@
                     @endforeach
                 </div>
 
-                {{-- Lightbox --}}
-                <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
-                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    @open-brochure.window="show($event.detail.images, $event.detail.start ?? 0)"
-                    class="fixed inset-0 z-[60] bg-black/90 backdrop-blur flex items-center justify-center p-4"
-                    @click.self="open = false">
-                    <button type="button" @click="open = false"
-                        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xl transition active:scale-90">✕</button>
-                    <button type="button" @click="prev()" x-show="photos.length > 1"
-                        class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition active:scale-90">‹</button>
-                    <button type="button" @click="next()" x-show="photos.length > 1"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition active:scale-90">›</button>
-                    <div class="max-w-3xl w-full text-center" x-show="photos.length">
-                        <img :src="photos[idx]?.full" :alt="photos[idx]?.caption"
-                            class="max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl transition-opacity duration-300"
-                            :style="`opacity:${lightFade ? 1 : 0}`">
-                        <p class="text-white/90 mt-3 text-sm" x-text="photos[idx]?.caption"></p>
-                        <p class="text-white/50 text-xs mt-2" x-show="photos.length > 1">
-                            <span x-text="idx + 1"></span> / <span x-text="photos.length"></span>
-                        </p>
+                {{-- Lightbox dipindah ke <body>: wadah <main> memakai backdrop-filter, yang
+                     membuat position:fixed mengacu ke wadah itu (bukan viewport), sehingga
+                     tirai hanya menutup kartu dan gambarnya terdorong jauh di luar layar. --}}
+                <template x-teleport="body">
+                    <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        @open-brochure.window="show($event.detail.images, $event.detail.start ?? 0)"
+                        @pointerdown="down($event)" @pointerup="up($event)"
+                        @click.self="swiped ? (swiped = false) : (open = false)"
+                        role="dialog" aria-modal="true" aria-label="{{ __('Pratinjau brosur') }}"
+                        class="fixed inset-0 z-[70] flex touch-pan-y select-none items-center justify-center bg-black/90 p-3 backdrop-blur-sm sm:p-6">
+                        <button type="button" @click="open = false" aria-label="{{ __('Tutup') }}"
+                            class="absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-xl text-white transition hover:bg-white/20 active:scale-90 sm:right-4 sm:top-4">✕</button>
+                        <button type="button" @click="prev()" x-show="photos.length > 1" aria-label="{{ __('Halaman sebelumnya') }}"
+                            class="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-xl text-white transition hover:bg-white/20 active:scale-90 sm:left-4">‹</button>
+                        <button type="button" @click="next()" x-show="photos.length > 1" aria-label="{{ __('Halaman berikutnya') }}"
+                            class="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-xl text-white transition hover:bg-white/20 active:scale-90 sm:right-4">›</button>
+                        <div class="w-full max-w-5xl px-12 text-center sm:px-16" x-show="photos.length">
+                            <img :src="photos[idx]?.full" :alt="photos[idx]?.caption" draggable="false"
+                                class="mx-auto max-h-[78vh] w-auto max-w-full rounded-lg object-contain shadow-2xl transition-opacity duration-300 sm:max-h-[82vh]"
+                                :style="`opacity:${lightFade ? 1 : 0}`">
+                            <p class="mt-3 text-sm text-white/90" x-text="photos[idx]?.caption"></p>
+                            <p class="mt-1.5 text-xs text-white/60" x-show="photos.length > 1">
+                                <span x-text="idx + 1"></span> / <span x-text="photos.length"></span>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
         </section>
     @endif
@@ -677,6 +712,22 @@
                     },
                     go(i) {
                         this.swap(i);
+                    },
+                    // Geser kiri/kanan untuk pindah halaman; `swiped` menahan klik yang
+                    // menyusul supaya lightbox tidak ikut terbuka.
+                    swiped: false,
+                    sx: null,
+                    down(e) {
+                        this.sx = e.clientX;
+                        this.swiped = false;
+                    },
+                    up(e) {
+                        if (this.sx === null) return;
+                        const dx = e.clientX - this.sx;
+                        this.sx = null;
+                        if (Math.abs(dx) < 40) return;
+                        this.swiped = true;
+                        dx < 0 ? this.next() : this.prev();
                     },
                 }));
             });
