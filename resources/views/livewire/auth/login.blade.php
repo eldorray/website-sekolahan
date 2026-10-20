@@ -1,6 +1,6 @@
 <div class="card mt-6">
     <h1 class="text-2xl font-bold text-slate-900 mb-1">Login</h1>
-    <p class="text-sm text-slate-500 mb-6">Masuk ke panel staff sekolah.</p>
+    <p class="text-sm text-slate-500 mb-6">Masuk sebagai staff sekolah atau orang tua untuk melihat dan membayar SPP.</p>
     @if (session('status'))
         <div class="mb-4 rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2 text-sm text-emerald-700">
             {{ session('status') }}

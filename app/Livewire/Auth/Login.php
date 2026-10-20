@@ -55,9 +55,11 @@ class Login extends Component
         }
 
         Auth::login($user, $this->remember);
-        request()->session()->regenerate();
+        if (request()->hasSession()) {
+            request()->session()->regenerate();
+        }
 
-        return $this->redirectIntended($user->isAdmin() ? route('admin.dashboard') : route('guru.dashboard'), navigate: true);
+        return $this->redirectIntended(route($user->dashboardRoute()), navigate: true);
     }
 
     /**

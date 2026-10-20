@@ -6,6 +6,7 @@ use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,7 +14,14 @@ class Users extends Component
 {
     use WithDeleteConfirm, WithNotifications, WithPagination;
 
+    #[Locked]
     public ?int $editingId = null;
+
+    public function boot(): void
+    {
+        $user = User::find(auth()->id());
+        abort_unless($user && $user->is_active && $user->isAdmin(), 403);
+    }
 
     public string $name = '';
 
@@ -31,7 +39,7 @@ class Users extends Component
             'name' => 'required|string|max:160',
             'email' => 'required|email|max:160|unique:users,email,'.($this->editingId ?? 'NULL'),
             'password' => $this->editingId ? 'nullable|string|min:6' : 'required|string|min:6',
-            'role' => 'required|in:admin,guru',
+            'role' => 'required|in:admin,guru,orang_tua',
             'is_active' => 'boolean',
         ];
     }

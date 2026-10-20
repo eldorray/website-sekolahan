@@ -83,7 +83,7 @@ class TrackVisitor
         }
 
         // Skip authenticated panel routes (admin/guru) — focus on public traffic.
-        if (str_starts_with($path, 'admin') || str_starts_with($path, 'guru')) {
+        if (str_starts_with($path, 'admin') || str_starts_with($path, 'guru') || str_starts_with($path, 'orang-tua')) {
             return false;
         }
 

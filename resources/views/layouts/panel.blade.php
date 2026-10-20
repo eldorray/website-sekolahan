@@ -85,7 +85,7 @@
     @php
         $user = auth()->user();
         $isAdmin = $user->isAdmin();
-        $base = $isAdmin ? 'admin' : 'guru';
+        $base = $isAdmin ? 'admin' : ($user->isOrangTua() ? 'orang tua' : 'guru');
         $nav = $isAdmin
             ? [
                 ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'home'],
@@ -94,6 +94,8 @@
                 ['route' => 'admin.brochures', 'label' => 'Brosur', 'icon' => 'document-text'],
                 ['route' => 'admin.gallery', 'label' => 'Galeri', 'icon' => 'photo'],
                 ['route' => 'admin.teachers', 'label' => 'Guru', 'icon' => 'users'],
+                ['route' => 'admin.students', 'label' => 'Siswa & Orang Tua', 'icon' => 'users'],
+                ['route' => 'admin.spp', 'label' => 'Pembayaran Siswa', 'icon' => 'document-text'],
                 ['route' => 'admin.ppdb', 'label' => 'PPDB', 'icon' => 'document-text'],
                 ['route' => 'admin.contacts', 'label' => 'Pesan', 'icon' => 'envelope'],
                 ['route' => 'admin.visits', 'label' => 'Kunjungan', 'icon' => 'calendar'],
@@ -101,11 +103,13 @@
                 ['route' => 'admin.icons', 'label' => 'Referensi Icon', 'icon' => 'sparkles'],
                 ['route' => 'admin.settings', 'label' => 'Pengaturan', 'icon' => 'cog'],
             ]
-            : [
-                ['route' => 'guru.dashboard', 'label' => 'Dashboard', 'icon' => 'home'],
-                ['route' => 'guru.news', 'label' => 'Berita Saya', 'icon' => 'newspaper'],
-                ['route' => 'guru.profile', 'label' => 'Profil', 'icon' => 'user'],
-            ];
+            : ($user->isOrangTua()
+                ? [['route' => 'orang-tua.spp', 'label' => 'SPP Anak Saya', 'icon' => 'document-text']]
+                : [
+                    ['route' => 'guru.dashboard', 'label' => 'Dashboard', 'icon' => 'home'],
+                    ['route' => 'guru.news', 'label' => 'Berita Saya', 'icon' => 'newspaper'],
+                    ['route' => 'guru.profile', 'label' => 'Profil', 'icon' => 'user'],
+                ]);
         $current = request()->route()->getName();
     @endphp
 
@@ -249,7 +253,7 @@
                                     </div>
                                     <div class="text-xs text-slate-500 truncate font-medium">{{ $user->email }}</div>
                                 </div>
-                                @if (!$isAdmin)
+                                @if ($user->isGuru())
                                     <a href="{{ route('guru.profile') }}" wire:navigate
                                         class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white/80 rounded-xl apple-transition">
                                         <x-icon name="user" class="h-4 w-4 text-slate-500" />

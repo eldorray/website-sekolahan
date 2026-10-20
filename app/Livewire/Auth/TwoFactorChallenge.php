@@ -26,7 +26,9 @@ class TwoFactorChallenge extends Component
         $userId = session('login.2fa.user_id');
         $user = $userId ? User::find($userId) : null;
 
-        if (! $user) {
+        if (! $user || ! $user->is_active) {
+            session()->forget(['login.2fa.user_id', 'login.2fa.remember']);
+
             return $this->redirectRoute('login', navigate: true);
         }
 
@@ -42,7 +44,7 @@ class TwoFactorChallenge extends Component
             request()->session()->regenerate();
         }
 
-        return $this->redirectIntended($user->isAdmin() ? route('admin.dashboard') : route('guru.dashboard'), navigate: true);
+        return $this->redirectIntended(route($user->dashboardRoute()), navigate: true);
     }
 
     public function render()

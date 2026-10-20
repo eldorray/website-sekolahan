@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdiwiyataController;
 use App\Http\Controllers\PpdbDocumentController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\SppPaymentFileController;
+use App\Http\Controllers\SppReceiptController;
 use App\Http\Controllers\YpdhAiController;
 use App\Livewire\Admin;
 use App\Livewire\Auth\ForgotPassword;
@@ -11,6 +13,7 @@ use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\TwoFactorChallenge;
 use App\Livewire\Auth\TwoFactorSettings;
 use App\Livewire\Guru;
+use App\Livewire\OrangTua;
 use App\Livewire\Public;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,6 +81,20 @@ Route::post('/logout', function (Request $request) {
 // Account security (2FA) — available to any authenticated staff member.
 Route::get('/two-factor', TwoFactorSettings::class)->middleware('auth')->name('two-factor.settings');
 
+Route::get('/bayar-spp', Public\Spp::class)->name('payments.entry');
+Route::get('/bayar-spp/qris', [SppPaymentFileController::class, 'publicQris'])->name('payments.qris');
+
+Route::get('/orang-tua/spp/qris', [SppPaymentFileController::class, 'qris'])
+    ->middleware('auth')->name('spp.qris');
+Route::get('/orang-tua/spp/pembayaran/{payment}/bukti', [SppPaymentFileController::class, 'proof'])
+    ->middleware('auth')->name('spp.payment-proof');
+
+Route::middleware(['auth', 'role:orang_tua'])->prefix('orang-tua')->name('orang-tua.')->group(function () {
+    Route::get('/spp', OrangTua\Spp::class)->name('spp');
+});
+Route::get('/orang-tua/spp/{invoice}/kuitansi', SppReceiptController::class)
+    ->middleware('auth')->name('orang-tua.spp.receipt');
+
 // Admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', Admin\Dashboard::class)->name('dashboard');
@@ -87,6 +104,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/brochures', Admin\Brochures::class)->name('brochures');
     Route::get('/gallery', Admin\Gallery::class)->name('gallery');
     Route::get('/gallery/{album}/photos', Admin\AlbumPhotos::class)->name('gallery.photos');
+    Route::get('/students', Admin\Students::class)->name('students');
+    Route::get('/spp', Admin\Spp::class)->name('spp');
     Route::get('/ppdb', Admin\Ppdb::class)->name('ppdb');
     Route::get('/ppdb/{registration}/document/{type}', PpdbDocumentController::class)->name('ppdb.document');
     Route::get('/contacts', Admin\Contacts::class)->name('contacts');

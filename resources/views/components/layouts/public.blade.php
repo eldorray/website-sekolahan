@@ -307,6 +307,28 @@
             </div>
         </div>
 
+        {{-- Parent payments stay visible without opening the navigation. --}}
+        <div class="mt-2 flex items-center justify-between gap-4 rounded-[1.5rem] border border-brand-200 bg-brand-50 p-2 sm:px-5 sm:py-3 dark:border-brand-800 dark:bg-brand-950"
+            role="region" aria-label="Pembayaran sekolah">
+            <div class="hidden sm:block">
+                <p class="text-sm font-bold text-brand-900 dark:text-brand-100">Pembayaran sekolah</p>
+                <p class="mt-0.5 text-xs text-brand-800 dark:text-brand-200">Akses pembayaran untuk orang tua dan wali siswa.</p>
+            </div>
+            <a href="{{ route('payments.entry') }}" wire:navigate data-spp-payment-cta
+                class="btn-brand min-h-12 w-full shrink-0 !gap-2.5 !px-5 !py-3 !text-sm whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-700 sm:w-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    stroke="currentColor" class="h-5 w-5 shrink-0" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 8.25h19.5m-16.5 6h3m-3 3h6m-6.75 3h15a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25h-15A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <span>Bayar SPP/Lainnya</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="h-4 w-4 shrink-0" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+            </a>
+        </div>
+
         {{-- Mobile nav --}}
         <div x-data="{ open: false }" @toggle-mobile-nav.window="open = !open" x-show="open" x-cloak
             class="xl:hidden mt-2 liquid-glass rounded-[1.5rem] p-3 shadow-lg"
@@ -447,6 +469,9 @@
                                 d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                         </svg>
                         {{ __('Login Staff') }}
+                    </a>
+                    <a href="{{ route('payments.entry') }}" wire:navigate class="btn-brand mt-3 !px-4 !py-2.5 !text-[13px]">
+                        Bayar SPP/Lainnya
                     </a>
                 </div>
             </div>
