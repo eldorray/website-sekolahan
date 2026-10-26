@@ -49,6 +49,7 @@ class User extends Authenticatable
         return match ($this->role) {
             'admin' => 'admin.dashboard',
             'guru' => 'guru.dashboard',
+            'kepala_madrasah' => 'supervision',
             'orang_tua' => 'orang-tua.spp',
             default => 'home',
         };

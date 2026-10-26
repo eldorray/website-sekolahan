@@ -23,13 +23,12 @@ class GenerateNewsArticle implements ShouldQueue
     public function __construct(
         public string $cacheKey,
         public string $prompt,
-        public ?string $provider = null,
     ) {}
 
     public function handle(): void
     {
         try {
-            $result = AiWriter::generateNews($this->prompt, $this->provider);
+            $result = AiWriter::generateNews($this->prompt);
             Cache::put($this->cacheKey, ['status' => 'done', 'result' => $result], $this->ttl);
         } catch (\Throwable $e) {
             Cache::put($this->cacheKey, ['status' => 'error', 'message' => $e->getMessage()], $this->ttl);

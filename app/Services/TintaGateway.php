@@ -69,7 +69,7 @@ class TintaGateway
     /**
      * Base URL + jalur. Kalau admin sudah menulis jalur lengkap, pakai apa adanya.
      */
-    private static function endpoint(string $path): string
+    public static function endpoint(string $path): string
     {
         $base = self::baseUrl();
 

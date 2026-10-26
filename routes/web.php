@@ -5,6 +5,7 @@ use App\Http\Controllers\PpdbDocumentController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SppPaymentFileController;
 use App\Http\Controllers\SppReceiptController;
+use App\Http\Controllers\SupervisionReportController;
 use App\Http\Controllers\YpdhAiController;
 use App\Livewire\Admin;
 use App\Livewire\Auth\ForgotPassword;
@@ -15,6 +16,7 @@ use App\Livewire\Auth\TwoFactorSettings;
 use App\Livewire\Guru;
 use App\Livewire\OrangTua;
 use App\Livewire\Public;
+use App\Livewire\Supervisions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -121,3 +123,8 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
     Route::get('/news', Guru\MyNews::class)->name('news');
     Route::get('/profile', Guru\Profile::class)->name('profile');
 });
+
+// Supervisi akademik: pemeriksaan peran dan kepemilikan juga diterapkan pada setiap aksi.
+Route::get('/supervisi', Supervisions::class)->middleware('auth')->name('supervision');
+Route::get('/supervisi/rekap/cetak', [SupervisionReportController::class, 'recap'])->middleware('auth')->name('supervision.recap');
+Route::get('/supervisi/{supervision}/cetak', [SupervisionReportController::class, 'show'])->middleware('auth')->name('supervision.print');

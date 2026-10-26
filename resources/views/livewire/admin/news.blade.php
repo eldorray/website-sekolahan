@@ -74,17 +74,8 @@
                     @endif
                 </div>
 
-                {{-- AI Provider Dropdown --}}
-                <div class="flex items-center gap-2 mb-3">
-                    <label class="text-xs text-slate-500 shrink-0">Model AI:</label>
-                    <select wire:model="aiProvider" class="select text-xs py-1.5 px-3 rounded-lg">
-                        <option value="gemini">Gemini 2.5 Flash</option>
-                        <option value="deepseek">DeepSeek V4 Flash</option>
-                    </select>
-                </div>
-
                 <p class="text-xs text-slate-500 mb-3">Deskripsikan berita yang ingin dibuat, AI akan mengisi form
-                    secara otomatis.</p>
+                    secara otomatis. Model mengikuti pengaturan YPDH AI (Admin → Pengaturan): {{ \App\Services\TintaGateway::chatModel() ?: 'belum diatur' }}.</p>
 
                 {{-- Poll the queued AI job for its result while it runs --}}
                 @if ($aiLoading)

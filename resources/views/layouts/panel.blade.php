@@ -110,6 +110,13 @@
                     ['route' => 'guru.news', 'label' => 'Berita Saya', 'icon' => 'newspaper'],
                     ['route' => 'guru.profile', 'label' => 'Profil', 'icon' => 'user'],
                 ]);
+        if ($user->role === 'kepala_madrasah') {
+            $base = 'kepala madrasah';
+            $nav = [];
+        }
+        if (in_array($user->role, ['admin', 'kepala_madrasah', 'guru'], true)) {
+            $nav[] = ['route' => 'supervision', 'label' => $user->isGuru() ? 'Supervisi Saya' : 'Supervisi Akademik', 'icon' => 'academic-cap'];
+        }
         $current = request()->route()->getName();
     @endphp
 
@@ -230,7 +237,7 @@
                                 <div class="hidden sm:block text-left text-xs leading-tight">
                                     <div class="font-semibold text-slate-900 truncate max-w-[120px] drop-shadow-sm">
                                         {{ $user->name }}</div>
-                                    <div class="text-slate-500 font-medium">{{ ucfirst($user->role) }}</div>
+                                    <div class="text-slate-500 font-medium">{{ ucwords(str_replace('_', ' ', $user->role)) }}</div>
                                 </div>
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="hidden sm:block h-4 w-4 text-slate-500 transition-transform ease-ios duration-200"

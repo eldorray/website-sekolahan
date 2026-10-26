@@ -41,8 +41,6 @@ class News extends Component
     // AI Chat
     public string $aiPrompt = '';
 
-    public string $aiProvider = '';
-
     public bool $aiLoading = false;
 
     public string $aiError = '';
@@ -158,11 +156,10 @@ class News extends Component
 
         // Offload the (slow, external) AI call to a queued job so the request
         // returns immediately; pollAi() picks up the result.
-        $provider = $this->aiProvider ?: config('ai.default', 'gemini');
         $this->aiJobKey = 'ai-news:'.Str::uuid()->toString();
         Cache::put($this->aiJobKey, ['status' => 'pending'], 600);
 
-        GenerateNewsArticle::dispatch($this->aiJobKey, $this->aiPrompt, $provider);
+        GenerateNewsArticle::dispatch($this->aiJobKey, $this->aiPrompt);
 
         $this->aiPrompt = '';
     }

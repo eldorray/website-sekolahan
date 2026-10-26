@@ -2,6 +2,7 @@
 
 use App\Jobs\GenerateNewsArticle;
 use App\Livewire\Admin\News as AdminNews;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
@@ -12,10 +13,9 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    config([
-        'ai.providers.gemini.api_key' => 'test-key',
-        'ai.providers.gemini.base_url' => 'https://ai.example.test/v1',
-    ]);
+    Setting::set('ypdh_ai_base_url', 'https://ai.example.test/v1');
+    Setting::set('ypdh_ai_key', 'test-key');
+    Setting::set('ypdh_ai_model', 'test-model');
 });
 
 test('generateWithAi dispatches a queued job instead of blocking', function () {

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Livewire\Concerns\WithDeleteConfirm;
 use App\Livewire\Concerns\WithNotifications;
+use App\Models\Supervision;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Locked;
@@ -39,7 +40,7 @@ class Users extends Component
             'name' => 'required|string|max:160',
             'email' => 'required|email|max:160|unique:users,email,'.($this->editingId ?? 'NULL'),
             'password' => $this->editingId ? 'nullable|string|min:6' : 'required|string|min:6',
-            'role' => 'required|in:admin,guru,orang_tua',
+            'role' => 'required|in:admin,guru,orang_tua,kepala_madrasah',
             'is_active' => 'boolean',
         ];
     }
@@ -78,6 +79,11 @@ class Users extends Component
     {
         if ($id === auth()->id()) {
             $this->notifyError('Tidak bisa menghapus diri sendiri.');
+
+            return;
+        }
+        if (Supervision::where('teacher_id', $id)->orWhere('supervisor_id', $id)->exists()) {
+            $this->notifyError('Pengguna memiliki arsip supervisi. Nonaktifkan akun untuk menjaga arsip.');
 
             return;
         }

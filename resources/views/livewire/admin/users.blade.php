@@ -62,6 +62,7 @@
                 <div><label class="label">Role</label><select wire:model="role" class="select">
                         <option value="admin">Admin</option>
                         <option value="guru">Guru</option>
+                        <option value="kepala_madrasah">Kepala Madrasah</option>
                         <option value="orang_tua">Orang Tua</option>
                     </select></div>
                 <label class="inline-flex items-center gap-2 text-sm"><input type="checkbox" wire:model="is_active">

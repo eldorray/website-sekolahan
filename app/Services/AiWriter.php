@@ -9,24 +9,16 @@ use Illuminate\Support\Facades\Http;
 class AiWriter
 {
     /**
-     * Generate a news article from a prompt using the configured AI provider.
+     * Generate a news article from a prompt using the AI configured in
+     * Admin → Pengaturan (kartu "YPDH AI"), via TintaGateway.
      *
      * @return array{title: string, category: string, excerpt: string, content: string}
      */
-    public static function generateNews(string $prompt, ?string $provider = null): array
+    public static function generateNews(string $prompt): array
     {
-        $provider = $provider ?: config('ai.default', 'gemini');
-        $cfg = config("ai.providers.{$provider}");
-
-        if (! $cfg) {
-            throw new \RuntimeException("AI provider '{$provider}' tidak dikonfigurasi.");
-        }
-
-        if (empty($cfg['api_key'])) {
+        if (! TintaGateway::chatReady()) {
             throw new \RuntimeException(
-                "API key untuk '{$provider}' kosong. ".
-                'Silakan set '.strtoupper($provider).'_API_KEY di file .env server, '.
-                'lalu jalankan `php artisan config:clear`.'
+                'Pengaturan AI belum lengkap. Isi API key dan model chat di Admin → Pengaturan → YPDH AI.'
             );
         }
 
@@ -57,13 +49,11 @@ FORMAT OUTPUT (JSON ketat, tanpa markdown code block):
 }
 SYSTEM;
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$cfg['api_key'],
-            'Content-Type' => 'application/json',
-        ])
-            ->timeout(60)
-            ->post(rtrim($cfg['base_url'], '/').'/chat/completions', [
-                'model' => $cfg['model'],
+        $response = Http::withToken(TintaGateway::key())
+            ->timeout(90)
+            ->acceptJson()
+            ->post(TintaGateway::endpoint('/chat/completions'), [
+                'model' => TintaGateway::chatModel(),
                 'messages' => [
                     ['role' => 'system', 'content' => $systemPrompt],
                     ['role' => 'user', 'content' => $prompt],
